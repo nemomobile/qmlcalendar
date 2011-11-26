@@ -1,0 +1,7 @@
+0.0.1 
+Navigation day, month, year
+Bugs:
+ * don't close a window
+ * only landscape
+ * in landscape don't show corretly datepicker
+
