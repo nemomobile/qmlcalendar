@@ -4,5 +4,7 @@
         <file>images/right_arrow.png</file>
         <file>qml/qmlcalendar/CalendarView.qml</file>
         <file>qml/qmlcalendar/month.js</file>
+        <file>qml/qmlcalendar/DayView.qml</file>
+        <file>qml/qmlcalendar/ItemView.qml</file>
     </qresource>
 </RCC>
