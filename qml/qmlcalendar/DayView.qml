@@ -45,19 +45,56 @@ import QtMobility.organizer 1.1
 Rectangle
 {
     id:dayView
+    property variant calendarView;
     property variant itemIds:calendarView.organizer.itemIds(calendarView.currentDate, new Date(calendarView.year, calendarView.month, calendarView.day+1))
 
-    anchors.fill: parent
+    ListView {
+        anchors.fill: parent
+        id: hourList
 
-    z:1
 
-    gradient: Gradient {
+        Component {
+                 id: dayDelegate
+                 Rectangle {
+                     id: wrapper
+                     width: 180
+                     height: 40
+                     color: ListView.index ? "black" : "red"
+                     Text {
+                         id: contactInfo
+                         text: hour + " : " + "number"
+                         color: wrapper.ListView.isCurrentItem ? "red" : "black"
+                         font.pointSize: 18
+                     }
+                     MouseArea {
+                         id: mouseAreaHour
+
+                         anchors.fill: parent
+
+                         onClicked: {
+                             console.log("hour " + contactInfo.text);
+                             hourList.currentIndex = index;
+                        }
+                     }
+                 }
+             }
+        model: dayModel
+        //z:1
+        delegate: dayDelegate
+        //focus: true
+        highlight: Rectangle { color: "red"; radius: 5 }
+        highlightFollowsCurrentItem: true
+    }
+
+
+
+    /*gradient: Gradient {
              GradientStop { position: 0.0; color: "lightsteelblue" }
              GradientStop { position: 1.0; color: "blue" }
          }
-
-    Repeater {
-        model : ListModel {
+    */
+     ListModel {
+         id:dayModel
                 ListElement {hour : "0:00"}
                 ListElement {hour : "1:00"}
                 ListElement {hour : "2:00"}
@@ -84,6 +121,19 @@ Rectangle
                 ListElement {hour : "23:00"}
             }
 
+
+
+    /*Component {
+             id: dayDelegate
+             Item {
+                 width: 180; height: 40
+                 Column {
+                     Text { text: '<b>Hour:</b> ' + hour }
+                     Text { text: '<b>Number:</b> ' }
+                 }
+             }
+         }*/
+/*
         Rectangle {
             width : dayView.width
             height : dayView.height / 24
@@ -92,6 +142,7 @@ Rectangle
             Column {
                 Rectangle {
                     height : 1
+
                     width : dayView.width
                     color : "lightsteelblue"
                 }
@@ -103,7 +154,8 @@ Rectangle
             }
         }
     }
-
+*/
+        /*
     Repeater {
         model:itemIds
         ItemView {
@@ -119,5 +171,5 @@ Rectangle
             itemId: modelData
 
         }
-    }
+    }*/
 }

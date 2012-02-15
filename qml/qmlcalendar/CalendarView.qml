@@ -41,7 +41,9 @@ import com.nokia.extras 1.0
 import QtMobility.organizer 1.1
 import com.nokia.meego 1.0
 
-PageStackWindow  {
+Rectangle  {
+
+
     height: 400
     width: 454
     id:calendarView
@@ -60,6 +62,7 @@ PageStackWindow  {
 
     property int day:currentDate.getDate()
 
+    z:0
 
     property OrganizerModel organizer:OrganizerModel{
         id: organizer
@@ -262,11 +265,12 @@ PageStackWindow  {
                                prevText = journey;
                                prevCircle = circle;
 
-                                 console.log("DAy ");
-                                 contentArea.visible = true;
+                                 console.log("DAy " + journey.text);
+                                 //contentArea.visible = true;
                                  dayView.opacity = 1;
-                                 calendarView.z = 0;
-                                 //calendarView.opacity = 0;
+                                 dayView.z = 1;
+                                 //calendarView.z = 0;
+                                 calendarView.opacity = 0;
 
                            }
 
@@ -274,21 +278,23 @@ PageStackWindow  {
                    }
         }
     }
-    Item {
+
+    /*Item {
         id: contentArea;
         anchors.top: parent.top;
         anchors.left: parent.left;
         anchors.right: parent.right;
         anchors.bottom: parent.bottom;
-        visible: false;
-
-        DayView {
+        z:1;
+        //visible: false;
+*/
+      /*  DayView {
             id: dayView;
             width: calendarView.width;
-            height: calendarView.height - 100;
+            height: calendarView.height;
             opacity: 0;
-            anchors.fill: contentArea;
+            //anchors.fill: parent;
 
-        }
-    }
+        }*/
+    //}
 }

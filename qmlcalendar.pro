@@ -38,7 +38,18 @@ QT += declarative
 
 OTHER_FILES += \
     qml/qmlcalendar/month.js \
-    qml/qmlcalendar/CalendarView.qml
+    qml/qmlcalendar/CalendarView.qml \
+    qtc_packaging/debian_harmattan/rules \
+    qtc_packaging/debian_harmattan/README \
+    qtc_packaging/debian_harmattan/manifest.aegis \
+    qtc_packaging/debian_harmattan/copyright \
+    qtc_packaging/debian_harmattan/control \
+    qtc_packaging/debian_harmattan/compat \
+    qtc_packaging/debian_harmattan/changelog \
+    qml/qmlcalendar/DayView.qml \
+    qml/qmlcalendar/ItemView.qml \
+    qml/qmlcalendar/main.qml \
+    qml/qmlcalendar/MainPage.qml
 
 RESOURCES += \
     qmlcalendar.qrc
