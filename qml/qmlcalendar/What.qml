@@ -1,13 +1,17 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import com.nokia.extras 1.0
 
 Rectangle {
     id: whatItem
     anchors.fill: parent
 
     Rectangle {
+        id: line1;
+
         width: parent.width
+        height: text_what.height
         anchors {
             left: parent.left
             top: save.bottom
@@ -27,39 +31,64 @@ Rectangle {
             id: text_what
             width: parent.width - object.width
             anchors.left: object.right
-            //text: qsTr("text")
+            text: qsTr("Add objecto")
             font.pixelSize: 28
             onFocusChanged: { if ( text_what.activeFocus ) object.color = "orange"; else object.color= "black";}
+            anchors.leftMargin: 10
         }
     }
-    Text {
-        id: text_day
 
-        text: qsTr("text")
-        font.pixelSize: 28
+    Rectangle {
+        id: line2
+        height: text_day.height
         anchors {
             left: parent.left
-            top: text_what.bottom
+            top: line1.bottom
 
             //top: label.bottom
             topMargin: 10
         }
+        Text {
+            id: text_day
+
+            text: qsTr("Data")
+            font.pixelSize: 28
+
+        }
+        TimePickerDialog {
+                id:timePickerDialog
+                titleText: "Select Time"
+                acceptButtonText: "Confirm"
+                rejectButtonText: "Reject"
+                onAccepted: timePickerAccepted()
+            }
     }
-
-    TextInput {
-        id: text_how
-
-        text: qsTr("text")
-        font.pixelSize: 28
+    Rectangle {
+        id: line3
+        width: parent.width
+        height: text_where.height
         anchors {
             left: parent.left
-            top: text_day.bottom
+            top: line2.bottom
 
             //top: label.bottom
             topMargin: 10
         }
-    }
+        Text {
+            id: text_w
 
+            text: qsTr("Where")
+            font.pixelSize: 28
+
+        }
+        TextInput {
+            id: text_where
+
+            text: qsTr("text")
+            font.pixelSize: 28
+
+        }
+    }
     Button {
         id: save
 
@@ -88,7 +117,7 @@ Rectangle {
             topMargin: 10
         }
         text: qsTr("Cancel")
-        onClicked: {console.log("annulla")}
+        onClicked: {whatItem.opacity = 0; dayView.opacity = 1;}
         //color: "#ffffff"
     }
 }
