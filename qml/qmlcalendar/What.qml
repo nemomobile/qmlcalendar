@@ -40,6 +40,7 @@ Rectangle {
 
     Rectangle {
         id: line2
+        width: parent.width
         height: text_day.height
         anchors {
             left: parent.left
@@ -50,17 +51,46 @@ Rectangle {
         }
         Text {
             id: text_day
-
+            anchors.left: parent.left;
             text: qsTr("Data")
             font.pixelSize: 28
 
         }
+
+        Text {
+            id: label_time
+            anchors {
+                left: text_day.right
+                leftMargin: 10
+            }
+            text: qsTr("Start")
+            font.pixelSize: 28
+
+        }
+
+        TextInput {
+
+            id: text_time
+            width: parent.width - text_day.width - label_time.width;
+            anchors {
+                left: label_time.right;
+                leftMargin: 10;
+            }
+
+            text: qsTr("qqq")
+            font.pixelSize: 28
+            onFocusChanged: { if ( text_time.activeFocus ) { timePickerDialog.open(); console.log ("timer");} }
+
+        }
+
         TimePickerDialog {
                 id:timePickerDialog
+                anchors.left: text_day.right
                 titleText: "Select Time"
                 acceptButtonText: "Confirm"
                 rejectButtonText: "Reject"
-                onAccepted: timePickerAccepted()
+                //opacity: 1
+                //onAccepted: timePickerAccepted()
             }
     }
     Rectangle {
@@ -83,7 +113,7 @@ Rectangle {
         }
         TextInput {
             id: text_where
-
+            anchors.left: text_w.right
             text: qsTr("text")
             font.pixelSize: 28
 
