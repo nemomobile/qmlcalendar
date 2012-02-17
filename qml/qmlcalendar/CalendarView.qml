@@ -58,11 +58,13 @@ Rectangle  {
     property string currentMonth: Month.getMonthName(Month.today()) + " " + year
     color:  background
 
-    property date currentDate:new Date()
+    property date currentDate:new Date();
 
     property int day:currentDate.getDate()
 
     z:0
+
+
 
     property OrganizerModel organizer:OrganizerModel{
         id: organizer
@@ -106,6 +108,7 @@ Rectangle  {
                     month = firstDayOfMonth.getMonth();
                     year = firstDayOfMonth.getFullYear();
                     currentMonth = Month.getMonthName(firstDayOfMonth) + " " + year;
+
 
                 }
 
@@ -265,7 +268,10 @@ Rectangle  {
                                prevText = journey;
                                prevCircle = circle;
 
-                                 console.log("DAy " + journey.text);
+
+                                 var dum = year + "/" + (month + 1) + "/" + journey.text;
+                                 currentDate= new Date(dum);
+                                 console.log("DAy " + journey.text + " dum " + dum);
                                  //contentArea.visible = true;
                                  dayView.opacity = 1;
                                  dayView.z = 1;

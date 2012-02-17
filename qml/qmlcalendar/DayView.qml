@@ -59,10 +59,17 @@ Rectangle
                      id: wrapper
                      width: 180
                      height: 40
-                     color: ListView.index ? "black" : "red"
+                     //color: ListView.index ? "black" : "red"
                      Text {
-                         id: contactInfo
-                         text: hour + " : " + "number"
+                         id: time
+                         text: hour
+                         color: wrapper.ListView.isCurrentItem ? "red" : "black"
+                         font.pointSize: 18
+                     }
+                     Text {
+                         anchors {left: time.right}
+                         id: infoTime
+                         text: "number"
                          color: wrapper.ListView.isCurrentItem ? "red" : "black"
                          font.pointSize: 18
                      }
@@ -72,8 +79,12 @@ Rectangle
                          anchors.fill: parent
 
                          onClicked: {
-                             console.log("hour " + contactInfo.text);
+                             console.log("hour " + time.text);
                              hourList.currentIndex = index;
+                             whatItem.startTime = time.text;
+                             whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
+                             dayView.opacity = 0;
+                             whatItem.opacity = 1;
                         }
                      }
                  }
@@ -123,53 +134,5 @@ Rectangle
 
 
 
-    /*Component {
-             id: dayDelegate
-             Item {
-                 width: 180; height: 40
-                 Column {
-                     Text { text: '<b>Hour:</b> ' + hour }
-                     Text { text: '<b>Number:</b> ' }
-                 }
-             }
-         }*/
-/*
-        Rectangle {
-            width : dayView.width
-            height : dayView.height / 24
-            y:index * height
-            //color: "white"
-            Column {
-                Rectangle {
-                    height : 1
 
-                    width : dayView.width
-                    color : "lightsteelblue"
-                }
-                Text {
-                    text: hour
-                    color : "steelblue"
-                    font.pointSize: 12
-                }
-            }
-        }
-    }
-*/
-        /*
-    Repeater {
-        model:itemIds
-        ItemView {
-            property int timePos: (startTime/(24*60))*dayView.height
-            focus: true
-            width:dayView.width - 50
-            height: endTime< startTime ? 30: dayView.height * (endTime - startTime)/(24*60)
-            x: dayView.x + 50
-            y: dayView.y + timePos
-
-
-            opacity : dayView.opacity * 0.8
-            itemId: modelData
-
-        }
-    }*/
 }

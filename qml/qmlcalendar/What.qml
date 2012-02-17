@@ -6,7 +6,8 @@ import com.nokia.extras 1.0
 Rectangle {
     id: whatItem
     anchors.fill: parent
-
+    property string startTime: "00:00";
+    property string day ;
     Rectangle {
         id: line1;
 
@@ -52,7 +53,7 @@ Rectangle {
         Text {
             id: text_day
             anchors.left: parent.left;
-            text: qsTr("Data")
+            text: day;
             font.pixelSize: 28
 
         }
@@ -77,9 +78,10 @@ Rectangle {
                 leftMargin: 10;
             }
 
-            text: qsTr("qqq")
+            text: startTime;
             font.pixelSize: 28
             onFocusChanged: { if ( text_time.activeFocus ) { timePickerDialog.open(); console.log ("timer");} }
+            readOnly: true
 
         }
 
@@ -89,6 +91,7 @@ Rectangle {
                 titleText: "Select Time"
                 acceptButtonText: "Confirm"
                 rejectButtonText: "Reject"
+                fields: DateTime.Hours | DateTime.Minutes
                 //opacity: 1
                 //onAccepted: timePickerAccepted()
             }
