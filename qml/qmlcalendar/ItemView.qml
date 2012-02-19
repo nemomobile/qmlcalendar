@@ -9,6 +9,7 @@ Rectangle
     property OrganizerItem item
     property int startTime
     property int endTime
+    property variant calendarView;
     onItemIdChanged :{
         if (itemId != "") {
             item = calendarView.organizer.item(itemId);
@@ -23,8 +24,8 @@ Rectangle
 
     Column {
         spacing: 2
-        Text { id: itemLabel; color: "yellow"; wrapMode: Text.Wrap;  font.bold: true; horizontalAlignment: Text.AlignHCenter; style: Text.Raised; verticalAlignment: Text.AlignVCenter; font.pointSize: 12; text:"ciao" }
-        Text { id: itemDesc; color: "white"; wrapMode: Text.Wrap;  font.pointSize: 10; text:"ciao"}
+        Text { id: itemLabel; color: "yellow"; wrapMode: Text.Wrap;  font.bold: true; horizontalAlignment: Text.AlignHCenter; style: Text.Raised; verticalAlignment: Text.AlignVCenter; font.pointSize: 12;  }
+        Text { id: itemDesc; color: "black"; wrapMode: Text.Wrap;  font.pointSize: 10; text:itemLabel.text}
     }
 
     MouseArea {

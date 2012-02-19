@@ -29,6 +29,16 @@ PageStackWindow {
             anchors.fill: parent;
             opacity: 0;
         }
+        ItemView {
+            id: itemView;
+            opacity: 0;
+            calendarView: calendarView;
+        }
+        What {
+            id: whatItem;
+            opacity: 0;
+            organizer: calendarView.organizer;
+        }
      }
      ToolBarLayout {
          id: commonTools

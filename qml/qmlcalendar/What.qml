@@ -2,12 +2,14 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
+import QtMobility.organizer 1.1
 
 Rectangle {
     id: whatItem
     anchors.fill: parent
     property string startTime: "00:00";
     property string day ;
+    property OrganizerModel organizer;
     Rectangle {
         id: line1;
 
@@ -116,10 +118,19 @@ Rectangle {
         }
         TextInput {
             id: text_where
-            anchors.left: text_w.right
-            text: qsTr("text")
+            anchors {
+                leftMargin: 10;
+                left: text_w.right;
+            }
+            text: qsTr("Here")
             font.pixelSize: 28
+            onFocusChanged: {
+                if ( text_where.activeFocus ) {
 
+                    text_w.color = "orange";
+                }
+                else
+                    text_w.color= "black";}
         }
     }
     Button {
@@ -134,8 +145,8 @@ Rectangle {
             //top: label.bottom
             topMargin: 10
         }
-        text: qsTr("Save")
-        onClicked: {console.log("salva")}
+        text: qsTr("Cancel")
+        onClicked: {whatItem.opacity = 0; dayView.opacity = 1;}
         //color: "#ffffff"
     }
 
@@ -149,8 +160,12 @@ Rectangle {
             top: parent.top
             topMargin: 10
         }
-        text: qsTr("Cancel")
-        onClicked: {whatItem.opacity = 0; dayView.opacity = 1;}
+        text: qsTr("Save")
+        onClicked: {
+            console.log("save")
+
+
+        }
         //color: "#ffffff"
     }
 }
