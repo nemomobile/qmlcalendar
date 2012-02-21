@@ -1,5 +1,7 @@
 #include <QtGui/QApplication>
 #include <QDeclarativeView>
+#include "calendarmanager.h"
+#include <QDeclarativeContext>
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +14,8 @@ int main(int argc, char *argv[])
     //view.show();
 
     //QObject::connect(view.engine(), SIGNAL(quit()), &a, SLOT(quit()));
+    CalendarManager calendarManager;
+         view.rootContext()->setContextProperty("calendarManager", &calendarManager);
         view.setSource(QUrl("qrc:/qml/qmlcalendar/main.qml"));
         view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
         view.showFullScreen();

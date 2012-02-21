@@ -69,12 +69,12 @@ Rectangle  {
     property OrganizerModel organizer:OrganizerModel{
         id: organizer
         manager:"qtorganizer:memory:id=qml"
-        startPeriod:'2012-01-01'
-        endPeriod:'2012-12-31'
+        startPeriod:"2012-02-21"
+        endPeriod:"2012-02-23"
         autoUpdate:true
         Component.onCompleted : {
-            if (managerName == "memory")
-                organizer.importItems(Qt.resolvedUrl("qrc:/contents/test.ics"));
+            //if (managerName == "memory")
+                /*organizer.importItems(Qt.resolvedUrl("qrc:/contents/test.ics"));*/
         }
     }
 

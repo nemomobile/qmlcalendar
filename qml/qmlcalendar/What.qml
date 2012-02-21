@@ -3,13 +3,14 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 import QtMobility.organizer 1.1
+import "logic.js" as Logic
 
 Rectangle {
     id: whatItem
     anchors.fill: parent
     property string startTime: "00:00";
     property string day ;
-    property OrganizerModel organizer;
+    property OrganizerModel organizer: calendarView.organizer;
     Rectangle {
         id: line1;
 
@@ -150,6 +151,13 @@ Rectangle {
         //color: "#ffffff"
     }
 
+    Event {
+       id: item;
+       startDateTime: new Date();
+    }
+
+
+
     Button {
         id: rectangle2
 
@@ -162,9 +170,28 @@ Rectangle {
         }
         text: qsTr("Save")
         onClicked: {
-            console.log("save")
+
+           /* Qt.createQmlObject('import QtQuick 1.0; Rectangle {color: "red"; width: 20; height: 20}',
+                 parentItem, "dynamicSnippet1");*/
+            //var item = Qt.createQmlObject("import QtMobility.organizer 1.1; Event {"+ Logic.dumDesc() +"}", organizer, "item");
+            //item.startDateTime = new Date();
+            console.log("save");
 
 
+
+            item.description = "ciao"
+            //item.itemStartTime = new Date();
+            organizer.saveItem(item);
+            calendarManager.createEvent(new Date(), new Date(), "pipo");
+
+
+            organizer.update();
+            console.log("N ITAM " + organizer.itemCount + " " + calendarManager.count());
+            console.log("MANA " + organizer.manager);
+            if (organizer.itemCount) {
+                var listone = organizer.items;
+                console.log(" H " + listone[0].startDateTime);
+            }
         }
         //color: "#ffffff"
     }
