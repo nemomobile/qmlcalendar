@@ -11,6 +11,8 @@ Rectangle {
     property string startTime: "00:00";
     property string day ;
     property OrganizerModel organizer: calendarView.organizer;
+    property date current: new Date();
+
     Rectangle {
         id: line1;
 
@@ -153,7 +155,7 @@ Rectangle {
 
     Event {
        id: item;
-       startDateTime: new Date();
+       startDateTime: current;
     }
 
 
@@ -184,6 +186,9 @@ Rectangle {
             organizer.saveItem(item);
             calendarManager.createEvent(new Date(), new Date(), "pipo");
 
+            console.log("current " + item.startDateTime);
+            current = new Date();
+            console.log("current " + item.startDateTime);
 
             organizer.update();
             console.log("N ITAM " + organizer.itemCount + " " + calendarManager.count());

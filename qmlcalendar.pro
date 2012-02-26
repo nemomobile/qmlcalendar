@@ -22,7 +22,8 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # MOBILITY +=
 
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    calendarmanager.cpp
 
 
 unix:!symbian {
@@ -35,6 +36,10 @@ unix:!symbian {
 }
 
 QT += declarative
+
+CONFIG += mobility
+
+MOBILITY = organizer
 
 OTHER_FILES += \
     qml/qmlcalendar/month.js \
@@ -49,7 +54,12 @@ OTHER_FILES += \
     qml/qmlcalendar/DayView.qml \
     qml/qmlcalendar/ItemView.qml \
     qml/qmlcalendar/main.qml \
-    qml/qmlcalendar/MainPage.qml
+    qml/qmlcalendar/MainPage.qml \
+    qml/qmlcalendar/What.qml \
+    qml/qmlcalendar/logic.js
 
 RESOURCES += \
     qmlcalendar.qrc
+
+HEADERS += \
+    calendarmanager.h
