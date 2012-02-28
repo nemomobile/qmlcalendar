@@ -156,6 +156,7 @@ Rectangle {
     Event {
        id: item;
        startDateTime: current;
+
     }
 
 
@@ -183,19 +184,20 @@ Rectangle {
 
             item.description = "ciao"
             //item.itemStartTime = new Date();
-            organizer.saveItem(item);
-            calendarManager.createEvent(new Date(), new Date(), "pipo");
+
+            //calendarManager.createEvent(new Date(), new Date(), "pipo");
 
             console.log("current " + item.startDateTime);
             current = new Date();
+             organizer.saveItem(item);
             console.log("current " + item.startDateTime);
 
             organizer.update();
-            console.log("N ITAM " + organizer.itemCount + " " + calendarManager.count());
-            console.log("MANA " + organizer.manager);
+            console.log("N ITAM " + organizer.itemCount);
+            //console.log("MANA " + organizer.manager);
             if (organizer.itemCount) {
                 var listone = organizer.items;
-                console.log(" H " + listone[0].startDateTime);
+                console.log(" H " + listone[0].startDateTime + "items " + listone);
             }
         }
         //color: "#ffffff"

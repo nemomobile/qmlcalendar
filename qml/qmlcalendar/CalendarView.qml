@@ -69,8 +69,8 @@ Rectangle  {
     property OrganizerModel organizer:OrganizerModel{
         id: organizer
         manager:"qtorganizer:memory:id=qml"
-        startPeriod:"2012-02-21"
-        endPeriod:"2012-02-23"
+        startPeriod:"2012-02-29"
+        endPeriod:"2012-02-29"
         autoUpdate:true
         Component.onCompleted : {
             //if (managerName == "memory")

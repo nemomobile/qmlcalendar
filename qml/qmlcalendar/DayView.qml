@@ -48,11 +48,109 @@ Rectangle
     property variant calendarView;
     property variant itemIds:calendarView.organizer.itemIds(calendarView.currentDate, new Date(calendarView.year, calendarView.month, calendarView.day+1))
 
+    onOpacityChanged: console.log("vediamo "+ itemIds);
+
     ListView {
         anchors.fill: parent
         id: hourList
+        model : hourModel
+        delegate : hourDelegate
+    }
+
+        Component {
+                id: hourDelegate
 
 
+                Item {
+                    width : hourList.width
+                    height : childrenRect.height
+                    property int rowIndex : index
+                    id:hourDelegateInstanceItem
+
+                    Column {
+                        // Draw a line under the previous Hour list tiem
+                        Rectangle {
+                            height : 1
+                            width : hourList.width
+                            color : "black"
+                        }
+
+                        Text {
+                           // text: hour
+                            id: dum
+                            text: index + ":00"
+                            width: hourList.width
+                             font.pointSize: 18
+                             MouseArea {
+                             id: mouseAreaHour
+
+                             anchors.fill: parent
+
+                             onClicked: {
+                                 console.log("hour " + dum.text);
+                                 hourList.currentIndex = index;
+                                 whatItem.startTime = dum.text;
+                                 whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
+                                 dayView.opacity = 0;
+                                 whatItem.opacity = 1;
+                            }
+                         }
+                        }
+
+
+                        // List all, if any, of the events within this hour.
+                        Repeater {
+
+                            focus: true
+
+                            // Simple fetch ALL events on this day...and we will filter them by hour.
+                            model: calendarView.organizer.items? calendarView.organizer.itemIds(new Date(calendarView.year, calendarView.month, calendarView.day)
+                                                                                        , new Date(calendarView.year, calendarView.month, calendarView.day+1))
+                                                           : 0
+
+                            Row {
+
+                                spacing:  4
+
+                                Text {
+                                    id: itemText
+                                    clip: true
+                                    focus: true
+                                    property OrganizerItem oi: calendarView.organizer.item(modelData)
+                                    text: "pippo"
+                                    // Only display a link when the event starts within this hour......
+                                    //text: (hourDelegateInstanceItem.rowIndex != Qt.formatTime(oi.startDateTime, "hh")) ? "<a href=\"#\">" + oi.description + "</a>":""
+                                    /*onLinkActivated: {
+                                        //detailsView.isNewItem = false;
+                                        detailsView.item = oi;
+                                        calendar.state = "DetailsView";
+
+                                    }*/
+                                    /*MouseArea {
+                                        id: mouseAreaHour
+
+                                        anchors.fill: parent
+
+                                        onClicked: {
+                                            console.log("hour " + itemText.text);
+                                            hourList.currentIndex = index;
+                                            whatItem.startTime = time.text;
+                                            whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
+                                            dayView.opacity = 0;
+                                            whatItem.opacity = 1;
+                                       }
+                                    }*/
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+/*
         Component {
                  id: dayDelegate
                  Rectangle {
@@ -69,7 +167,7 @@ Rectangle
                      Text {
                          anchors {left: time.right}
                          id: infoTime
-                         text: "number"
+                         text: description
                          color: wrapper.ListView.isCurrentItem ? "red" : "black"
                          font.pointSize: 18
                      }
@@ -96,7 +194,7 @@ Rectangle
         highlight: Rectangle { color: "red"; radius: 5 }
         highlightFollowsCurrentItem: true
     }
-
+*/
 
 
     /*gradient: Gradient {
@@ -104,34 +202,61 @@ Rectangle
              GradientStop { position: 1.0; color: "blue" }
          }
     */
+    /*
      ListModel {
          id:dayModel
-                ListElement {hour : "0:00"}
-                ListElement {hour : "1:00"}
-                ListElement {hour : "2:00"}
-                ListElement {hour : "3:00"}
-                ListElement {hour : "4:00"}
-                ListElement {hour : "5:00"}
-                ListElement {hour : "6:00"}
-                ListElement {hour : "7:00"}
-                ListElement {hour : "8:00"}
-                ListElement {hour : "9:00"}
-                ListElement {hour : "10:00"}
-                ListElement {hour : "11:00"}
-                ListElement {hour : "12:00"}
-                ListElement {hour : "13:00"}
-                ListElement {hour : "14:00"}
-                ListElement {hour : "15:00"}
-                ListElement {hour : "16:00"}
-                ListElement {hour : "17:00"}
-                ListElement {hour : "18:00"}
-                ListElement {hour : "19:00"}
-                ListElement {hour : "20:00"}
-                ListElement {hour : "21:00"}
-                ListElement {hour : "22:00"}
-                ListElement {hour : "23:00"}
+         ListElement {hour : "0:00"; description : {calendarView.organizer.itemCount();}}
+                ListElement {hour : "1:00"; description : "2";}
+                ListElement {hour : "2:00"; description : "3";}
+                ListElement {hour : "3:00"; description : "4";}
+                ListElement {hour : "4:00"; description : "5";}
+                ListElement {hour : "5:00"; description : "";}
+                ListElement {hour : "6:00"; description : "";}
+                ListElement {hour : "7:00"; description : "";}
+                ListElement {hour : "8:00"; description : "";}
+                ListElement {hour : "9:00"; description : "";}
+                ListElement {hour : "10:00"; description : "";}
+                ListElement {hour : "11:00"; description : "";}
+                ListElement {hour : "12:00"; description : "";}
+                ListElement {hour : "13:00"; description : "";}
+                ListElement {hour : "14:00"; description : "";}
+                ListElement {hour : "15:00"; description : "";}
+                ListElement {hour : "16:00"; description : "";}
+                ListElement {hour : "17:00"; description : "";}
+                ListElement {hour : "18:00"; description : "";}
+                ListElement {hour : "19:00"; description : "";}
+                ListElement {hour : "20:00"; description : "";}
+                ListElement {hour : "21:00"; description : "";}
+                ListElement {hour : "22:00"; description : "";}
+                ListElement {hour : "23:00"; description : "";}
             }
-
+        */ListModel {
+        id : hourModel
+        ListElement {hour : "0:00"}
+        ListElement {hour : "1:00"}
+        ListElement {hour : "2:00"}
+        ListElement {hour : "3:00"}
+        ListElement {hour : "4:00"}
+        ListElement {hour : "5:00"}
+        ListElement {hour : "6:00"}
+        ListElement {hour : "7:00"}
+        ListElement {hour : "8:00"}
+        ListElement {hour : "9:00"}
+        ListElement {hour : "10:00"}
+        ListElement {hour : "11:00"}
+        ListElement {hour : "12:00"}
+        ListElement {hour : "13:00"}
+        ListElement {hour : "14:00"}
+        ListElement {hour : "15:00"}
+        ListElement {hour : "16:00"}
+        ListElement {hour : "17:00"}
+        ListElement {hour : "18:00"}
+        ListElement {hour : "19:00"}
+        ListElement {hour : "20:00"}
+        ListElement {hour : "21:00"}
+        ListElement {hour : "22:00"}
+        ListElement {hour : "23:00"}
+    }
 
 
 
