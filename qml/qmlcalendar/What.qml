@@ -197,7 +197,7 @@ Rectangle {
             //console.log("MANA " + organizer.manager);
             if (organizer.itemCount) {
                 var listone = organizer.items;
-                console.log(" H " + listone[0].startDateTime + "items " + listone);
+                console.log(" H " + listone[0].startDateTime );
             }
         }
         //color: "#ffffff"

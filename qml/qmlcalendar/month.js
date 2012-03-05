@@ -86,3 +86,10 @@ function today()
 
 }
 
+function tomorrow(dateObject)
+{
+    var dateTime = new Date( Qt.formatDate( dateObject, "MM/dd/yyyy" ) );
+
+       dateTime.setHours( Qt.formatDateTime ( dateObject, "hh" ) + 24 );
+       return Qt.formatDateTime(dateTime, "yyyy-MM-dd hh:mm:ss");
+}

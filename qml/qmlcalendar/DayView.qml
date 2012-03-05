@@ -48,7 +48,7 @@ Rectangle
     property variant calendarView;
     property variant itemIds:calendarView.organizer.itemIds(calendarView.currentDate, new Date(calendarView.year, calendarView.month, calendarView.day+1))
 
-    onOpacityChanged: console.log("vediamo "+ itemIds);
+
 
     ListView {
         anchors.fill: parent
@@ -117,9 +117,10 @@ Rectangle
                                     clip: true
                                     focus: true
                                     property OrganizerItem oi: calendarView.organizer.item(modelData)
-                                    text: "pippo"
+
                                     // Only display a link when the event starts within this hour......
-                                    //text: (hourDelegateInstanceItem.rowIndex != Qt.formatTime(oi.startDateTime, "hh")) ? "<a href=\"#\">" + oi.description + "</a>":""
+                                    text: ((hourDelegateInstanceItem.rowIndex == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
+                                    //text: "hourDelegateInstanceItem.rowIndex "+ hourDelegateInstanceItem.rowIndex+ "time "+Qt.formatTime(oi.startDateTime, "hh") + " desc " + oi.description
                                     /*onLinkActivated: {
                                         //detailsView.isNewItem = false;
                                         detailsView.item = oi;
