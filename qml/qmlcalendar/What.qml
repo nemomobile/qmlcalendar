@@ -174,18 +174,11 @@ Rectangle {
         text: qsTr("Save")
         onClicked: {
 
-           /* Qt.createQmlObject('import QtQuick 1.0; Rectangle {color: "red"; width: 20; height: 20}',
-                 parentItem, "dynamicSnippet1");*/
-            //var item = Qt.createQmlObject("import QtMobility.organizer 1.1; Event {"+ Logic.dumDesc() +"}", organizer, "item");
-            //item.startDateTime = new Date();
-            console.log("save");
 
 
 
-            item.description = "ciao"
-            //item.itemStartTime = new Date();
 
-            //calendarManager.createEvent(new Date(), new Date(), "pipo");
+            item.description = text_what.text;
 
             console.log("current " + item.startDateTime);
             current = new Date();
@@ -194,7 +187,7 @@ Rectangle {
 
             organizer.update();
             console.log("N ITAM " + organizer.itemCount);
-            //console.log("MANA " + organizer.manager);
+
             if (organizer.itemCount) {
                 var listone = organizer.items;
                 console.log(" H " + listone[0].startDateTime );

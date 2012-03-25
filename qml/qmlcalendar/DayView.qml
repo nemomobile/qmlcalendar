@@ -81,28 +81,44 @@ Rectangle
                             text: index + ":00"
                             width: hourList.width
                              font.pointSize: 18
+                           // property OrganizerItem oi: calendarView.organizer.item(repeater.modelData)
                              MouseArea {
-                             id: mouseAreaHour
+                                id: mouseAreaHour
 
-                             anchors.fill: parent
+                                anchors.fill: parent
 
-                             onClicked: {
-                                 console.log("hour " + dum.text);
-                                 hourList.currentIndex = index;
-                                 whatItem.startTime = dum.text;
-                                 whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
-                                 dayView.opacity = 0;
-                                 whatItem.opacity = 1;
+                                onClicked: {
+                                     console.log("hour " + dum.text);
+                                     hourList.currentIndex = index;
+                                     whatItem.startTime = dum.text;
+                                     whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
+                                    //console.log("index " + repeater.model.);
+                                    var items = calendarView.organizer.itemIds(new Date(calendarView.year, calendarView.month, calendarView.day)
+                                                                                     , new Date(calendarView.year, calendarView.month, calendarView.day+1));
+                                    if (items) {
+                                        var i;
+                                        for (i = 0; i < items.lenght; i++) {
+                                            console.log("ITEM START TIME" + items[i].itemStartTime);
+                                        }
+                                        var item = calendarView.organizer.item(items[0]);
+                                        if (item)
+                                            console.log("item.desc " + item.description)
+                                    }
+
+
+                                     dayView.opacity = 0;
+                                     whatItem.opacity = 1;
+                                }
                             }
-                         }
                         }
+
 
 
                         // List all, if any, of the events within this hour.
                         Repeater {
 
                             focus: true
-
+                            id: repeater
                             // Simple fetch ALL events on this day...and we will filter them by hour.
                             model: calendarView.organizer.items? calendarView.organizer.itemIds(new Date(calendarView.year, calendarView.month, calendarView.day)
                                                                                         , new Date(calendarView.year, calendarView.month, calendarView.day+1))
@@ -112,35 +128,15 @@ Rectangle
 
                                 spacing:  4
 
+
                                 Text {
                                     id: itemText
                                     clip: true
                                     focus: true
                                     property OrganizerItem oi: calendarView.organizer.item(modelData)
 
-                                    // Only display a link when the event starts within this hour......
                                     text: ((hourDelegateInstanceItem.rowIndex == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
-                                    //text: "hourDelegateInstanceItem.rowIndex "+ hourDelegateInstanceItem.rowIndex+ "time "+Qt.formatTime(oi.startDateTime, "hh") + " desc " + oi.description
-                                    /*onLinkActivated: {
-                                        //detailsView.isNewItem = false;
-                                        detailsView.item = oi;
-                                        calendar.state = "DetailsView";
 
-                                    }*/
-                                    /*MouseArea {
-                                        id: mouseAreaHour
-
-                                        anchors.fill: parent
-
-                                        onClicked: {
-                                            console.log("hour " + itemText.text);
-                                            hourList.currentIndex = index;
-                                            whatItem.startTime = time.text;
-                                            whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
-                                            dayView.opacity = 0;
-                                            whatItem.opacity = 1;
-                                       }
-                                    }*/
                                 }
 
                             }
