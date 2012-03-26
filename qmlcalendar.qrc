@@ -7,7 +7,6 @@
         <file>qml/qmlcalendar/DayView.qml</file>
         <file>qml/qmlcalendar/ItemView.qml</file>
         <file>qml/qmlcalendar/main.qml</file>
-        <file>qml/qmlcalendar/MainPage.qml</file>
         <file>qml/qmlcalendar/What.qml</file>
         <file>qml/qmlcalendar/logic.js</file>
     </qresource>

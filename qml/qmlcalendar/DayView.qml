@@ -97,8 +97,10 @@ Rectangle
                                                                                      , new Date(calendarView.year, calendarView.month, calendarView.day+1));
                                     if (items) {
                                         var i;
-                                        for (i = 0; i < items.lenght; i++) {
-                                            console.log("ITEM START TIME" + items[i].itemStartTime);
+                                        console.log("ITEM length " + items.length);
+                                        for (i = 0; i < items.length; i++) {
+                                            var itemo = calendarView.organizer.item(items[i]);
+                                            console.log("ITEM START TIME" + itemo.startDateTime);
                                         }
                                         var item = calendarView.organizer.item(items[0]);
                                         if (item)
