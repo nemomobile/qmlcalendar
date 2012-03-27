@@ -12,7 +12,7 @@ Rectangle {
     property string day ;
     property OrganizerModel organizer: calendarView.organizer;
     property date current: new Date();
-
+    property OrganizerItem selecteditem: null;
     Rectangle {
         id: line1;
 

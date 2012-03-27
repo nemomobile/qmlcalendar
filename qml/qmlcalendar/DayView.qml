@@ -94,15 +94,21 @@ Rectangle
                                      whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
                                     //console.log("index " + repeater.model.);
                                     var items = calendarView.organizer.itemIds(new Date(calendarView.year, calendarView.month, calendarView.day)
-                                                                                     , new Date(calendarView.year, calendarView.month, calendarView.day+1));
+                                                                                   , new Date(calendarView.year, calendarView.month, calendarView.day+1));
+                                    var item = null;
                                     if (items) {
                                         var i;
                                         console.log("ITEM length " + items.length);
                                         for (i = 0; i < items.length; i++) {
                                             var itemo = calendarView.organizer.item(items[i]);
-                                            console.log("ITEM START TIME" + itemo.startDateTime);
+                                            console.log("time " + (Qt.formatTime( itemo.startDateTime, "h" ) + ":00") + " dum.text " + dum.text);
+                                            if ( (Qt.formatTime( itemo.startDateTime, "h" ) + ":00") === dum.text) {
+                                                console.log("ITEM START TIME" + itemo.startDateTime + " " + Qt.formatTime( itemo.startDateTime, "hh" ));
+                                                item = calendarView.organizer.item(items[i]);
+                                                break;
+                                            }
                                         }
-                                        var item = calendarView.organizer.item(items[0]);
+
                                         if (item)
                                             console.log("item.desc " + item.description)
                                     }
