@@ -11,7 +11,7 @@ Rectangle {
     property string startTime: "00:00";
     property string day ;
     property OrganizerModel organizer: calendarView.organizer;
-    property date current: new Date();
+    property date current; // new Date();
     property OrganizerItem selecteditem: null;
     Rectangle {
         id: line1;
@@ -180,12 +180,12 @@ Rectangle {
 
             item.description = text_what.text;
 
-            console.log("current " + item.startDateTime);
-            current = new Date();
+            console.log("current " + item.startDateTime + " desc " +  item.description);
+            //current = new Date();
              organizer.saveItem(item);
             console.log("current " + item.startDateTime);
 
-            organizer.update();
+            //organizer.update();
             console.log("N ITAM " + organizer.itemCount);
 
             if (organizer.itemCount) {

@@ -41,6 +41,7 @@
 import Qt 4.7
 
 import QtMobility.organizer 1.1
+import "month.js" as Month
 
 Rectangle
 {
@@ -92,7 +93,7 @@ Rectangle
                                      hourList.currentIndex = index;
                                      whatItem.startTime = dum.text;
                                      whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
-                                    //console.log("index " + repeater.model.);
+
                                     var items = calendarView.organizer.itemIds(new Date(calendarView.year, calendarView.month, calendarView.day)
                                                                                    , new Date(calendarView.year, calendarView.month, calendarView.day+1));
                                     var item = null;
@@ -113,7 +114,7 @@ Rectangle
                                             console.log("item.desc " + item.description)
                                     }
 
-
+                                    whatItem.current = Month.atHourObject(calendarView.currentDate, dum.text);
                                      dayView.opacity = 0;
                                      whatItem.opacity = 1;
                                 }
