@@ -39,11 +39,11 @@
 ****************************************************************************/
 
 import Qt 4.7
-
+import com.nokia.meego 1.0
 import QtMobility.organizer 1.1
 import "month.js" as Month
 
-Rectangle
+Page
 {
     id:dayView
     property variant calendarView;
@@ -114,9 +114,13 @@ Rectangle
                                             console.log("item.desc " + item.description)
                                     }
 
-                                    whatItem.current = Month.atHourObject(calendarView.currentDate, dum.text);
-                                     dayView.opacity = 0;
-                                     whatItem.opacity = 1;
+                                    whatItem.current = Month.atHourObject(calendarView.currentDate, index);
+
+                                    //dayView.opacity = 0;
+                                    whatItem.opacity = 1;
+
+                                    mainStack.pageStack.push(whatItem);
+
                                 }
                             }
                         }
@@ -156,87 +160,7 @@ Rectangle
             }
 
 
-/*
-        Component {
-                 id: dayDelegate
-                 Rectangle {
-                     id: wrapper
-                     width: 180
-                     height: 40
-                     //color: ListView.index ? "black" : "red"
-                     Text {
-                         id: time
-                         text: hour
-                         color: wrapper.ListView.isCurrentItem ? "red" : "black"
-                         font.pointSize: 18
-                     }
-                     Text {
-                         anchors {left: time.right}
-                         id: infoTime
-                         text: description
-                         color: wrapper.ListView.isCurrentItem ? "red" : "black"
-                         font.pointSize: 18
-                     }
-                     MouseArea {
-                         id: mouseAreaHour
-
-                         anchors.fill: parent
-
-                         onClicked: {
-                             console.log("hour " + time.text);
-                             hourList.currentIndex = index;
-                             whatItem.startTime = time.text;
-                             whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
-                             dayView.opacity = 0;
-                             whatItem.opacity = 1;
-                        }
-                     }
-                 }
-             }
-        model: dayModel
-        //z:1
-        delegate: dayDelegate
-        //focus: true
-        highlight: Rectangle { color: "red"; radius: 5 }
-        highlightFollowsCurrentItem: true
-    }
-*/
-
-
-    /*gradient: Gradient {
-             GradientStop { position: 0.0; color: "lightsteelblue" }
-             GradientStop { position: 1.0; color: "blue" }
-         }
-    */
-    /*
-     ListModel {
-         id:dayModel
-         ListElement {hour : "0:00"; description : {calendarView.organizer.itemCount();}}
-                ListElement {hour : "1:00"; description : "2";}
-                ListElement {hour : "2:00"; description : "3";}
-                ListElement {hour : "3:00"; description : "4";}
-                ListElement {hour : "4:00"; description : "5";}
-                ListElement {hour : "5:00"; description : "";}
-                ListElement {hour : "6:00"; description : "";}
-                ListElement {hour : "7:00"; description : "";}
-                ListElement {hour : "8:00"; description : "";}
-                ListElement {hour : "9:00"; description : "";}
-                ListElement {hour : "10:00"; description : "";}
-                ListElement {hour : "11:00"; description : "";}
-                ListElement {hour : "12:00"; description : "";}
-                ListElement {hour : "13:00"; description : "";}
-                ListElement {hour : "14:00"; description : "";}
-                ListElement {hour : "15:00"; description : "";}
-                ListElement {hour : "16:00"; description : "";}
-                ListElement {hour : "17:00"; description : "";}
-                ListElement {hour : "18:00"; description : "";}
-                ListElement {hour : "19:00"; description : "";}
-                ListElement {hour : "20:00"; description : "";}
-                ListElement {hour : "21:00"; description : "";}
-                ListElement {hour : "22:00"; description : "";}
-                ListElement {hour : "23:00"; description : "";}
-            }
-        */ListModel {
+    ListModel {
         id : hourModel
         ListElement {hour : "0:00"}
         ListElement {hour : "1:00"}

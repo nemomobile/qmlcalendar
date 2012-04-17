@@ -272,11 +272,13 @@ Rectangle  {
                                  var dum = year + "/" + (month + 1) + "/" + journey.text;
                                  currentDate= new Date(dum);
                                  console.log("DAy " + journey.text + " dum " + dum);
-                                 //contentArea.visible = true;
+
                                  dayView.opacity = 1;
                                  dayView.z = 1;
-                                 //calendarView.z = 0;
-                                 calendarView.opacity = 0;
+
+                                 //calendarView.opacity = 0;
+
+                                 mainStack.pageStack.push(dayView);
 
                            }
 
@@ -285,22 +287,5 @@ Rectangle  {
         }
     }
 
-    /*Item {
-        id: contentArea;
-        anchors.top: parent.top;
-        anchors.left: parent.left;
-        anchors.right: parent.right;
-        anchors.bottom: parent.bottom;
-        z:1;
-        //visible: false;
-*/
-      /*  DayView {
-            id: dayView;
-            width: calendarView.width;
-            height: calendarView.height;
-            opacity: 0;
-            //anchors.fill: parent;
 
-        }*/
-    //}
 }

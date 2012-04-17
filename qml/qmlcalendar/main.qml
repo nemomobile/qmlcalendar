@@ -13,7 +13,7 @@ import com.nokia.meego 1.0
 PageStackWindow {
 
 
-
+    id: mainStack
     showStatusBar: false;
     //showToolBar: true;
 
@@ -50,7 +50,7 @@ PageStackWindow {
          }
          ToolIcon {
              platformIconId: "toolbar-back";
-             onClicked: { myMenu.close(); pageStack.pop(); }
+             onClicked: { myMenu.close(); mainStack.pageStack.pop(); }
              anchors.left: parent.left;
          }
      }

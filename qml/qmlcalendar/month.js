@@ -106,6 +106,6 @@ function atHourObject(dateObject, hour)
 {
     var dateTime = new Date( Qt.formatDate( dateObject, "MM/dd/yyyy" ) );
 
-       dateTime.setHours( Qt.formatDateTime ( dateObject, "hh" ) + 7 );
+       dateTime.setHours( Qt.formatDateTime ( dateObject, "hh" ) + hour );
        return dateTime;
 }

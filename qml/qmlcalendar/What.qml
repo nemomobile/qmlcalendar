@@ -5,7 +5,7 @@ import com.nokia.extras 1.0
 import QtMobility.organizer 1.1
 import "logic.js" as Logic
 
-Rectangle {
+PageStack {
     id: whatItem
     anchors.fill: parent
     property string startTime: "00:00";
@@ -192,6 +192,8 @@ Rectangle {
                 var listone = organizer.items;
                 console.log(" H " + listone[0].startDateTime );
             }
+
+            mainStack.pageStack.pop();
         }
         //color: "#ffffff"
     }
