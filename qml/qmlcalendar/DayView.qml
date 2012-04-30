@@ -42,12 +42,16 @@ import Qt 4.7
 import com.nokia.meego 1.0
 import QtMobility.organizer 1.1
 import "month.js" as Month
+import com.nokia.extras 1.0
 
 Page
 {
     id:dayView
     property variant calendarView;
     property variant itemIds:calendarView.organizer.itemIds(calendarView.currentDate, new Date(calendarView.year, calendarView.month, calendarView.day+1))
+
+    tools: commonTools
+
 
 
 
@@ -110,8 +114,10 @@ Page
                                             }
                                         }
 
-                                        if (item)
+                                        if (item) {
                                             console.log("item.desc " + item.description)
+                                            whatItem.description =  item.description;
+                                        }
                                     }
 
                                     whatItem.current = Month.atHourObject(calendarView.currentDate, index);

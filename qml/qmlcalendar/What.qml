@@ -13,6 +13,7 @@ PageStack {
     property OrganizerModel organizer: calendarView.organizer;
     property date current; // new Date();
     property OrganizerItem selecteditem: null;
+    property string description : "Add Objecy";
     Rectangle {
         id: line1;
 
@@ -37,9 +38,19 @@ PageStack {
             id: text_what
             width: parent.width - object.width
             anchors.left: object.right
-            text: qsTr("Add objecto")
+            text: description
             font.pixelSize: 28
-            onFocusChanged: { if ( text_what.activeFocus ) object.color = "orange"; else object.color= "black";}
+            onFocusChanged: {
+                if ( text_what.activeFocus ) {
+
+                    object.color = "orange";
+                    text_what.openSoftwareInputPanel();
+                }
+                else {
+                    object.color= "black";
+                    text_what.closeSoftwareInputPanel();
+                }
+            }
             anchors.leftMargin: 10
         }
     }
@@ -149,14 +160,15 @@ PageStack {
             topMargin: 10
         }
         text: qsTr("Cancel")
-        onClicked: {whatItem.opacity = 0; dayView.opacity = 1;}
+        //onClicked: {text_what.focus = false;whatItem.opacity = 0; dayView.opacity = 1;}
+        onClicked: {text_what.focus = false;mainStack.pageStack.pop();}
         //color: "#ffffff"
     }
 
     Event {
        id: item;
        startDateTime: current;
-
+        description: description;
     }
 
 
@@ -174,8 +186,8 @@ PageStack {
         text: qsTr("Save")
         onClicked: {
 
-
-
+            //text_what.closeSoftwareInputPanel();
+            text_what.focus = false;
 
 
             item.description = text_what.text;
