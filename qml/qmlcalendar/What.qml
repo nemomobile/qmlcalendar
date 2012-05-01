@@ -13,7 +13,11 @@ PageStack {
     property OrganizerModel organizer: calendarView.organizer;
     property date current; // new Date();
     property OrganizerItem selecteditem: null;
-    property string description : "Add Objecy";
+    property string description : "";
+    property string location: "";
+    property bool isNew: true;
+    property Event item: null;
+
     Rectangle {
         id: line1;
 
@@ -102,15 +106,15 @@ PageStack {
         }
 
         TimePickerDialog {
-                id:timePickerDialog
-                anchors.left: text_day.right
-                titleText: "Select Time"
-                acceptButtonText: "Confirm"
-                rejectButtonText: "Reject"
-                fields: DateTime.Hours | DateTime.Minutes
-                //opacity: 1
-                //onAccepted: timePickerAccepted()
-            }
+            id:timePickerDialog
+            anchors.left: text_day.right
+            titleText: "Select Time"
+            acceptButtonText: "Confirm"
+            rejectButtonText: "Reject"
+            fields: DateTime.Hours | DateTime.Minutes
+            //opacity: 1
+            //onAccepted: timePickerAccepted()
+        }
     }
     Rectangle {
         id: line3
@@ -136,19 +140,25 @@ PageStack {
                 leftMargin: 10;
                 left: text_w.right;
             }
-            text: qsTr("Here")
+            width: parent.width - object.width
+
+            text: location
             font.pixelSize: 28
             onFocusChanged: {
                 if ( text_where.activeFocus ) {
 
                     text_w.color = "orange";
+                    text_where.openSoftwareInputPanel();
                 }
-                else
-                    text_w.color= "black";}
+                else   {
+                    text_w.color= "black";
+                    text_where.closeSoftwareInputPanel();
+                }
+            }
         }
     }
     Button {
-        id: save
+        id: cancel
 
         width: 96
         height: 114
@@ -165,16 +175,39 @@ PageStack {
         //color: "#ffffff"
     }
 
+    Button {
+        id: remove
+        enabled: !isNew
+        width: 120
+        height: 114
+        anchors {
+            //left: parent.left
+            top: parent.top
+            horizontalCenter: parent.horizontalCenter
+            //top: label.bottom
+            topMargin: 10
+        }
+        text: qsTr("Remove")
+        //onClicked: {text_what.focus = false;whatItem.opacity = 0; dayView.opacity = 1;}
+        onClicked: {
+
+            organizer.removeItem(item.itemId);
+            mainStack.pageStack.pop();
+        }
+        //color: "#ffffff"
+    }
+
     Event {
-       id: item;
-       startDateTime: current;
+        id: item1;
+        startDateTime: current;
         description: description;
+        location: location;
     }
 
 
 
     Button {
-        id: rectangle2
+        id: save
 
         width: 96
         height: 114
@@ -189,16 +222,25 @@ PageStack {
             //text_what.closeSoftwareInputPanel();
             text_what.focus = false;
 
+            if (item == null)
+                item = item1;
 
             item.description = text_what.text;
-
+            item.location = text_where.text;
             console.log("current " + item.startDateTime + " desc " +  item.description);
             //current = new Date();
-             organizer.saveItem(item);
-            console.log("current " + item.startDateTime);
+            if ( isNew )
+                organizer.saveItem(item);
+            else {
+                item.save();
+
+            }
+            //console.log("current " + item.startDateTime);
 
             //organizer.update();
-            console.log("N ITAM " + organizer.itemCount);
+            //console.log("N ITAM " + organizer.itemCount);
+
+
 
             if (organizer.itemCount) {
                 var listone = organizer.items;

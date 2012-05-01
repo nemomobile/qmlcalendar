@@ -63,3 +63,9 @@ RESOURCES += \
 
 HEADERS += \
     calendarmanager.h
+
+contains(MEEGO_EDITION,harmattan) {
+    icon.files = qmlcalendar.png
+    icon.path = /usr/share/icons/hicolor/80x80/apps
+    INSTALLS += icon
+}

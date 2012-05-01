@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2011 Nicola De Filippo.
+** Copyright (C) 2012 Nicola De Filippo.
 ** All rights reserved.
 ** Contact: Nicola De Filippo (nicola.defilippo@lizard-solutions.com)
 **
@@ -279,7 +279,7 @@ Rectangle  {
                                  //calendarView.opacity = 0;
 
                                  mainStack.pageStack.push(dayView);
-
+                                toolBack.visible = true;
                            }
 
                        }

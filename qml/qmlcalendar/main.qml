@@ -44,13 +44,17 @@ PageStackWindow {
          id: commonTools
          visible: true
          ToolIcon {
+             id: menu
+             visible: false
              platformIconId: "toolbar-view-menu"
              anchors.right: (parent === undefined) ? undefined : parent.right
              onClicked: (myMenu.status === DialogStatus.Closed) ? myMenu.open() : myMenu.close()
          }
          ToolIcon {
+             id: toolBack
+             visible: false
              platformIconId: "toolbar-back";
-             onClicked: { myMenu.close(); mainStack.pageStack.pop(); }
+             onClicked: { myMenu.close(); mainStack.pageStack.pop(); toolBack.visible = false;}
              anchors.left: parent.left;
          }
      }
@@ -62,4 +66,7 @@ PageStackWindow {
              MenuItem { text: qsTr("Sample menu item") }
          }
      }
+
+
+
  }
