@@ -109,3 +109,11 @@ function atHourObject(dateObject, hour)
        dateTime.setHours( Qt.formatDateTime ( dateObject, "hh" ) + hour );
        return dateTime;
 }
+
+function at59Object(dateObject)
+{
+    var dateTime = new Date( Qt.formatDate( dateObject, "MM/dd/yyyy" ) );
+    dateTime.setMinutes( Qt.formatDateTime ( dateObject, "mm" ) + 59 );
+       //dateTime.setHours( Qt.formatDateTime ( dateObject, "hh:" ) + hour );
+       return dateTime;
+}
