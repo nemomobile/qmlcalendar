@@ -42,7 +42,7 @@ PageStack {
             id: text_what
             width: parent.width - object.width
             anchors.left: object.right
-            text: description
+            text: (item)?item.description:"Add object"
             font.pixelSize: 28
             onFocusChanged: {
                 if ( text_what.activeFocus ) {
@@ -112,8 +112,8 @@ PageStack {
             acceptButtonText: "Confirm"
             rejectButtonText: "Reject"
             fields: DateTime.Hours | DateTime.Minutes
-            //opacity: 1
-            //onAccepted: timePickerAccepted()
+
+            onAccepted: { startTime = timePickerDialog.hour + ":" + timePickerDialog.minute}
         }
     }
     Rectangle {
@@ -142,7 +142,7 @@ PageStack {
             }
             width: parent.width - object.width
 
-            text: location
+            text: (item)?item.location:"Here"
             font.pixelSize: 28
             onFocusChanged: {
                 if ( text_where.activeFocus ) {
@@ -200,7 +200,7 @@ PageStack {
     Event {
         id: item1;
         startDateTime: current;
-        description: description;
+        description: text_what.text;
         location: location;
     }
 
@@ -222,8 +222,15 @@ PageStack {
             //text_what.closeSoftwareInputPanel();
             text_what.focus = false;
 
-            if (item == null)
+            if (item === null) {
+                console.log("NULL");
+                item1.description = text_what.text;
+                item1.location = text_where.text;
                 item = item1;
+
+            }
+
+            console.log("what = " + text_what.text);
 
             item.description = text_what.text;
             item.location = text_where.text;
@@ -237,15 +244,12 @@ PageStack {
             }
             //console.log("current " + item.startDateTime);
 
-            //organizer.update();
-            //console.log("N ITAM " + organizer.itemCount);
+            organizer.update();
+            console.log("N ITAM " + organizer.itemCount);
 
 
 
-            if (organizer.itemCount) {
-                var listone = organizer.items;
-                console.log(" H " + listone[0].startDateTime );
-            }
+
 
             mainStack.pageStack.pop();
         }

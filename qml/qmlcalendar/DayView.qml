@@ -44,6 +44,7 @@ Page
                 }
 
                 Row {
+                    spacing: 4
                     Rectangle {
                         border.color: "red"
                         width:80
@@ -63,6 +64,7 @@ Page
                                 anchors.fill: parent
 
                                 onClicked: {
+                                    console.log("NUOVO\n");
                                     console.log("hour " + dum.text);
                                     hourList.currentIndex = index;
                                     whatItem.startTime = dum.text;
@@ -71,13 +73,13 @@ Page
                                     whatItem.description = "Add object";
                                     whatItem.location = "Here";
                                     whatItem.isNew = true;
-
+                                    whatItem.item = null;
 
                                     whatItem.current = Month.atHourObject(calendarView.currentDate, index);
 
                                     //dayView.opacity = 0;
                                     whatItem.opacity = 1;
-
+                                    console.log("description " + whatItem.description);
                                     mainStack.pageStack.push(whatItem);
 
                                 }
@@ -95,11 +97,11 @@ Page
                         id: repeater
                         // Simple fetch ALL events on this day...and we will filter them by hour.
                         model: calendarView.organizer.items? calendarView.organizer.itemIds(Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex)
-                                                                                            , (Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex)))
+                                                                                            , (Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex )))
                                                            : 0
 
                         Column {
-
+                            spacing: 10
 
 
                             Rectangle {
@@ -124,41 +126,12 @@ Page
                                         anchors.fill: parent
 
                                         onClicked: {
-                                            /*console.log("hour " + dum.text);
-                                            hourList.currentIndex = index;
-                                            whatItem.startTime = dum.text;
-                                            whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
+                                             //console.log("model " + rep);
+                                            console.log("Esistente start hour " + Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex));
+                                            console.log("Esistente item.desc " + itemText.oi.description)
 
-                                            var items = calendarView.organizer.itemIds(new Date(calendarView.year, calendarView.month, calendarView.day)
-                                                                                       , new Date(calendarView.year, calendarView.month, calendarView.day+1));
-                                            var item = null;
-                                            if (items) {
-                                                var i;
-                                                console.log("ITEM length " + items.length);
-                                                for (i = 0; i < items.length; i++) {
-                                                    var itemo = calendarView.organizer.item(items[i]);
-                                                    console.log("time " + (Qt.formatTime( itemo.startDateTime, "h" ) + ":00") + " dum.text " + dum.text);
-                                                    if ( (Qt.formatTime( itemo.startDateTime, "h" ) + ":00") === dum.text) {
-                                                        console.log("ITEM START TIME" + itemo.startDateTime + " " + Qt.formatTime( itemo.startDateTime, "hh" ));
-                                                        item = calendarView.organizer.item(items[i]);
-                                                        break;
-                                                    }
-                                                }
 
-                                                if (item) {
-                                                    console.log("item.desc " + item.description)
-                                                    whatItem.description =  item.description;
-                                                    whatItem.location = item.location;
-                                                    whatItem.isNew = false;
-                                                    whatItem.item = item;
-                                                }
 
-                                            }
-
-                                            whatItem.current = Month.atHourObject(calendarView.currentDate, index);
-                                            */
-
-                                            console.log("item.desc " + itemText.oi.description)
                                             whatItem.description =  itemText.oi.description;
                                             whatItem.location = itemText.oi.location;
                                             whatItem.isNew = false;
@@ -166,6 +139,7 @@ Page
                                             whatItem.opacity = 1;
 
                                             mainStack.pageStack.push(whatItem);
+
 
                                         }
                                     }
