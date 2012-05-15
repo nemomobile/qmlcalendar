@@ -73,6 +73,7 @@ Rectangle  {
         endPeriod: Month.tomorrow(currentDate);
         autoUpdate:true
         Component.onCompleted : {
+            console.log("ITEM " + organizer.itemCount)
             //if (managerName == "memory")
                 /*organizer.importItems(Qt.resolvedUrl("qrc:/contents/test.ics"));*/
         }
