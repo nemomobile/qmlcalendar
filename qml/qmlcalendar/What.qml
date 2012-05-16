@@ -244,14 +244,16 @@ PageStack {
             }
             //console.log("current " + item.startDateTime);
 
-            organizer.update();
-            console.log("N ITAM " + organizer.itemCount);
+            console.log("mana ger " + organizer.manager);
+            //organizer.update();
+
 
 
 
 
 
             mainStack.pageStack.pop();
+             console.log("N ITAM " + organizer.itemCount);
         }
         //color: "#ffffff"
     }

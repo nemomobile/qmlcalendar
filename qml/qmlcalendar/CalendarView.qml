@@ -68,14 +68,23 @@ Rectangle  {
 
     property OrganizerModel organizer:OrganizerModel{
         id: organizer
-        manager:"qtorganizer:memory:id=qml"
+        manager:"mkcal"
         startPeriod: currentDate
         endPeriod: Month.tomorrow(currentDate);
         autoUpdate:true
         Component.onCompleted : {
             console.log("ITEM " + organizer.itemCount)
-            //if (managerName == "memory")
-                /*organizer.importItems(Qt.resolvedUrl("qrc:/contents/test.ics"));*/
+            if (managerName == "mkcal") {
+                console.log("LOAD");
+                //organizer.importItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
+            }
+        }
+        Component.onDestruction:  {
+            console.log("Destroy ITEM " + organizer.itemCount)
+            if (managerName == "mkcal") {
+                console.log("Save");
+                //organizer.exportItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
+            }
         }
     }
 
@@ -281,6 +290,7 @@ Rectangle  {
 
                                  mainStack.pageStack.push(dayView);
                                 toolBack.visible = true;
+                                 console.log("N ITAM " + organizer.itemCount);
                            }
 
                        }

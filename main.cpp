@@ -3,6 +3,7 @@
 #include "calendarmanager.h"
 #include <QDeclarativeContext>
 
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -15,6 +16,23 @@ int main(int argc, char *argv[])
 
     //QObject::connect(view.engine(), SIGNAL(quit()), &a, SLOT(quit()));
     CalendarManager calendarManager;
+
+    qDebug() << QOrganizerManager::availableManagers() << "\n";
+    qRegisterMetaType<QOrganizerAbstractRequest::State>("QOrganizerAbstractRequest::State");
+
+                qRegisterMetaType<QList<QOrganizerItemId> >("QList<QOrganizerItemId>");
+
+                qRegisterMetaType<QList<QOrganizerCollectionId> >("QList<QOrganizerCollectionId>");
+
+                //qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
+
+                //qRegisterMetaType<QList<QPair<QOrganizerItemId, QOrganizerManager::Operation> > >("QList<QPair<QOrganizerItemId,QOrganizerManager::Operation> >");
+
+//                qRegisterMetaType<QList<QPair<QOrganizerCollectionId, QOrganizerManager::Operation> > >("QList<QPair<QOrganizerCollectionId,QOrganizerManager::Operation> >");
+
+                qRegisterMetaType<QOrganizerItemId>("QOrganizerItemId");
+
+                qRegisterMetaType<QOrganizerCollectionId>("QOrganizerCollectionId");
          view.rootContext()->setContextProperty("calendarManager", &calendarManager);
         view.setSource(QUrl("qrc:/qml/qmlcalendar/main.qml"));
         view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
