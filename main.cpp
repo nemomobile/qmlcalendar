@@ -29,6 +29,8 @@ int main(int argc, char *argv[])
                 //qRegisterMetaType<QList<QPair<QOrganizerItemId, QOrganizerManager::Operation> > >("QList<QPair<QOrganizerItemId,QOrganizerManager::Operation> >");
 
 //                qRegisterMetaType<QList<QPair<QOrganizerCollectionId, QOrganizerManager::Operation> > >("QList<QPair<QOrganizerCollectionId,QOrganizerManager::Operation> >");
+                qRegisterMetaType<QOrganizerAbstractRequest::State>("QOrganizerAbstractRequest::State");
+
 
                 qRegisterMetaType<QOrganizerItemId>("QOrganizerItemId");
 
@@ -41,6 +43,7 @@ int main(int argc, char *argv[])
         view.setAttribute(Qt::WA_NoSystemBackground);
         view.viewport()->setAttribute(Qt::WA_OpaquePaintEvent);
         view.viewport()->setAttribute(Qt::WA_NoSystemBackground);
+
 
     return app.exec();
 }

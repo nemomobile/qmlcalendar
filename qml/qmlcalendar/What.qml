@@ -4,6 +4,7 @@ import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 import QtMobility.organizer 1.1
 import "logic.js" as Logic
+import "month.js" as Month
 
 PageStack {
     id: whatItem
@@ -202,6 +203,7 @@ PageStack {
         startDateTime: current;
         description: text_what.text;
         location: location;
+        endDateTime: Month.plus1Hour(current);
     }
 
 
@@ -234,6 +236,8 @@ PageStack {
 
             item.description = text_what.text;
             item.location = text_where.text;
+
+            //calendarManager.createEvent(item.startDateTime, item.startDateTime, "prova");
             console.log("current " + item.startDateTime + " desc " +  item.description);
             //current = new Date();
             if ( isNew )
@@ -244,16 +248,22 @@ PageStack {
             }
             //console.log("current " + item.startDateTime);
 
-            console.log("mana ger " + organizer.manager);
-            //organizer.update();
+
+            organizer.update();
 
 
 
 
 
+           console.log("In save N ITEM " + organizer.itemCount);
+           var items = organizer.items;
+           var i;
+           for (i = 0; i < organizer.itemCount;i++) {
+               console.log("item " + i + " start date" + items[i].itemStartTime);
+           }
 
             mainStack.pageStack.pop();
-             console.log("N ITAM " + organizer.itemCount);
+
         }
         //color: "#ffffff"
     }

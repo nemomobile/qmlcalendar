@@ -113,7 +113,17 @@ function atHourObject(dateObject, hour)
 function at59Object(dateObject)
 {
     var dateTime = new Date( Qt.formatDate( dateObject, "MM/dd/yyyy" ) );
-    dateTime.setMinutes( Qt.formatDateTime ( dateObject, "mm" ) + 59 );
+    console.log("in 59"+dateTime);
+    dateTime.setMinutes( Qt.formatDateTime ( dateTime, "mm" ) + 59 );
        //dateTime.setHours( Qt.formatDateTime ( dateObject, "hh:" ) + hour );
        return dateTime;
+}
+
+function plus1Hour(dateObject)
+{
+    var dateTime = new Date(dateObject);
+
+    dateTime.setMinutes( dateTime.getMinutes() + 60 );
+
+    return dateTime;
 }

@@ -5,13 +5,18 @@
 CalendarManager::CalendarManager(QObject *parent) :
     QObject(parent)
 {
-    _manager = QOrganizerManager::fromUri("qtorganizer:memory:id=qml");
+    _manager = QOrganizerManager::fromUri("qtorganizer:mkcal:");
 }
 
 void CalendarManager::createEvent(QDateTime startTime, QDateTime endTime, QString description)
 {
     QOrganizerEvent event;
-    event.setStartDateTime(startTime);
+
+    QDateTime s, e;
+
+    event.setStartDateTime(QDateTime::currentDateTime());
+
+    event.setEndDateTime(QDateTime::currentDateTime().addSecs(3600));
     event.setDescription(description);
     qDebug() << "date " << startTime.toString("dd-MM-yyyy") << " ev" << event.startDateTime().toString("dd-MM-yyyy") <<  " " << event.description() << endl;
     if (_manager->saveItem(&event) )
@@ -20,6 +25,10 @@ void CalendarManager::createEvent(QDateTime startTime, QDateTime endTime, QStrin
         qDebug() << "error " << _manager->error() << endl;
 
 
+    qDebug() << "NUM " << _manager->items().length() << endl;
+    for (int i = 0; i < _manager->items().length(); i++) {
+        qDebug() << "TEMPO " << ((QOrganizerEvent)_manager->items().at(i)).startDateTime() << endl;
+    }
 
 }
 

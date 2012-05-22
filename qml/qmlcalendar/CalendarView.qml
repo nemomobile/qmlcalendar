@@ -68,22 +68,27 @@ Rectangle  {
 
     property OrganizerModel organizer:OrganizerModel{
         id: organizer
-        manager:"mkcal"
-        startPeriod: currentDate
-        endPeriod: Month.tomorrow(currentDate);
+        //manager:"qtorganizer:mkcal:"
+        //startPeriod: currentDate
+        //endPeriod: Month.tomorrow(currentDate);
+        startPeriod:'2011-01-01'
+        endPeriod:'2012-12-31'
         autoUpdate:true
         Component.onCompleted : {
-            console.log("ITEM " + organizer.itemCount)
+            console.log("manager " + organizer.manager + " ITEM " + organizer.itemCount)
             if (managerName == "mkcal") {
-                console.log("LOAD");
+                //console.log("LOAD " + organizer.itemCount + " start " + organizer.startPeriod + " end " + organizer.endPeriod);
+
                 //organizer.importItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
+                //console.log("LOAD " + organizer.itemCount + " start " + organizer.startPeriod + " end " + organizer.endPeriod);
+                console.log("current " + currentDate + " +60 " + Month.plus1Hour(currentDate));
             }
         }
         Component.onDestruction:  {
             console.log("Destroy ITEM " + organizer.itemCount)
             if (managerName == "mkcal") {
                 console.log("Save");
-                //organizer.exportItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
+                organizer.exportItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
             }
         }
     }
@@ -288,9 +293,16 @@ Rectangle  {
 
                                  //calendarView.opacity = 0;
 
+                                 console.log("N ITEM " + organizer.itemCount);
+                                 var items = organizer.items;
+                                 var i;
+                                 for (i = 0; i < organizer.itemCount;i++) {
+                                     console.log("item " + i + " start date" + items[i].itemStartTime);
+                                 }
+
                                  mainStack.pageStack.push(dayView);
                                 toolBack.visible = true;
-                                 console.log("N ITAM " + organizer.itemCount);
+
                            }
 
                        }
