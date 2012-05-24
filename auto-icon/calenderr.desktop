@@ -1,2 +1,2 @@
 [Desktop Entry]
-Exec=nohup sh /opt/qmlcalendar/bin/calenderr.sh >/dev/null &
+Exec=nohup /opt/qmlcalendar/bin/calenderr.sh >/dev/null &
