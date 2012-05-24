@@ -25,13 +25,16 @@ SOURCES += main.cpp \
 HEADERS += \
     calendarmanager.h
 
-jsFiles.path = /opt/$${TARGET}/qml
+jsFiles.path = /opt/$${TARGET}/qml/qmlcalendar
 jsFiles.files = qml/qmlcalendar/*.js
 
-qmlFiles.path = /opt/$${TARGET}/qml
+qmlFiles.path = /opt/$${TARGET}/qml/qmlcalendar
 qmlFiles.files = qml/qmlcalendar/*.qml
 
-INSTALLS += jsFiles qmlFiles
+imageFiles.path = /opt/$${TARGET}/images
+imageFiles.files = images/*.png
+
+INSTALLS += jsFiles qmlFiles imageFiles
 
 target.path = /opt/$${TARGET}/bin
 INSTALLS += target

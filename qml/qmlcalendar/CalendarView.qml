@@ -102,7 +102,7 @@ Rectangle  {
         id: header
         Image {
             id: left
-            source: "qrc:/images/left_arrow.png"
+            source: "../../images/left_arrow.png"
             anchors.left: parent.left
 
             MouseArea {
@@ -133,7 +133,7 @@ Rectangle  {
         }
         Image {
             id: right
-            source: "qrc:/images/right_arrow.png"
+            source: "../../images/right_arrow.png"
             anchors.right: parent.right
 
             MouseArea {
