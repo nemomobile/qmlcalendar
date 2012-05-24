@@ -44,6 +44,6 @@ desktop.files = qmlcalendar.desktop
 INSTALLS += desktop
 
 icon.files = qmlcalendar.png
-icon.path = /usr/share/icons/hicolor/64x64/apps
+icon.path = /usr/share/icons/hicolor/80x80/apps
 INSTALLS += icon
 
