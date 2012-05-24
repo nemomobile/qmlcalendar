@@ -36,7 +36,8 @@ int main(int argc, char *argv[])
 
                 qRegisterMetaType<QOrganizerCollectionId>("QOrganizerCollectionId");
          view.rootContext()->setContextProperty("calendarManager", &calendarManager);
-        view.setSource(QUrl("qrc:/qml/qmlcalendar/main.qml"));
+//        view.setSource(QUrl("qrc:/qml/qmlcalendar/main.qml"));
+        view.setSource(QUrl("/opt/qmlcalendar/qml/main.qml"));
         view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
         view.showFullScreen();
         view.setAttribute(Qt::WA_OpaquePaintEvent);

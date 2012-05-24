@@ -15,9 +15,8 @@ OTHER_FILES += \
     qml/qmlcalendar/What.qml \
     qml/qmlcalendar/logic.js
 
-RESOURCES += \
-    qmlcalendar.qrc
-
+#RESOURCES += \
+#    qmlcalendar.qrc
 
 SOURCES += main.cpp \
     calendarmanager.cpp
@@ -26,7 +25,15 @@ SOURCES += main.cpp \
 HEADERS += \
     calendarmanager.h
 
-target.path = /usr/bin
+jsFiles.path = /opt/$${TARGET}/qml
+jsFiles.files = qml/qmlcalendar/*.js
+
+qmlFiles.path = /opt/$${TARGET}/qml
+qmlFiles.files = qml/qmlcalendar/*.qml
+
+INSTALLS += jsFiles qmlFiles
+
+target.path = /opt/$${TARGET}/bin
 INSTALLS += target
 
 desktop.path = /usr/share/applications
@@ -34,6 +41,6 @@ desktop.files = qmlcalendar.desktop
 INSTALLS += desktop
 
 icon.files = qmlcalendar.png
-icon.path = /usr/share/icons/hicolor/80x80/apps
+icon.path = /usr/share/icons/hicolor/64x64/apps
 INSTALLS += icon
 
