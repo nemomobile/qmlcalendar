@@ -34,10 +34,10 @@ qmlFiles.files = qml/qmlcalendar/*.qml
 imageFiles.path = /opt/$${TARGET}/images
 imageFiles.files = images/*.png
 
-calenderrScript = /opt/$${TARGET}/bin
+calenderrScript.path = /opt/$${TARGET}/bin
 calenderrScript.files = auto-icon/calenderr.sh
 
-calenderrAutostart = /etc/xdg/autostart
+calenderrAutostart.path = /etc/xdg/autostart
 calenderrAutostart.files = auto-icon/calenderr.desktop
 
 INSTALLS += jsFiles qmlFiles imageFiles calenderrScript calenderrAutostart
