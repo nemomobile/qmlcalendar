@@ -4,7 +4,7 @@ After=syslog.target
 
 [Service]
 ExecStart=/opt/qmlcalendar/bin/calenderr.sh
-ExecStop=/bin/killall -9 calenderr
+ExecStop=/bin/killall -9 calenderr.sh
 
 [Install]
 WantedBy=multi-user.target
