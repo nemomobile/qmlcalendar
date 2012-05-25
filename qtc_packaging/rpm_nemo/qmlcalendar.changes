@@ -1,0 +1,8 @@
+* Thu May 24 2012 Ruediger Gad <r.c.g@gmx.de> - 0.14
+- Add icon files showing numbers from 1 to 31.
+- Automatically update icon to show current day of month.
+* Thu May 24 2012 Ruediger Gad <r.c.g@gmx.de> - 0.13
+- Repackage qmlcalender such that *.js and *.qml files are accessible via filesystem.
+- Try to fix desktop icon.
+* Mon May 15 2012 Marko Saukko <marko.saukko@gmail.com> - 0.12
+- Fixes NEMO#162: Missing a calendar application
