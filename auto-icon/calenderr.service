@@ -1,0 +1,14 @@
+[Unit]
+Description=Automatically update the calendar icon to show current day
+After=syslog.target 
+
+[Service]
+ExecStart=nohup /opt/qmlcalendar/bin/calenderr.sh >/dev/null &
+ExecReload=/bin/kill -9 $MAINPID
+KillMode=process
+Restart=always
+StandardOutput=syslog
+
+[Install]
+WantedBy=multi-user.target
+

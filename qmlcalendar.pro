@@ -37,8 +37,8 @@ imageFiles.files = images/*.png
 calenderrScript.path = /opt/$${TARGET}/bin
 calenderrScript.files = auto-icon/calenderr.sh
 
-calenderrAutostart.path = /etc/xdg/autostart
-calenderrAutostart.files = auto-icon/calenderr.desktop
+calenderrAutostart.path = /lib/systemd/system
+calenderrAutostart.files = auto-icon/calenderr.service
 
 INSTALLS += jsFiles qmlFiles imageFiles calenderrScript calenderrAutostart
 
