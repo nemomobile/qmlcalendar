@@ -88,12 +88,11 @@ Item  {
         previousMonthDaysGrid.firstDayOfMonth = new Date(((month - 1) < 0) ? year - 1 : year,((month - 1) < 0) ? 11 : month - 1, 1);
         currentMonthDaysGrid.firstDayOfMonth = new Date(year, month, 1);
         nextMonthDaysGrid.firstDayOfMonth = new Date(((month + 1) > 11) ? year + 1 : year,((month + 1) > 11) ? 0 : month + 1, 1);
-        headerTitle.text = getHeaderText()
+//        headerTitleText.text = getHeaderText()
     }
 
 
-    OrganizerModel{
-        id: organizer
+    property OrganizerModel organizer: OrganizerModel{
         //manager:"qtorganizer:mkcal:"
         //startPeriod: currentDate
         //endPeriod: Month.tomorrow(currentDate);
@@ -126,13 +125,14 @@ Item  {
     }
 
 
-    Column {
+    Item {
         id: mainColumn
         anchors.fill: parent
 
-        Row {
+        Item {
             id: headerRow
-            anchors{top: parent.top; left: parent.left; right: parent.right}
+
+            anchors{left: parent.left; right: parent.right}
             height: parent.height * 0.125
 
             Item{
@@ -155,6 +155,33 @@ Item  {
                 }
             }
 
+            Item {
+                id: headerTitle
+
+                anchors{left: previous.right; right: next.left; top: parent.top; bottom: parent.bottom}
+
+                Text {
+                    id: headerTitleText
+                    anchors.fill: parent
+
+                    text: getHeaderText()
+                    font.pointSize: parent.height * 0.5
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                MouseArea {
+                    id: mouseAreaTitle
+
+                    anchors.fill: parent
+
+                    onClicked: {
+                        tDialog.open();
+                        //console.log("TITLE " + currentMonth);
+                    }
+                }
+            }
+
             Item{
                 id: next
 
@@ -173,32 +200,6 @@ Item  {
                     anchors.fill: parent
 
                     onClicked: goToNextMonth()
-                }
-            }
-
-            Item {
-                id: headerTitle
-
-                anchors{left: previous.right; right: next.left; top: parent.top; bottom: parent.bottom}
-
-                Text {
-                    anchors.fill: parent
-
-                    text: getHeaderText()
-                    font.pointSize: parent.height * 0.5
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-
-                MouseArea {
-                    id: mouseAreaTitle
-
-                    anchors.fill: parent
-
-                    onClicked: {
-                        tDialog.open();
-                        //console.log("TITLE " + currentMonth);
-                    }
                 }
             }
         }
@@ -307,21 +308,21 @@ Item  {
                     MonthDaysGrid{
                         id: previousMonthDaysGrid
 
-                        anchors{top: parent.top; bottom: parent.bottom; left: parent.left}
+                        anchors{top: parent.top; bottom: parent.bottom}
                         width: monthDaysGridFlickable.width
                     }
 
                     MonthDaysGrid{
                         id: currentMonthDaysGrid
 
-                        anchors{top: parent.top; bottom: parent.bottom; left: previousMonthDaysGrid.right}
+                        anchors{top: parent.top; bottom: parent.bottom}
                         width: monthDaysGridFlickable.width
                     }
 
                     MonthDaysGrid{
                         id: nextMonthDaysGrid
 
-                        anchors{top: parent.top; bottom: parent.bottom; left: currentMonthDaysGrid.right}
+                        anchors{top: parent.top; bottom: parent.bottom}
                         width: monthDaysGridFlickable.width
                     }
                 }
