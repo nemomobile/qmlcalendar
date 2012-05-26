@@ -233,97 +233,97 @@ Item  {
 
             onWidthChanged: monthDaysGridFlickable.contentX = width + 1
 
-        Flickable{
-            id: monthDaysGridFlickable
-            anchors.fill: parent
+            Flickable{
+                id: monthDaysGridFlickable
+                anchors.fill: parent
 
-            contentHeight: monthDaysGridFlickableContent.height
-            contentWidth: monthDaysGridFlickableContent.width
+                contentHeight: monthDaysGridFlickableContent.height
+                contentWidth: monthDaysGridFlickableContent.width
 
-            contentX: monthDaysGridItem.width + 1
-            boundsBehavior: Flickable.StopAtBounds
+                contentX: monthDaysGridItem.width + 1
+                boundsBehavior: Flickable.StopAtBounds
 
-            property bool animationIsRunning: false
+                property bool animationIsRunning: false
 
-            Behavior on contentX {
-                id: contentXAnimation
+                Behavior on contentX {
+                    id: contentXAnimation
 
-                SequentialAnimation {
-                    PropertyAnimation { duration: 140 }
-                    ScriptAction { script: monthDaysGridFlickable.animationIsRunning = false }
+                    SequentialAnimation {
+                        PropertyAnimation { duration: 140 }
+                        ScriptAction { script: monthDaysGridFlickable.animationIsRunning = false }
+                    }
                 }
-            }
 
-            onFlickStarted: {
-                animationIsRunning = true
+                onFlickStarted: {
+                    animationIsRunning = true
 
-                if(horizontalVelocity > 0){
-                    contentX = monthDaysGridItem.width * 2 + 1
-                }else{
-                    contentX = 0
+                    if(horizontalVelocity > 0){
+                        contentX = monthDaysGridItem.width * 2 + 1
+                    }else{
+                        contentX = 0
+                    }
                 }
-            }
 
-            onAnimationIsRunningChanged: {
-                if(animationIsRunning)
-                    return
+                onAnimationIsRunningChanged: {
+                    if(animationIsRunning)
+                        return
 
-                if(contentX < 0.75 * monthDaysGridItem.width){
-                    goToPreviousMonth()
-                    resetFlickable()
-                }else if(contentX > 1.25 * monthDaysGridItem.width){
-                    goToNextMonth()
-                    resetFlickable()
-                }else{
-                    resetFlickable()
+                    if(contentX < 0.75 * monthDaysGridItem.width){
+                        goToPreviousMonth()
+                        resetFlickable()
+                    }else if(contentX > 1.25 * monthDaysGridItem.width){
+                        goToNextMonth()
+                        resetFlickable()
+                    }else{
+                        resetFlickable()
+                    }
                 }
-            }
 
-            onMovementEnded: {
+                onMovementEnded: {
 
-                animationIsRunning = true
-                if(contentX < 0.75 * monthDaysGridItem.width){
-                    contentX = 0
-                }else if(contentX > 1.25 * monthDaysGridItem.width){
-                    contentX = monthDaysGridItem.width * 2 + 1
-                }else{
+                    animationIsRunning = true
+                    if(contentX < 0.75 * monthDaysGridItem.width){
+                        contentX = 0
+                    }else if(contentX > 1.25 * monthDaysGridItem.width){
+                        contentX = monthDaysGridItem.width * 2 + 1
+                    }else{
+                        contentX = monthDaysGridItem.width + 1
+                    }
+                }
+
+                function resetFlickable(){
+                    contentXAnimation.enabled = false
                     contentX = monthDaysGridItem.width + 1
+                    contentXAnimation.enabled = true
+                }
+
+                Row{
+                    id: monthDaysGridFlickableContent
+                    height: monthDaysGridItem.height
+                    width: monthDaysGridItem.width * 3
+
+                    MonthDaysGrid{
+                        id: previousMonthDaysGrid
+
+                        anchors{top: parent.top; bottom: parent.bottom; left: parent.left}
+                        width: monthDaysGridFlickable.width
+                    }
+
+                    MonthDaysGrid{
+                        id: currentMonthDaysGrid
+
+                        anchors{top: parent.top; bottom: parent.bottom; left: previousMonthDaysGrid.right}
+                        width: monthDaysGridFlickable.width
+                    }
+
+                    MonthDaysGrid{
+                        id: nextMonthDaysGrid
+
+                        anchors{top: parent.top; bottom: parent.bottom; left: currentMonthDaysGrid.right}
+                        width: monthDaysGridFlickable.width
+                    }
                 }
             }
-
-            function resetFlickable(){
-                contentXAnimation.enabled = false
-                contentX = monthDaysGridItem.width + 1
-                contentXAnimation.enabled = true
-            }
-
-            Row{
-                id: monthDaysGridFlickableContent
-                height: monthDaysGridItem.height
-                width: monthDaysGridItem.width * 3
-
-                MonthDaysGrid{
-                    id: previousMonthDaysGrid
-
-                    anchors{top: parent.top; bottom: parent.bottom; left: parent.left}
-                    width: monthDaysGridFlickable.width
-                }
-
-                MonthDaysGrid{
-                    id: currentMonthDaysGrid
-
-                    anchors{top: parent.top; bottom: parent.bottom; left: previousMonthDaysGrid.right}
-                    width: monthDaysGridFlickable.width
-                }
-
-                MonthDaysGrid{
-                    id: nextMonthDaysGrid
-
-                    anchors{top: parent.top; bottom: parent.bottom; left: currentMonthDaysGrid.right}
-                    width: monthDaysGridFlickable.width
-                }
-            }
-        }
         }
     }
 }
