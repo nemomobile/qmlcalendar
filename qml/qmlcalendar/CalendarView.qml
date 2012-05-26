@@ -243,16 +243,58 @@ Item  {
             contentX: monthDaysGridItem.width + 1
             boundsBehavior: Flickable.StopAtBounds
 
-            onMovementEnded: {
+            property bool animationIsRunning: false
+
+            Behavior on contentX {
+                id: contentXAnimation
+
+                SequentialAnimation {
+                    PropertyAnimation { duration: 140 }
+                    ScriptAction { script: monthDaysGridFlickable.animationIsRunning = false }
+                }
+            }
+
+            onFlickStarted: {
+                animationIsRunning = true
+
+                if(horizontalVelocity > 0){
+                    contentX = monthDaysGridItem.width * 2 + 1
+                }else{
+                    contentX = 0
+                }
+            }
+
+            onAnimationIsRunningChanged: {
+                if(animationIsRunning)
+                    return
+
                 if(contentX < 0.75 * monthDaysGridItem.width){
                     goToPreviousMonth()
-                    contentX = monthDaysGridItem.width + 1
+                    resetFlickable()
                 }else if(contentX > 1.25 * monthDaysGridItem.width){
                     goToNextMonth()
-                    contentX = monthDaysGridItem.width + 1
+                    resetFlickable()
+                }else{
+                    resetFlickable()
+                }
+            }
+
+            onMovementEnded: {
+
+                animationIsRunning = true
+                if(contentX < 0.75 * monthDaysGridItem.width){
+                    contentX = 0
+                }else if(contentX > 1.25 * monthDaysGridItem.width){
+                    contentX = monthDaysGridItem.width * 2 + 1
                 }else{
                     contentX = monthDaysGridItem.width + 1
                 }
+            }
+
+            function resetFlickable(){
+                contentXAnimation.enabled = false
+                contentX = monthDaysGridItem.width + 1
+                contentXAnimation.enabled = true
             }
 
             Row{
