@@ -231,6 +231,7 @@ Item  {
             id: monthDaysGridItem
             anchors{top: headingsLabelRow.bottom; topMargin: 2; bottom: parent.bottom; left: parent.left; right: parent.right}
 
+            onWidthChanged: monthDaysGridFlickable.contentX = width + 1
 
         Flickable{
             id: monthDaysGridFlickable
@@ -240,6 +241,19 @@ Item  {
             contentWidth: monthDaysGridFlickableContent.width
 
             contentX: monthDaysGridItem.width + 1
+            boundsBehavior: Flickable.StopAtBounds
+
+            onMovementEnded: {
+                if(contentX < 0.75 * monthDaysGridItem.width){
+                    goToPreviousMonth()
+                    contentX = monthDaysGridItem.width + 1
+                }else if(contentX > 1.25 * monthDaysGridItem.width){
+                    goToNextMonth()
+                    contentX = monthDaysGridItem.width + 1
+                }else{
+                    contentX = monthDaysGridItem.width + 1
+                }
+            }
 
             Row{
                 id: monthDaysGridFlickableContent
