@@ -85,7 +85,9 @@ Item  {
 
 
     onMonthChanged: {
+        previousMonthDaysGrid.firstDayOfMonth = new Date(((month - 1) < 0) ? year - 1 : year,((month - 1) < 0) ? 11 : month - 1, 1);
         currentMonthDaysGrid.firstDayOfMonth = new Date(year, month, 1);
+        nextMonthDaysGrid.firstDayOfMonth = new Date(((month + 1) > 11) ? year + 1 : year,((month + 1) > 11) ? 0 : month + 1, 1);
         headerTitle.text = getHeaderText()
     }
 
@@ -125,6 +127,7 @@ Item  {
 
 
     Column {
+        id: mainColumn
         anchors.fill: parent
 
         Row {
@@ -224,10 +227,47 @@ Item  {
             }
         }
 
-        MonthDaysGrid{
-            id: currentMonthDaysGrid
-
+        Item{
+            id: monthDaysGridItem
             anchors{top: headingsLabelRow.bottom; topMargin: 2; bottom: parent.bottom; left: parent.left; right: parent.right}
+
+
+        Flickable{
+            id: monthDaysGridFlickable
+            anchors.fill: parent
+
+            contentHeight: monthDaysGridFlickableContent.height
+            contentWidth: monthDaysGridFlickableContent.width
+
+            contentX: monthDaysGridItem.width + 1
+
+            Row{
+                id: monthDaysGridFlickableContent
+                height: monthDaysGridItem.height
+                width: monthDaysGridItem.width * 3
+
+                MonthDaysGrid{
+                    id: previousMonthDaysGrid
+
+                    anchors{top: parent.top; bottom: parent.bottom; left: parent.left}
+                    width: monthDaysGridFlickable.width
+                }
+
+                MonthDaysGrid{
+                    id: currentMonthDaysGrid
+
+                    anchors{top: parent.top; bottom: parent.bottom; left: previousMonthDaysGrid.right}
+                    width: monthDaysGridFlickable.width
+                }
+
+                MonthDaysGrid{
+                    id: nextMonthDaysGrid
+
+                    anchors{top: parent.top; bottom: parent.bottom; left: currentMonthDaysGrid.right}
+                    width: monthDaysGridFlickable.width
+                }
+            }
+        }
         }
     }
 }
