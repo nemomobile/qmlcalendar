@@ -47,24 +47,21 @@ Item  {
     height: (parent.height > parent.width) ? parent.width : parent.height
     width: height
 
-    property int month: Month.today().getMonth()
-    property int year: Month.today().getFullYear()
-    property date firstDayOfMonth:new Date(year, month, 1)
-    property int weekDayOfFirst:firstDayOfMonth.getDay()
     property Rectangle prevCircle
     property Text prevText
     property color background: "#e7e7e7"
     property color orange: "#ef5500"
+
+
+    property int month: Month.today().getMonth()
+    property int year: Month.today().getFullYear()
+    property date firstDayOfMonth:new Date(year, month, 1)
+    property int weekDayOfFirst:firstDayOfMonth.getDay()
     property string currentMonth: Month.getMonthName(Month.today()) + " " + year
-
     property date currentDate:new Date();
-
-    property int day:currentDate.getDate()
-
-    z:0
+    property int day: currentDate.getDate()
 
 
-//    property OrganizerModel organizer:OrganizerModel{
     OrganizerModel{
         id: organizer
         //manager:"qtorganizer:mkcal:"
@@ -96,6 +93,11 @@ Item  {
          id: tDialog
          titleText: "Date of birth"
          onAccepted: callbackFunction()
+    }
+
+
+    function getHeaderText(){
+        return Month.getMonthName(firstDayOfMonth) + " " + year
     }
 
 
@@ -135,7 +137,7 @@ Item  {
                         weekDayOfFirst = firstDayOfMonth.getDay();
                         month = firstDayOfMonth.getMonth();
                         year = firstDayOfMonth.getFullYear();
-                        currentMonth = Month.getMonthName(firstDayOfMonth) + " " + year;
+                        headerTitle.text = getHeaderText()
                     }
                 }
             }
@@ -175,14 +177,14 @@ Item  {
             }
 
             Item {
-                id: monthTitle
+                id: headerTitle
 
                 anchors{left: previous.right; right: next.left; top: parent.top; bottom: parent.bottom}
 
                 Text {
                     anchors.fill: parent
 
-                    text: currentMonth
+                    text: getHeaderText()
                     font.pointSize: parent.height * 0.5
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -259,13 +261,10 @@ Item  {
                                 return true;
                             }
                             return false;
-
                         }
-
                     }
 
                     Text {
-
                         id: journey;
                         text: Month.getDayOfMonth(firstDayOfMonth,   index - weekDayOfFirst )
 
@@ -276,8 +275,6 @@ Item  {
                             else
                                 return Month.getColorOfDay(firstDayOfMonth,   index - weekDayOfFirst );
                         }
-
-
                     }
 
                     MouseArea {
