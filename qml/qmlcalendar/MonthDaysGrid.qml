@@ -121,7 +121,7 @@ Grid {
 
 //                            var dum = year + "/" + (month + 1) + "/" + journey.text;
 //                            currentDate= new Date(dum);
-                    console.log("Day " + journey.text + " dum " + dum);
+//                    console.log("Day " + journey.text + " dum " + dum);
 
                     dayView.opacity = 1;
                     dayView.z = 1;
