@@ -62,6 +62,11 @@ Item  {
     property int day: currentDate.getDate()
 
 
+    function getHeaderText(){
+        return Month.getMonthName(firstDayOfMonth) + " " + year
+    }
+
+
     OrganizerModel{
         id: organizer
         //manager:"qtorganizer:mkcal:"
@@ -93,11 +98,6 @@ Item  {
          id: tDialog
          titleText: "Date of birth"
          onAccepted: callbackFunction()
-    }
-
-
-    function getHeaderText(){
-        return Month.getMonthName(firstDayOfMonth) + " " + year
     }
 
 
