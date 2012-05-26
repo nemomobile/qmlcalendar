@@ -67,6 +67,13 @@ Item  {
     }
 
 
+    onMonthChanged: {
+        firstDayOfMonth = new Date(year, month, 1);
+        weekDayOfFirst = firstDayOfMonth.getDay();
+        headerTitle.text = getHeaderText()
+    }
+
+
     OrganizerModel{
         id: organizer
         //manager:"qtorganizer:mkcal:"
@@ -132,12 +139,6 @@ Item  {
                             year--;
                             month = 11;
                         }
-
-                        firstDayOfMonth = new Date(year, month, 1);
-                        weekDayOfFirst = firstDayOfMonth.getDay();
-                        month = firstDayOfMonth.getMonth();
-                        year = firstDayOfMonth.getFullYear();
-                        headerTitle.text = getHeaderText()
                     }
                 }
             }
@@ -166,12 +167,6 @@ Item  {
                             year++;
                             month = 0;
                         }
-
-                        firstDayOfMonth = new Date(year, month, 1);
-                        weekDayOfFirst = firstDayOfMonth.getDay();
-                        month = firstDayOfMonth.getMonth();
-                        year = firstDayOfMonth.getFullYear();
-                        currentMonth = Month.getMonthName(firstDayOfMonth) + " " + year;
                     }
                 }
             }
