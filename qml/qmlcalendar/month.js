@@ -35,6 +35,10 @@
 **
 ****************************************************************************/
 
+.pragma library
+
+var MONTH_NAMES = ['January','February','March','April','May','June','July',
+'August','September','October','November','December'];
 
 Date.prototype.clone = function() { return new Date(this.getTime()); }
 
@@ -73,11 +77,13 @@ function isToday(date, offset)
     return newDay.toDateString() == today.toDateString();
 }
 
-function getMonthName(date)
+function getMonthName(month)
 {
-    var m = ['January','February','March','April','May','June','July',
-    'August','September','October','November','December'];
-    return m[date.getMonth()];
+    if(month instanceof Date){
+        return MONTH_NAMES[month.getMonth()];
+    }else{
+        return MONTH_NAMES[month];
+    }
 }
 
 function today()

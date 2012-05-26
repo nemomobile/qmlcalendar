@@ -63,7 +63,7 @@ Item  {
 
 
     function getHeaderText(){
-        return Month.getMonthName(firstDayOfMonth) + " " + year
+        return Month.getMonthName(month) + " " + year
     }
 
     function goToNextMonth() {
