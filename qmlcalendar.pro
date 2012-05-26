@@ -13,7 +13,8 @@ OTHER_FILES += \
     qml/qmlcalendar/main.qml \
     qml/qmlcalendar/MainPage.qml \
     qml/qmlcalendar/What.qml \
-    qml/qmlcalendar/logic.js
+    qml/qmlcalendar/logic.js \
+    qml/qmlcalendar/MonthDaysGrid.qml
 
 #RESOURCES += \
 #    qmlcalendar.qrc

@@ -55,8 +55,7 @@ Item  {
 
     property int month: Month.today().getMonth()
     property int year: Month.today().getFullYear()
-    property date firstDayOfMonth:new Date(year, month, 1)
-    property int weekDayOfFirst:firstDayOfMonth.getDay()
+
 
 //    property date currentDate:new Date();
 //    property int day: currentDate.getDate()
@@ -86,8 +85,7 @@ Item  {
 
 
     onMonthChanged: {
-        firstDayOfMonth = new Date(year, month, 1);
-        weekDayOfFirst = firstDayOfMonth.getDay();
+        currentMonthDaysGrid.firstDayOfMonth = new Date(year, month, 1);
         headerTitle.text = getHeaderText()
     }
 
@@ -226,100 +224,8 @@ Item  {
             }
         }
 
-        Grid {
-            id:container
-
-            anchors{top: headingsLabelRow.bottom; topMargin: 2; bottom: parent.bottom; left: parent.left; right: parent.right}
-
-            columns: 7
-
-            Repeater {
-                model: 42
-
-                Rectangle {
-                    id: dayContainer
-                    width: container.width / 7
-                    height: (container.height - 35) / 7
-
-                    Rectangle {
-                        id: circle
-
-                        //                           gradient:  Gradient {
-                        //                                  GradientStop { id: stop1; position: 0.0; color: background }
-                        //                                  GradientStop { id: stop2; position: 1.0; color: background }
-
-                        //                              }
-
-                        radius: 8
-                        color: orange
-                        width: parent.width * 0.8
-                        height: parent.height * 0.8
-                        anchors.centerIn: parent
-                        visible: {
-                            if (Month.isToday(Month.today(),   index - weekDayOfFirst)) {
-                                prevCircle = circle;
-                                return true;
-                            }
-                            return false;
-                        }
-                    }
-
-                    Text {
-                        id: journey;
-
-                        text: Month.getDayOfMonth(firstDayOfMonth,   index - weekDayOfFirst )
-
-                        font.pointSize: parent.height * 0.5
-                        anchors.centerIn: parent
-                        color: {
-                            if (circle.visible) return "white";
-                            else
-                                return Month.getColorOfDay(firstDayOfMonth,   index - weekDayOfFirst );
-                        }
-                    }
-
-                    MouseArea {
-                        id: mouseAreaDay
-                        hoverEnabled:true
-                        anchors.fill: parent
-
-                        onClicked: {
-                            if (prevText)
-                                prevText.color = "black";
-                            prevText = journey;
-
-
-                            prevCircle.visible = false;
-                            circle.visible = true;
-
-                            prevText = journey;
-                            prevCircle = circle;
-
-
-//                            var dum = year + "/" + (month + 1) + "/" + journey.text;
-//                            currentDate= new Date(dum);
-                            console.log("Day " + journey.text + " dum " + dum);
-
-                            dayView.opacity = 1;
-                            dayView.z = 1;
-
-                            //calendarView.opacity = 0;
-
-                            console.log("N ITEM " + organizer.itemCount);
-                            var items = organizer.items;
-                            var i;
-                            for (i = 0; i < organizer.itemCount;i++) {
-                                console.log("item " + i + " start date" + items[i].itemStartTime);
-                            }
-                        }
-
-                        onDoubleClicked: {
-                            mainStack.pageStack.push(dayView);
-                            toolBack.visible = true;
-                        }
-                    }
-                }
-            }
+        MonthDaysGrid{
+            id: currentMonthDaysGrid
         }
     }
 }
