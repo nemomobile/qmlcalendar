@@ -237,18 +237,19 @@ Item  {
                 model: 42
 
                 Rectangle {
-
-                    id:dayContainer
+                    id: dayContainer
                     width: container.width / 7
                     height: (container.height - 35) / 7
 
                     Rectangle {
+                        id: circle
+
                         //                           gradient:  Gradient {
                         //                                  GradientStop { id: stop1; position: 0.0; color: background }
                         //                                  GradientStop { id: stop2; position: 1.0; color: background }
 
                         //                              }
-                        id: circle
+
                         radius: 8
                         color: orange
                         width: parent.width * 0.8
@@ -265,6 +266,7 @@ Item  {
 
                     Text {
                         id: journey;
+
                         text: Month.getDayOfMonth(firstDayOfMonth,   index - weekDayOfFirst )
 
                         font.pointSize: parent.height * 0.5
@@ -277,7 +279,7 @@ Item  {
                     }
 
                     MouseArea {
-                        id: mouseArea
+                        id: mouseAreaDay
                         hoverEnabled:true
                         anchors.fill: parent
 
