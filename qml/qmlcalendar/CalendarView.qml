@@ -237,6 +237,8 @@ Item  {
                 id: monthDaysGridFlickable
                 anchors.fill: parent
 
+                clip: true
+
                 contentHeight: monthDaysGridFlickableContent.height
                 contentWidth: monthDaysGridFlickableContent.width
 
