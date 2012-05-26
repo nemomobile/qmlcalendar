@@ -41,12 +41,12 @@ import com.nokia.extras 1.0
 import QtMobility.organizer 1.1
 import com.nokia.meego 1.0
 
-Rectangle  {
-
-
-    height: 400
-    width: 454
+Item  {
     id:calendarView
+
+    height: (parent.height > parent.width) ? parent.width : parent.height
+    width: height
+
     property int month: Month.today().getMonth()
     property int year: Month.today().getFullYear()
     property date firstDayOfMonth:new Date(year, month, 1)
@@ -56,7 +56,6 @@ Rectangle  {
     property color background: "#e7e7e7"
     property color orange: "#ef5500"
     property string currentMonth: Month.getMonthName(Month.today()) + " " + year
-    color:  background
 
     property date currentDate:new Date();
 
@@ -65,8 +64,8 @@ Rectangle  {
     z:0
 
 
-
-    property OrganizerModel organizer:OrganizerModel{
+//    property OrganizerModel organizer:OrganizerModel{
+    OrganizerModel{
         id: organizer
         //manager:"qtorganizer:mkcal:"
         //startPeriod: currentDate
@@ -93,222 +92,236 @@ Rectangle  {
         }
     }
 
-
-    Rectangle {
-        width: parent.width
-        color: background
-        height: 60
-        anchors.top: parent.top
-        id: header
-        Image {
-            id: left
-            source: "../../images/left_arrow.png"
-            anchors.left: parent.left
-
-            MouseArea {
-                id: mouseAreaL
-
-                anchors.fill: parent
-
-                onClicked: {
-                    if (month > 0)
-                        month--
-                    else {
-                        year--;
-                        month = 11;
-                    }
-
-                    firstDayOfMonth = new Date(year, month, 1);
-                    weekDayOfFirst = firstDayOfMonth.getDay();
-                    month = firstDayOfMonth.getMonth();
-                    year = firstDayOfMonth.getFullYear();
-                    currentMonth = Month.getMonthName(firstDayOfMonth) + " " + year;
-
-
-                }
-
-            }
-
-
-        }
-        Image {
-            id: right
-            source: "../../images/right_arrow.png"
-            anchors.right: parent.right
-
-            MouseArea {
-                id: mouseAreaR
-
-                anchors.fill: parent
-
-                onClicked: {
-                    if (month < 11)
-                        month++
-                    else {
-                        year++;
-                        month = 0;
-                    }
-
-                    firstDayOfMonth = new Date(year, month, 1);
-                    weekDayOfFirst = firstDayOfMonth.getDay();
-                    month = firstDayOfMonth.getMonth();
-                    year = firstDayOfMonth.getFullYear();
-                    currentMonth = Month.getMonthName(firstDayOfMonth) + " " + year;
-
-                }
-
-            }
-
-        }
-
-        DatePickerDialog {
-             id: tDialog
-             titleText: "Date of birth"
-             onAccepted: callbackFunction()
-         }
-
-        Text {
-            id: monthTitle
-            text: currentMonth
-            anchors.horizontalCenter: parent.horizontalCenter
-            font.pointSize: 14
-
-            MouseArea {
-                id: mouseAreaTitle
-
-                anchors.fill: parent
-
-                onClicked: {
-                    tDialog.open();
-                    //console.log("TITLE " + currentMonth);
-
-
-                }
-
-            }
-
-        }
+    DatePickerDialog {
+         id: tDialog
+         titleText: "Date of birth"
+         onAccepted: callbackFunction()
     }
 
-    Grid {
 
-        id:container
-
+    Column {
         anchors.fill: parent
-        anchors.topMargin: 60
 
-        columns: 7
-        Repeater {
-            model:["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-            Rectangle { width: container.width / 7
-                        height: 35
-                        color: background
+        Row {
+            id: headerRow
+            anchors{top: parent.top; left: parent.left; right: parent.right}
+            height: parent.height * 0.125
 
-                        Text {
-                            text: modelData
+            Item{
+                id: previous
 
-                            verticalAlignment: Text.AlignVCenter
+                anchors{left: parent.left; top: parent.top; bottom: parent.bottom}
+                width: height
 
-                            anchors.centerIn: parent
-                            color: (index > 4)?orange:"#737573"
+                Image {
+                    anchors.centerIn: parent
+                    source: "../../images/left_arrow.png"
+                }
+
+                MouseArea {
+                    id: mouseAreaPrevious
+
+                    anchors.fill: parent
+
+                    onClicked: {
+                        if (month > 0)
+                            month--
+                        else {
+                            year--;
+                            month = 11;
                         }
 
+                        firstDayOfMonth = new Date(year, month, 1);
+                        weekDayOfFirst = firstDayOfMonth.getDay();
+                        month = firstDayOfMonth.getMonth();
+                        year = firstDayOfMonth.getFullYear();
+                        currentMonth = Month.getMonthName(firstDayOfMonth) + " " + year;
+                    }
+                }
+            }
+
+            Item{
+                id: next
+
+                anchors{right: parent.right; top: parent.top; bottom: parent.bottom}
+                width: height
+
+                Image {
+                    anchors.centerIn: parent
+                    opacity: 1
+                    source: "../../images/right_arrow.png"
+                }
+
+                MouseArea {
+                    id: mouseAreaNext
+
+                    anchors.fill: parent
+
+                    onClicked: {
+                        if (month < 11)
+                            month++
+                        else {
+                            year++;
+                            month = 0;
+                        }
+
+                        firstDayOfMonth = new Date(year, month, 1);
+                        weekDayOfFirst = firstDayOfMonth.getDay();
+                        month = firstDayOfMonth.getMonth();
+                        year = firstDayOfMonth.getFullYear();
+                        currentMonth = Month.getMonthName(firstDayOfMonth) + " " + year;
+                    }
+                }
+            }
+
+            Item {
+                id: monthTitle
+
+                anchors{left: previous.right; right: next.left; top: parent.top; bottom: parent.bottom}
+
+                Text {
+                    anchors.fill: parent
+
+                    text: currentMonth
+                    font.pointSize: parent.height * 0.5
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                MouseArea {
+                    id: mouseAreaTitle
+
+                    anchors.fill: parent
+
+                    onClicked: {
+                        tDialog.open();
+                        //console.log("TITLE " + currentMonth);
+                    }
+                }
             }
         }
 
+        Row{
+            id: headingsLabelRow
+
+            anchors{top: headerRow.bottom; topMargin: 8; left: parent.left; right: parent.right}
+            height: parent.height * 0.08
+
+            Repeater {
+                id: headerLabelRepeater
+
+                model:["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+                Text {
+                    text: modelData
+
+                    width: parent.width / 7
+                    font.pointSize: parent.height * 0.5
+                    verticalAlignment: Text.AlignBottom
+                    horizontalAlignment: Text.AlignHCenter
+
+                    color: (index > 4)?orange:"#737573"
+                }
+            }
+        }
+
+        Grid {
+            id:container
+
+            anchors{top: headingsLabelRow.bottom; topMargin: 2; bottom: parent.bottom; left: parent.left; right: parent.right}
+
+            columns: 7
+
+            Repeater {
+                model: 42
+
+                Rectangle {
+
+                    id:dayContainer
+                    width: container.width / 7
+                    height: (container.height - 35) / 7
+
+                    Rectangle {
+                        //                           gradient:  Gradient {
+                        //                                  GradientStop { id: stop1; position: 0.0; color: background }
+                        //                                  GradientStop { id: stop2; position: 1.0; color: background }
+
+                        //                              }
+                        id: circle
+                        radius: 8
+                        color: orange
+                        width: parent.width * 0.8
+                        height: parent.height * 0.8
+                        anchors.centerIn: parent
+                        visible: {
+                            if (Month.isToday(Month.today(),   index - weekDayOfFirst)) {
+                                prevCircle = circle;
+                                return true;
+                            }
+                            return false;
+
+                        }
+
+                    }
+
+                    Text {
+
+                        id: journey;
+                        text: Month.getDayOfMonth(firstDayOfMonth,   index - weekDayOfFirst )
+
+                        font.pointSize: parent.height * 0.5
+                        anchors.centerIn: parent
+                        color: {
+                            if (circle.visible) return "white";
+                            else
+                                return Month.getColorOfDay(firstDayOfMonth,   index - weekDayOfFirst );
+                        }
 
 
-        Repeater { model: 42
+                    }
 
-                   Rectangle {
+                    MouseArea {
+                        id: mouseArea
+                        hoverEnabled:true
+                        anchors.fill: parent
 
-                       id:dayContainer
-                       width: container.width / 7
-                       height: (container.height - 35) / 7
-
-                       Rectangle {
-//                           gradient:  Gradient {
-//                                  GradientStop { id: stop1; position: 0.0; color: background }
-//                                  GradientStop { id: stop2; position: 1.0; color: background }
-
-//                              }
-                           id: circle
-                           radius: 8
-                           color: orange
-                           width: parent.width / 2
-                           height: parent.height / 2
-                           anchors.centerIn: parent
-                           visible: {
-                               if (Month.isToday(Month.today(),   index - weekDayOfFirst)) {
-                                   prevCircle = circle;
-                                   return true;
-                               }
-                               return false;
-
-                           }
-
-                       }
-
-                       Text {
-
-                           id: journey;
-                           text: Month.getDayOfMonth(firstDayOfMonth,   index - weekDayOfFirst )
-
-                           font.pointSize: 12
-                           anchors.centerIn: parent
-                           color: {
-                               if (circle.visible) return "white";
-                               else
-                                   return Month.getColorOfDay(firstDayOfMonth,   index - weekDayOfFirst );
-                           }
+                        onClicked: {
+                            if (prevText)
+                                prevText.color = "black";
+                            prevText = journey;
 
 
-                       }
+                            prevCircle.visible = false;
+                            circle.visible = true;
+
+                            prevText = journey;
+                            prevCircle = circle;
 
 
-                       MouseArea {
-                           id: mouseArea
-                           hoverEnabled:true
-                           anchors.fill: parent
+                            var dum = year + "/" + (month + 1) + "/" + journey.text;
+                            currentDate= new Date(dum);
+                            console.log("Day " + journey.text + " dum " + dum);
 
-                           onClicked: {
-                                 if (prevText)
-                                   prevText.color = "black";
-                               prevText = journey;
+                            dayView.opacity = 1;
+                            dayView.z = 1;
 
+                            //calendarView.opacity = 0;
 
-                               prevCircle.visible = false;
-                               circle.visible = true;
+                            console.log("N ITEM " + organizer.itemCount);
+                            var items = organizer.items;
+                            var i;
+                            for (i = 0; i < organizer.itemCount;i++) {
+                                console.log("item " + i + " start date" + items[i].itemStartTime);
+                            }
+                        }
 
-                               prevText = journey;
-                               prevCircle = circle;
-
-
-                                 var dum = year + "/" + (month + 1) + "/" + journey.text;
-                                 currentDate= new Date(dum);
-                                 console.log("DAy " + journey.text + " dum " + dum);
-
-                                 dayView.opacity = 1;
-                                 dayView.z = 1;
-
-                                 //calendarView.opacity = 0;
-
-                                 console.log("N ITEM " + organizer.itemCount);
-                                 var items = organizer.items;
-                                 var i;
-                                 for (i = 0; i < organizer.itemCount;i++) {
-                                     console.log("item " + i + " start date" + items[i].itemStartTime);
-                                 }
-
-                                 mainStack.pageStack.push(dayView);
-                                toolBack.visible = true;
-
-                           }
-
-                       }
-                   }
+                        onDoubleClicked: {
+                            mainStack.pageStack.push(dayView);
+                            toolBack.visible = true;
+                        }
+                    }
+                }
+            }
         }
     }
-
-
 }
