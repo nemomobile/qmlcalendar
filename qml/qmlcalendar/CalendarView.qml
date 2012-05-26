@@ -66,6 +66,24 @@ Item  {
         return Month.getMonthName(firstDayOfMonth) + " " + year
     }
 
+    function goToNextMonth() {
+        if (month < 11)
+            month++
+        else {
+            year++;
+            month = 0;
+        }
+    }
+
+    function goToPreviousMonth() {
+        if (month > 0)
+            month--
+        else {
+            year--;
+            month = 11;
+        }
+    }
+
 
     onMonthChanged: {
         firstDayOfMonth = new Date(year, month, 1);
@@ -132,14 +150,7 @@ Item  {
 
                     anchors.fill: parent
 
-                    onClicked: {
-                        if (month > 0)
-                            month--
-                        else {
-                            year--;
-                            month = 11;
-                        }
-                    }
+                    onClicked: goToPreviousMonth()
                 }
             }
 
@@ -160,14 +171,7 @@ Item  {
 
                     anchors.fill: parent
 
-                    onClicked: {
-                        if (month < 11)
-                            month++
-                        else {
-                            year++;
-                            month = 0;
-                        }
-                    }
+                    onClicked: goToNextMonth()
                 }
             }
 
