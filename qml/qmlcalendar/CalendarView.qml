@@ -57,9 +57,9 @@ Item  {
     property int year: Month.today().getFullYear()
     property date firstDayOfMonth:new Date(year, month, 1)
     property int weekDayOfFirst:firstDayOfMonth.getDay()
-    property string currentMonth: Month.getMonthName(Month.today()) + " " + year
-    property date currentDate:new Date();
-    property int day: currentDate.getDate()
+
+//    property date currentDate:new Date();
+//    property int day: currentDate.getDate()
 
 
     function getHeaderText(){
@@ -107,7 +107,7 @@ Item  {
 
                 //organizer.importItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
                 //console.log("LOAD " + organizer.itemCount + " start " + organizer.startPeriod + " end " + organizer.endPeriod);
-                console.log("current " + currentDate + " +60 " + Month.plus1Hour(currentDate));
+//                console.log("current " + currentDate + " +60 " + Month.plus1Hour(currentDate));
             }
         }
         Component.onDestruction:  {
@@ -296,8 +296,8 @@ Item  {
                             prevCircle = circle;
 
 
-                            var dum = year + "/" + (month + 1) + "/" + journey.text;
-                            currentDate= new Date(dum);
+//                            var dum = year + "/" + (month + 1) + "/" + journey.text;
+//                            currentDate= new Date(dum);
                             console.log("Day " + journey.text + " dum " + dum);
 
                             dayView.opacity = 1;
