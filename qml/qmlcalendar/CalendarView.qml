@@ -226,6 +226,8 @@ Item  {
 
         MonthDaysGrid{
             id: currentMonthDaysGrid
+
+            anchors{top: headingsLabelRow.bottom; topMargin: 2; bottom: parent.bottom; left: parent.left; right: parent.right}
         }
     }
 }

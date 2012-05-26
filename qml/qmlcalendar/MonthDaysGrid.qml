@@ -44,8 +44,6 @@ import com.nokia.meego 1.0
 Grid {
     id: monthDaysGrid
 
-    anchors{top: headingsLabelRow.bottom; topMargin: 2; bottom: parent.bottom; left: parent.left; right: parent.right}
-
     columns: 7
 
 
