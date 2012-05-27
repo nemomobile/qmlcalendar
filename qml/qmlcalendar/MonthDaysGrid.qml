@@ -47,12 +47,12 @@ Grid {
     columns: 7
 
 
-    property date firstDayOfMonth: new Date(year, month, 1)
+    property date firstDayOfMonth
     property int weekDayOfFirst
 
 
     onFirstDayOfMonthChanged: {
-        weekDayOfFirst = firstDayOfMonth.getDay();
+        weekDayOfFirst = Month.dayIdxByLocalizedDayName(firstDayOfMonth);
     }
 
 
