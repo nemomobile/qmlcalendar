@@ -56,7 +56,7 @@ Item  {
     property int month: Month.today().getMonth()
     property int year: Month.today().getFullYear()
 
-
+     property date currentDate:new Date();
 //    property date currentDate:new Date();
 //    property int day: currentDate.getDate()
 

@@ -118,7 +118,7 @@ Page
                                     font.pointSize: 18
                                     property OrganizerItem oi: calendarView.organizer.item(modelData)
 
-                                    text: oi.description//((hourDelegateInstanceItem.rowIndex == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
+                                    text: ((hourDelegateInstanceItem.rowIndex == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
 
                                     MouseArea {
                                         id: mouseAreaText

@@ -119,7 +119,7 @@ Grid {
                     prevCircle = circle;
 
 
-//                            var dum = year + "/" + (month + 1) + "/" + journey.text;
+//                           var dum = year + "/" + (month + 1) + "/" + journey.text;
 //                            currentDate= new Date(dum);
 //                    console.log("Day " + journey.text + " dum " + dum);
 
@@ -137,6 +137,10 @@ Grid {
                 }
 
                 onDoubleClicked: {
+                    var dum = year + "/" + (month + 1) + "/" + journey.text;
+                    var currentDate= new Date(dum);
+                    console.log("Day " + journey.text + " dum " + dum);
+                    calendarView.currentDate = currentDate;
                     mainStack.pageStack.push(dayView);
                     toolBack.visible = true;
                 }
