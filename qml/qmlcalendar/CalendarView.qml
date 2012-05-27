@@ -1,8 +1,9 @@
 /****************************************************************************
 **
-** Copyright (C) 2012 Nicola De Filippo.
+** Copyright (C) 2012 Nicola De Filippo, Ruediger Gad.
 ** All rights reserved.
 ** Contact: Nicola De Filippo (nicola.defilippo@lizard-solutions.com)
+**          Ruediger Gad (r.c.g@gmx.de)
 **
 **
 ** $QT_BEGIN_LICENSE:BSD$
@@ -53,8 +54,8 @@ Item  {
     property color orange: "#ef5500"
 
 
-    property int month: Month.today().getMonth()
-    property int year: Month.today().getFullYear()
+    property int month
+    property int year
 
      property date currentDate:new Date();
 //    property date currentDate:new Date();
@@ -83,6 +84,10 @@ Item  {
         }
     }
 
+    Component.onCompleted: {
+        year = Month.today().getFullYear()
+        month = Month.today().getMonth()
+    }
 
     onMonthChanged: {
         previousMonthDaysGrid.firstDayOfMonth = new Date(((month - 1) < 0) ? year - 1 : year,((month - 1) < 0) ? 11 : month - 1, 1);
