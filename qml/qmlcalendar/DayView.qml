@@ -9,7 +9,7 @@ import com.nokia.extras 1.0
 Page
 {
     id:dayView
-    property variant calendarView;
+    property variant calendarView: calendarView;
     property variant itemIds:calendarView.organizer.itemIds(calendarView.currentDate, new Date(calendarView.year, calendarView.month, calendarView.day+1))
 
     tools: commonTools
@@ -79,8 +79,14 @@ Page
 
                                     //dayView.opacity = 0;
                                     whatItem.opacity = 1;
+
                                     console.log("description " + whatItem.description);
+                                    commonTools.visible = true;
+                                    toolDone.visible = true;
+
+                                    //mainStack.pageStack.pop();
                                     mainStack.pageStack.push(whatItem);
+
 
                                 }
                             }
@@ -128,7 +134,7 @@ Page
                                         onClicked: {
                                              //console.log("model " + rep);
                                             console.log("Esistente start hour " + Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex));
-                                            console.log("Esistente item.desc " + itemText.oi.description)
+                                            console.log("TEXT " + parent.text + " Esistente item.desc " + parent.oi.description)
 
 
 
@@ -138,7 +144,11 @@ Page
                                             whatItem.item = itemText.oi;
                                             whatItem.opacity = 1;
 
+                                            toolDone.visible = true;
+
+                                            toolDelete.visible = true;
                                             mainStack.pageStack.push(whatItem);
+
 
 
                                         }

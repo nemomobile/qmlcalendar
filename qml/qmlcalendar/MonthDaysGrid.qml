@@ -118,13 +118,8 @@ Grid {
                     prevText = journey;
                     prevCircle = circle;
 
-
-//                           var dum = year + "/" + (month + 1) + "/" + journey.text;
-//                            currentDate= new Date(dum);
-//                    console.log("Day " + journey.text + " dum " + dum);
-
                     dayView.opacity = 1;
-                    dayView.z = 1;
+                    //dayView.z = 1;
 
                     //calendarView.opacity = 0;
 

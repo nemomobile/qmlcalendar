@@ -6,9 +6,9 @@ import QtMobility.organizer 1.1
 import "logic.js" as Logic
 import "month.js" as Month
 
-PageStack {
+Page {
     id: whatItem
-    anchors.fill: parent
+    tools: commonTools
     property string startTime: "00:00";
     property string day ;
     property OrganizerModel organizer: calendarView.organizer;
@@ -158,6 +158,7 @@ PageStack {
             }
         }
     }
+    /*
     Button {
         id: cancel
 
@@ -171,32 +172,19 @@ PageStack {
             topMargin: 10
         }
         text: qsTr("Cancel")
-        //onClicked: {text_what.focus = false;whatItem.opacity = 0; dayView.opacity = 1;}
-        onClicked: {text_what.focus = false;mainStack.pageStack.pop();}
-        //color: "#ffffff"
-    }
 
-    Button {
-        id: remove
-        enabled: !isNew
-        width: 120
-        height: 114
-        anchors {
-            //left: parent.left
-            top: parent.top
-            horizontalCenter: parent.horizontalCenter
-            //top: label.bottom
-            topMargin: 10
-        }
-        text: qsTr("Remove")
-        //onClicked: {text_what.focus = false;whatItem.opacity = 0; dayView.opacity = 1;}
-        onClicked: {
+        onClicked: {text_what.focus = false;mainStack.pageStack.pop();}
+
+    }*/
+
+
+        function remove() {
 
             organizer.removeItem(item.itemId);
             mainStack.pageStack.pop();
         }
         //color: "#ffffff"
-    }
+
 
     Event {
         id: item1;
@@ -208,18 +196,8 @@ PageStack {
 
 
 
-    Button {
-        id: save
 
-        width: 96
-        height: 114
-        anchors {
-            right: parent.right
-            top: parent.top
-            topMargin: 10
-        }
-        text: qsTr("Save")
-        onClicked: {
+        function save () {
 
             //text_what.closeSoftwareInputPanel();
             text_what.focus = false;
@@ -237,23 +215,16 @@ PageStack {
             item.description = text_what.text;
             item.location = text_where.text;
 
-            //calendarManager.createEvent(item.startDateTime, item.startDateTime, "prova");
             console.log("current " + item.startDateTime + " desc " +  item.description);
-            //current = new Date();
+
             if ( isNew )
                 organizer.saveItem(item);
             else {
                 item.save();
 
             }
-            //console.log("current " + item.startDateTime);
 
-
-            organizer.update();
-
-
-
-
+           organizer.update();
 
            console.log("In save N ITEM " + organizer.itemCount);
            var items = organizer.items;
@@ -262,9 +233,9 @@ PageStack {
                console.log("item " + i + " start date" + items[i].itemStartTime);
            }
 
-            mainStack.pageStack.pop();
+            //mainStack.pageStack.pop();
 
-        }
-        //color: "#ffffff"
+
+
     }
 }

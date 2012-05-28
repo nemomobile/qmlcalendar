@@ -9,7 +9,7 @@ import com.nokia.meego 1.0
 
 import QtQuick 1.1
 import com.nokia.meego 1.0
-
+//import com.nokia.extras 1.0
 
 
 PageStackWindow {
@@ -17,7 +17,6 @@ PageStackWindow {
 
     id: mainStack
     showStatusBar: false;
-    //showToolBar: true;
 
      initialPage: Page {
          id: pageStack;
@@ -25,6 +24,7 @@ PageStackWindow {
         CalendarView {
             id: calendarView;
         }
+
         DayView {
             id: dayView;
             calendarView: calendarView;
@@ -40,34 +40,40 @@ PageStackWindow {
             id: whatItem;
             opacity: 0;
             organizer: calendarView.organizer;
+            anchors.fill: parent;
         }
      }
      ToolBarLayout {
          id: commonTools
          visible: true
-         ToolIcon {
-             id: menu
-             visible: false
-             platformIconId: "toolbar-view-menu"
-             anchors.right: (parent === undefined) ? undefined : parent.right
-             onClicked: (myMenu.status === DialogStatus.Closed) ? myMenu.open() : myMenu.close()
-         }
+
          ToolIcon {
              id: toolBack
              visible: false
              platformIconId: "toolbar-back";
-             onClicked: { myMenu.close(); mainStack.pageStack.pop(); toolBack.visible = false;}
+             onClicked: {  mainStack.pageStack.pop(); toolBack.visible = false;}
              anchors.left: parent.left;
          }
+
+         ToolIcon {
+             id: toolDone
+             visible: false
+             platformIconId: "toolbar-done";
+             onClicked: {  whatItem.save(); mainStack.pageStack.pop(); toolDone.visible = false;}
+             anchors.left: toolBack.right;
+         }
+
+         ToolIcon {
+             id: toolDelete
+             visible: false
+             platformIconId: "toolbar-delete";
+             onClicked: {  whatItem.remove();mainStack.pageStack.pop(); toolDelete.visible = false;}
+             anchors.left: toolDone.right;
+         }
+
      }
 
-     Menu {
-         id: myMenu
-         visualParent: pageStack
-         MenuLayout {
-             MenuItem { text: qsTr("Sample menu item") }
-         }
-     }
+
 
 
 
