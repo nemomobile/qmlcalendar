@@ -133,3 +133,27 @@ function plus1Hour(dateObject)
 
     return dateTime;
 }
+/*
+ * Code taken from:
+ * http://www.developer.nokia.com/Community/Wiki/QML_Day_of_Week_%26_Time_Dialog
+ * and slightly modified to accept date objects.
+ *
+ */
+function dayIdxByLocalizedDayName(dateObject)
+{
+    var dayName = Qt.formatDateTime(dateObject, "dddd")
+
+    var myDate = new Date(2012, 0, 2) // This was a Moday for sure.
+    for(var i = 0; i < 7; i++){
+        if(Qt.formatDateTime(myDate, "dddd" ) == dayName)
+        {
+            return i-1;
+        }
+        else{
+            myDate.setDate(myDate.getDate() + 1)
+        }
+    }
+
+    console.log("Error, calculation of weekday index failed.")
+    return -1
+}

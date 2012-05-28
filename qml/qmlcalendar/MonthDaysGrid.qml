@@ -47,12 +47,12 @@ Grid {
     columns: 7
 
 
-    property date firstDayOfMonth: new Date(year, month, 1)
+    property date firstDayOfMonth
     property int weekDayOfFirst
 
 
     onFirstDayOfMonthChanged: {
-        weekDayOfFirst = firstDayOfMonth.getDay();
+        weekDayOfFirst = Month.dayIdxByLocalizedDayName(firstDayOfMonth);
     }
 
 
@@ -78,13 +78,7 @@ Grid {
                 width: parent.width * 0.8
                 height: parent.height * 0.8
                 anchors.centerIn: parent
-                visible: {
-                    if (Month.isToday(Month.today(),   index - weekDayOfFirst)) {
-                        prevCircle = circle;
-                        return true;
-                    }
-                    return false;
-                }
+                visible: false
             }
 
             Text {
@@ -111,8 +105,8 @@ Grid {
                         prevText.color = "black";
                     prevText = journey;
 
-
-                    prevCircle.visible = false;
+                    if(prevCircle)
+                        prevCircle.visible = false;
                     circle.visible = true;
 
                     prevText = journey;
