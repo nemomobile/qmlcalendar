@@ -132,16 +132,18 @@ Page
                                         anchors.fill: parent
 
                                         onClicked: {
-                                             //console.log("model " + rep);
+
+                                            var o = calendarView.organizer.item(modelData)
                                             console.log("Esistente start hour " + Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex));
-                                            console.log("TEXT " + parent.text + " Esistente item.desc " + parent.oi.description)
+                                            console.log("TEXT " + parent.text);
+                                            console.log( " Esistente item.desc " + o.description);
 
 
 
-                                            whatItem.description =  itemText.oi.description;
-                                            whatItem.location = itemText.oi.location;
+                                            whatItem.description =  o.description;
+                                            whatItem.location = o.location;
                                             whatItem.isNew = false;
-                                            whatItem.item = itemText.oi;
+                                            whatItem.item = o;
                                             whatItem.opacity = 1;
 
                                             toolDone.visible = true;

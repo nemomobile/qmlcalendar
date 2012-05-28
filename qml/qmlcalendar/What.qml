@@ -34,7 +34,7 @@ Page {
         Text {
             id: object
 
-            text: qsTr("Object")
+            text: qsTr("Description")
             font.pixelSize: 28
 
         }
@@ -131,7 +131,7 @@ Page {
         Text {
             id: text_w
 
-            text: qsTr("Where")
+            text: qsTr("Location")
             font.pixelSize: 28
 
         }
