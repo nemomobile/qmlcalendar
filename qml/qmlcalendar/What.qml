@@ -19,6 +19,11 @@ Page {
     property bool isNew: true;
     property Event item: null;
 
+
+
+
+
+
     Rectangle {
         id: line1;
 
@@ -26,7 +31,7 @@ Page {
         height: text_what.height
         anchors {
             left: parent.left
-            top: save.bottom
+            top: parent.top
 
             //top: label.bottom
             topMargin: 10
@@ -38,7 +43,7 @@ Page {
             font.pixelSize: 28
 
         }
-        TextInput {
+        TextArea {
 
             id: text_what
             width: parent.width - object.width
@@ -90,7 +95,7 @@ Page {
 
         }
 
-        TextInput {
+        TextArea {
 
             id: text_time
             width: parent.width - text_day.width - label_time.width;
@@ -135,7 +140,7 @@ Page {
             font.pixelSize: 28
 
         }
-        TextInput {
+        TextArea {
             id: text_where
             anchors {
                 leftMargin: 10;
@@ -158,30 +163,12 @@ Page {
             }
         }
     }
-    /*
-    Button {
-        id: cancel
-
-        width: 96
-        height: 114
-        anchors {
-            left: parent.left
-            top: parent.top
-
-            //top: label.bottom
-            topMargin: 10
-        }
-        text: qsTr("Cancel")
-
-        onClicked: {text_what.focus = false;mainStack.pageStack.pop();}
-
-    }*/
 
 
         function remove() {
 
             organizer.removeItem(item.itemId);
-            mainStack.pageStack.pop();
+            //mainStack.pageStack.pop();
         }
         //color: "#ffffff"
 
@@ -238,4 +225,5 @@ Page {
 
 
     }
+
 }

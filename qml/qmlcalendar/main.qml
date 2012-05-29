@@ -41,6 +41,7 @@ PageStackWindow {
             opacity: 0;
             organizer: calendarView.organizer;
             anchors.fill: parent;
+
         }
      }
      ToolBarLayout {
