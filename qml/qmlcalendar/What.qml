@@ -6,6 +6,8 @@ import QtMobility.organizer 1.1
 import "logic.js" as Logic
 import "month.js" as Month
 
+
+
 Page {
     id: whatItem
     tools: commonTools
@@ -19,97 +21,129 @@ Page {
     property bool isNew: true;
     property Event item: null;
 
+    onStatusChanged: {
+        console.log("STATUS CHANGED " + status + " " + PageStatus.Activating);
+        if (status == 2) {
+            console.log("page widht" + whatItem.width);
+            text_what.forceActiveFocus();
+        }
+    }
 
 
 
 
 
+    ListView {
+        id: list
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.Right
+        spacing: 2
 
-        ListView {
+        model: VisualItemModel {
 
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            spacing: 2
+            Row {
+                spacing: 2
+                Text {
+                    id: object
 
-            model: VisualItemModel {
+                    text: qsTr("Description")
+                    font.pixelSize: 28
 
-                Row {
-                    spacing: 2
-                    Text {
-                        id: object
-
-                        text: qsTr("Description")
-                        font.pixelSize: 28
-
-                    }
-                    TextArea {
-
-                        id: text_what
-
-                        text: (item)?item.description:"Add object"
-                        font.pixelSize: 28
-                        onActiveFocusChanged: { object.color = "orange";}
-
-                        /*onFocusChanged:
-                        : {
-                            if ( text_what.activeFocus ) {
-
-                                object.color = "orange";
-                                text_what.openSoftwareInputPanel();
-                            }
-                            else {
-                                object.color= "black";
-                                text_what.closeSoftwareInputPanel();
-                            }
-                        }*/
-
-
-
-                    }
                 }
+                TextArea {
 
-                Row {
+                    id: text_what
+                    width: whatItem.width - object.width - 10;
+                    //text: (item)?item.description:"Add object"
+                    placeholderText: (item)?item.description:"Add description"
 
-                    Text {
-                        id: text_day
+                    font.pixelSize: 28
+                    clip: true
+                    onActiveFocusChanged: {
+                        if ( text_what.activeFocus ) {
 
-                        text: day;
-                        font.pixelSize: 28
-
-                    }
-
-                    Text {
-                        id: label_time
-
-                        text: qsTr("Start")
-                        font.pixelSize: 28
-
-                    }
-
-                    TextArea {
-
-                        id: text_time
-                        text: startTime;
-                        font.pixelSize: 28
-                        //onFocusChanged: { if ( text_time.activeFocus ) { timePickerDialog.open(); console.log ("timer");} }
-                        MouseArea {
-                            id: clear
-                            anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
-                            height: text_time.height; width: text_time.height
-                            onClicked: {
-                               timePickerDialog.open()
-                            }
+                            object.color = "orange";
+                            //text_what.openSoftwareInputPanel();
                         }
-                        readOnly: true
-
+                        else {
+                            object.color= "black";
+                            //text_what.closeSoftwareInputPanel();
+                        }
                     }
+                    //focus:true
 
 
                 }
-
+            }
 
             Row {
 
+                Text {
+                    id: text_day
+
+                    text: day;
+                    font.pixelSize: 28
+
+                }
+
+                Text {
+                    id: label_time
+
+                    text: qsTr(" Start ")
+                    font.pixelSize: 28
+
+                }
+
+                TextField {
+
+                    id: text_time
+                    text: startTime;
+                    font.pixelSize: 28
+                    onActiveFocusChanged: { if ( text_time.activeFocus ) { timePickerDialog.open(); console.log ("timer");} }
+                    /*MouseArea {
+                        id: clear
+                        anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
+                        height: text_time.height; width: text_time.height
+                        onClicked: {
+                            timePickerDialog.open()
+                        }
+                    }*/
+                    //readOnly: true
+
+                }
+
+
+            }
+
+
+            Row {
+                spacing: 2
+                Text {
+                    id: labelDuration
+
+                    text: qsTr("Duration")
+                    font.pixelSize: 28
+
+                }
+                TextField {
+                    id: textDuration
+                    width: whatItem.width - labelDuration.width - 10;
+                    text: singleSelectionDialog.model.get(singleSelectionDialog.selectedIndex).name
+                    font.pixelSize: 28
+                    onActiveFocusChanged: {
+                        if ( textDuration.activeFocus ) {
+
+                            singleSelectionDialog.open();
+                            //text_where.openSoftwareInputPanel();
+                        }
+
+                    }
+                }
+            }
+
+            Row {
+                spacing: 2
                 Text {
                     id: text_w
 
@@ -117,96 +151,120 @@ Page {
                     font.pixelSize: 28
 
                 }
-                TextArea {
+                TextField {
                     id: text_where
-
+                    width: whatItem.width - text_w.width - 10;
                     text: (item)?item.location:"Here"
                     font.pixelSize: 28
-                    onFocusChanged: {
+                    onActiveFocusChanged: {
                         if ( text_where.activeFocus ) {
 
                             text_w.color = "orange";
-                            text_where.openSoftwareInputPanel();
+                            //text_where.openSoftwareInputPanel();
                         }
                         else   {
                             text_w.color= "black";
-                            text_where.closeSoftwareInputPanel();
+                            //text_where.closeSoftwareInputPanel();
                         }
                     }
                 }
             }
 
-    }
+
+
         }
-            function remove() {
-
-                organizer.removeItem(item.itemId);
-                //mainStack.pageStack.pop();
-            }
-            //color: "#ffffff"
-
-
-            Event {
-                id: item1;
-                startDateTime: current;
-                description: text_what.text;
-                location: location;
-                endDateTime: Month.plus1Hour(current);
-            }
+    }
 
 
 
+    function remove() {
 
-            function save () {
+        organizer.removeItem(item.itemId);
+        //mainStack.pageStack.pop();
+    }
+    //color: "#ffffff"
 
-                //text_what.closeSoftwareInputPanel();
-                text_what.focus = false;
 
-                if (item === null) {
-                    console.log("NULL");
-                    item1.description = text_what.text;
-                    item1.location = text_where.text;
-                    item = item1;
-
-                }
-
-                console.log("what = " + text_what.text);
-
-                item.description = text_what.text;
-                item.location = text_where.text;
-
-                console.log("current " + item.startDateTime + " desc " +  item.description);
-
-                if ( isNew )
-                    organizer.saveItem(item);
-                else {
-                    item.save();
-
-                }
-
-                organizer.update();
-
-                console.log("In save N ITEM " + organizer.itemCount);
-                var items = organizer.items;
-                var i;
-                for (i = 0; i < organizer.itemCount;i++) {
-                    console.log("item " + i + " start date" + items[i].itemStartTime);
-                }
-
-                //mainStack.pageStack.pop();
+    Event {
+        id: item1;
+        startDateTime: current;
+        description: text_what.text;
+        location: location;
+        endDateTime: Month.plus1Hour(current);
+    }
 
 
 
-            }
 
-            TimePickerDialog {
-                id:timePickerDialog
-                titleText: "Select Time"
-                acceptButtonText: "Confirm"
-                rejectButtonText: "Reject"
-                fields: DateTime.Hours | DateTime.Minutes
-                anchors.fill: parent
-                onAccepted: { startTime = timePickerDialog.hour + ":" + timePickerDialog.minute}
-            }
+    function save () {
+
+        //text_what.closeSoftwareInputPanel();
+        text_what.focus = false;
+
+        if (item === null) {
+            console.log("NULL");
+            item1.description = text_what.text;
+            item1.location = text_where.text;
+            item = item1;
+
+        }
+
+        console.log("what = " + text_what.text);
+
+        item.description = text_what.text;
+        item.location = text_where.text;
+
+        console.log("current " + item.startDateTime + " desc " +  item.description);
+
+        if ( isNew )
+            organizer.saveItem(item);
+        else {
+            item.save();
+
+        }
+
+        organizer.update();
+
+        console.log("In save N ITEM " + organizer.itemCount);
+        var items = organizer.items;
+        var i;
+        for (i = 0; i < organizer.itemCount;i++) {
+            console.log("item " + i + " start date" + items[i].itemStartTime);
+        }
+
+        //mainStack.pageStack.pop();
+
+
+
+    }
+
+    TimePickerDialog {
+        id:timePickerDialog
+        titleText: "Select Time"
+        acceptButtonText: "Confirm"
+        rejectButtonText: "Reject"
+        fields: DateTime.Hours | DateTime.Minutes
+        anchors.fill: parent
+        onAccepted: { startTime = timePickerDialog.hour + ":" + timePickerDialog.minute}
+    }
+
+    SelectionDialog {
+         id: singleSelectionDialog
+         titleText: "Duration"
+         selectedIndex: 1
+
+         model: ListModel {
+             ListElement { name: "0 minute" }
+             ListElement { name: "15 minutes" }
+             ListElement { name: "30 minutes" }
+             ListElement { name: "30 minutes" }
+             ListElement { name: "45 minutes" }
+             ListElement { name: "1 hour" }
+             ListElement { name: "2 hour" }
+             ListElement { name: "day" }
+         }
+     }
+
 
 }
+
