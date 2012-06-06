@@ -231,7 +231,7 @@ Page {
             console.log("NULL");
             item1.description = text_what.text;
             item1.location = text_where.text;
-
+            item1.startDateTime = current;
             item = item1;
 
         }
@@ -240,8 +240,10 @@ Page {
 
         item.description = text_what.text;
         item.location = text_where.text;
-        item.endDateTime = Month.plusMinutes(Month.getMinutes(singleSelectionDialog.selectedIndex));
+        item.endDateTime = Month.plusMinutes(current, Month.getMinutes(singleSelectionDialog.selectedIndex));
 
+        console.log("SELE " + singleSelectionDialog.selectedIndex);
+        console.log("getminutes " + Month.getMinutes(singleSelectionDialog.selectedIndex));
 
 
         console.log("current " + item.startDateTime + " desc " +  item.description + " end " + item.endDateTime);
