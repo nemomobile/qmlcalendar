@@ -133,6 +133,46 @@ function plus1Hour(dateObject)
 
     return dateTime;
 }
+
+function plusMinutes(dateObject, minutes)
+{
+    var dateTime = new Date(dateObject);
+
+    dateTime.setMinutes( dateTime.getMinutes() + minutes );
+
+    return dateTime;
+}
+
+function calculateIndex(startDate, endDate)
+{
+    return 1;
+}
+
+function getMinutes(index)
+{
+    switch(index) {
+        case 0:
+            return 0;
+        case 1:
+            return 15;
+        case 2:
+            return 30;
+        case 3:
+            return 45;
+        case 4:
+            return 60;
+        case 5:
+            return 120;
+        case 6:
+            return (60 * 24);
+        default:
+            return 0;
+
+    }
+
+
+}
+
 /*
  * Code taken from:
  * http://www.developer.nokia.com/Community/Wiki/QML_Day_of_Week_%26_Time_Dialog

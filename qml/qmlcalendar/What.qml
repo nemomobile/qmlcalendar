@@ -21,11 +21,37 @@ Page {
     property bool isNew: true;
     property Event item: null;
 
+
+    SelectionDialog {
+         id: singleSelectionDialog
+         titleText: "Duration"
+         //selectedIndex: 1
+
+         model: ListModel {
+             ListElement { duration: "0 minute" }
+             ListElement { duration: "15 minutes" }
+             ListElement { duration: "30 minutes" }
+             ListElement { duration: "45 minutes" }
+             ListElement { duration: "1 hour" }
+             ListElement { duration: "2 hour" }
+             ListElement { duration: "day" }
+         }
+     }
+
+
     onStatusChanged: {
         console.log("STATUS CHANGED " + status + " " + PageStatus.Activating);
         if (status == 2) {
             console.log("page widht" + whatItem.width);
             text_what.forceActiveFocus();
+            if (item == null) {
+                singleSelectionDialog.selectedIndex = 0;
+                console.log("index = " + singleSelectionDialog.selectedIndex);
+            }
+            else {
+                console.log("index = " + singleSelectionDialog.selectedIndex);
+                singleSelectionDialog.selectedIndex = Month.calculateIndex(item.startDateTime, item.endDateTime);
+            }
         }
     }
 
@@ -129,7 +155,7 @@ Page {
                 TextField {
                     id: textDuration
                     width: whatItem.width - labelDuration.width - 10;
-                    text: singleSelectionDialog.model.get(singleSelectionDialog.selectedIndex).name
+                    text: singleSelectionDialog.model.get(singleSelectionDialog.selectedIndex).duration
                     font.pixelSize: 28
                     onActiveFocusChanged: {
                         if ( textDuration.activeFocus ) {
@@ -205,6 +231,7 @@ Page {
             console.log("NULL");
             item1.description = text_what.text;
             item1.location = text_where.text;
+
             item = item1;
 
         }
@@ -213,8 +240,11 @@ Page {
 
         item.description = text_what.text;
         item.location = text_where.text;
+        item.endDateTime = Month.plusMinutes(Month.getMinutes(singleSelectionDialog.selectedIndex));
 
-        console.log("current " + item.startDateTime + " desc " +  item.description);
+
+
+        console.log("current " + item.startDateTime + " desc " +  item.description + " end " + item.endDateTime);
 
         if ( isNew )
             organizer.saveItem(item);
@@ -248,22 +278,7 @@ Page {
         onAccepted: { startTime = timePickerDialog.hour + ":" + timePickerDialog.minute}
     }
 
-    SelectionDialog {
-         id: singleSelectionDialog
-         titleText: "Duration"
-         selectedIndex: 1
 
-         model: ListModel {
-             ListElement { name: "0 minute" }
-             ListElement { name: "15 minutes" }
-             ListElement { name: "30 minutes" }
-             ListElement { name: "30 minutes" }
-             ListElement { name: "45 minutes" }
-             ListElement { name: "1 hour" }
-             ListElement { name: "2 hour" }
-             ListElement { name: "day" }
-         }
-     }
 
 
 }
