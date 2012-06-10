@@ -17,7 +17,7 @@ PageStackWindow {
 
     id: mainStack
     showStatusBar: false;
-
+    state: "MONTH"
      initialPage: Page {
          id: pageStack;
          tools: commonTools
@@ -34,7 +34,7 @@ PageStackWindow {
         ItemView {
             id: itemView;
             opacity: 0;
-            calendarView: calendarView;
+            //calendarView: calendarView;
         }
         What {
             id: whatItem;
@@ -52,7 +52,7 @@ PageStackWindow {
              id: toolBack
              visible: false
              platformIconId: "toolbar-back";
-             onClicked: {  mainStack.pageStack.pop(); toolBack.visible = false;}
+             onClicked: {  mainStack.pageStack.pop(); /*toolBack.visible = false;*/ }
              anchors.left: parent.left;
          }
 
@@ -60,7 +60,7 @@ PageStackWindow {
              id: toolDone
              visible: false
              platformIconId: "toolbar-done";
-             onClicked: {  whatItem.save(); mainStack.pageStack.pop(); toolDone.visible = false;}
+             onClicked: {  whatItem.save(); mainStack.pageStack.pop(); /*toolDone.visible = false;toolDelete.visible = false;*/}
              anchors.left: toolBack.right;
          }
 
@@ -68,13 +68,43 @@ PageStackWindow {
              id: toolDelete
              visible: false
              platformIconId: "toolbar-delete";
-             onClicked: {  whatItem.remove();mainStack.pageStack.pop(); toolDelete.visible = false;}
+             onClicked: {  whatItem.remove();mainStack.pageStack.pop(); /*toolDelete.visible = false;*/}
              anchors.left: toolDone.right;
          }
 
      }
 
 
+     states: [
+              State {
+                  name: "MONTH"; when: (mainStack.pageStack.currentPage == pageStack)
+                  PropertyChanges { target: commonTools; visible : false;}
+                  PropertyChanges { target: toolBack; visible: false}
+                  PropertyChanges { target: toolDone; visible: false}
+                  PropertyChanges { target: toolDelete; visible: false}
+              },
+              State {
+                  name: "DAY"; when: (mainStack.pageStack.currentPage == dayView)
+                  PropertyChanges { target: commonTools; visible : true;}
+                  PropertyChanges { target: toolBack; visible: true}
+                  PropertyChanges { target: toolDone; visible: false}
+                  PropertyChanges { target: toolDelete; visible: false}
+
+              },
+         State {
+             name: "EVENT"; when: (mainStack.pageStack.currentPage == whatItem && whatItem.isNew == true)
+                PropertyChanges { target: toolBack; visible: true}
+             PropertyChanges { target: toolDone; visible: true}
+
+         },
+         State {
+             name: "EVENT_OLD"; when: (mainStack.pageStack.currentPage == whatItem && whatItem.isNew == false)
+            PropertyChanges { target: toolBack; visible: true}
+             PropertyChanges { target: toolDone; visible: true}
+             PropertyChanges { target: toolDelete; visible: true}
+         }
+
+          ]
 
 
 

@@ -77,14 +77,14 @@ Page
 
                                     whatItem.current = Month.atHourObject(calendarView.currentDate, index);
 
-                                    //dayView.opacity = 0;
+
                                     whatItem.opacity = 1;
 
                                     console.log("description " + whatItem.description);
-                                    commonTools.visible = true;
-                                    toolDone.visible = true;
+                                    //commonTools.visible = true;
+                                    //toolDone.visible = true;
 
-                                    //mainStack.pageStack.pop();
+
                                     mainStack.pageStack.push(whatItem);
 
 
@@ -146,9 +146,9 @@ Page
                                             whatItem.item = o;
                                             whatItem.opacity = 1;
 
-                                            toolDone.visible = true;
+                                            //toolDone.visible = true;
 
-                                            toolDelete.visible = true;
+                                            //toolDelete.visible = true;
                                             mainStack.pageStack.push(whatItem);
 
 
