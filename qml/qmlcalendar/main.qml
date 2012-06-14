@@ -22,26 +22,26 @@ PageStackWindow {
         CalendarView {
             id: calendarView;
         }
+    }
 
-        DayView {
-            id: dayView;
-            calendarView: calendarView;
-            anchors.fill: parent;
-            opacity: 0;
-        }
+    DayView {
+        id: dayView;
+        calendarView: calendarView;
+        anchors.fill: parent;
+        opacity: 0;
+    }
 
-        ItemView {
-            id: itemView;
-            opacity: 0;
-            //calendarView: calendarView;
-        }
+    ItemView {
+        id: itemView;
+        opacity: 0;
+        //calendarView: calendarView;
+    }
 
-        What {
-            id: whatItem;
-            opacity: 0;
-            organizer: calendarView.organizer;
-            anchors.fill: parent;
-        }
+    What {
+        id: whatItem;
+        opacity: 0;
+        organizer: calendarView.organizer;
+        anchors.fill: parent;
     }
 
     ToolBarLayout {
