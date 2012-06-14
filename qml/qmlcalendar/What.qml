@@ -10,7 +10,7 @@ import "month.js" as Month
 
 Page {
     id: whatItem
-    tools: commonTools
+    tools: whatTools
     property string startTime: "00:00";
     property string day ;
     property OrganizerModel organizer: calendarView.organizer;
@@ -280,8 +280,35 @@ Page {
         onAccepted: { startTime = timePickerDialog.hour + ":" + timePickerDialog.minute}
     }
 
+    ToolBarLayout {
+        id: whatTools
+        visible: true
 
+        ToolIcon {
+            id: toolBack
+            platformIconId: "toolbar-back"
+            onClicked: mainStack.pageStack.pop()
+        }
 
+        ToolIcon {
+            id: toolDone
+            platformIconId: "toolbar-done"
+            onClicked: {
+                save()
+                mainStack.pageStack.pop()
+            }
+        }
 
+        ToolIcon {
+            id: toolDelete
+            enabled: !isNew
+            opacity: enabled ? 1 : 0.5
+            platformIconId: "toolbar-delete"
+            onClicked: {
+                remove()
+                mainStack.pageStack.pop()
+            }
+        }
+    }
 }
 

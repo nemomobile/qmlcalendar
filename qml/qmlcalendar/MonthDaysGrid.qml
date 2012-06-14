@@ -131,7 +131,6 @@ Grid {
                     console.log("Day " + journey.text + " dum " + dum);
                     calendarView.currentDate = currentDate;
                     mainStack.pageStack.push(dayView);
-                    toolBack.visible = true;
                 }
             }
         }

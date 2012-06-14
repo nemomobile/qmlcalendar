@@ -12,9 +12,7 @@ Page
     property variant calendarView: calendarView;
     property variant itemIds:calendarView.organizer.itemIds(calendarView.currentDate, new Date(calendarView.year, calendarView.month, calendarView.day+1))
 
-    tools: commonTools
-
-
+    tools: dayTools
 
 
     ListView {
@@ -150,20 +148,15 @@ Page
 
                                             //toolDelete.visible = true;
                                             mainStack.pageStack.push(whatItem);
-
-
-
                                         }
                                     }
                                 }
-
                             }
                         }
                     }
                 }
             }
         }
-
     }
 
 
@@ -196,5 +189,14 @@ Page
     }
 
 
+    ToolBarLayout {
+        id: dayTools
+        visible: true
 
+        ToolIcon {
+            id: toolBack
+            platformIconId: "toolbar-back"
+            onClicked: mainStack.pageStack.pop()
+        }
+    }
 }
