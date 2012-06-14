@@ -81,7 +81,7 @@ Page {
 
                     id: text_what
                     width: whatItem.width - object.width - 10;
-                    //text: (item)?item.description:"Add object"
+                    //text: (item)?item.description:"Add description"
                     placeholderText: (item)?item.description:"Add description"
 
                     font.pixelSize: 28
