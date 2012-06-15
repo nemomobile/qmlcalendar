@@ -74,7 +74,7 @@ Grid {
     }
 
     Component.onCompleted: {
-        selectedIndex = weekDayOfFirst + Month.today().getDate() - 1
+        selectedIndex = weekDayOfFirst + new Date().getDate() - 1
     }
 
 
