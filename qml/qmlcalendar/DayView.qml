@@ -10,7 +10,7 @@ Page
 {
     id:dayView
     property variant calendarView: calendarView;
-    property variant itemIds:calendarView.organizer.itemIds(calendarView.currentDate, new Date(calendarView.year, calendarView.month, calendarView.day+1))
+    property variant itemIds: calendarView.organizer.itemIds(calendarView.currentDate, new Date(calendarView.year, calendarView.month, calendarView.day+1))
 
     tools: dayTools
 
@@ -74,9 +74,6 @@ Page
                                     whatItem.item = null;
 
                                     whatItem.current = Month.atHourObject(calendarView.currentDate, index);
-
-
-                                    whatItem.opacity = 1;
 
                                     console.log("description " + whatItem.description);
                                     //commonTools.visible = true;
@@ -142,7 +139,6 @@ Page
                                             whatItem.location = o.location;
                                             whatItem.isNew = false;
                                             whatItem.item = o;
-                                            whatItem.opacity = 1;
 
                                             //toolDone.visible = true;
 

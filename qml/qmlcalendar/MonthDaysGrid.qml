@@ -49,23 +49,49 @@ Grid {
 
     property date firstDayOfMonth
     property int weekDayOfFirst
+    property int selectedIndex
+    property int oldSelectedIndex: -1
 
 
     onFirstDayOfMonthChanged: {
         weekDayOfFirst = Month.dayIdxByLocalizedDayName(firstDayOfMonth);
     }
 
+    onSelectedIndexChanged: {
+        if(oldSelectedIndex >= 0){
+            dayGridRepeater.itemAt(oldSelectedIndex).selected = false
+        }
+
+        var selectedDayItem = dayGridRepeater.itemAt(selectedIndex)
+        selectedDayItem.selected = true
+
+        var dum = year + "/" + (month + 1) + "/" + selectedDayItem.dayString;
+        var currentDate= new Date(dum);
+        console.log("Day " + selectedDayItem.dayString + " dum " + dum);
+        calendarView.currentDate = currentDate;
+
+        oldSelectedIndex = selectedIndex
+    }
+
+    Component.onCompleted: {
+        selectedIndex = 15
+    }
+
 
     Repeater {
+        id: dayGridRepeater
         model: 42
 
         Rectangle {
-            id: dayContainer
+            id: dayDelegate
             width: monthDaysGrid.width / 7
             height: (monthDaysGrid.height - 35) / 7
 
+            property bool selected: false
+            property alias dayString: dayText.text
+
             Rectangle {
-                id: circle
+                id: dayHighlight
 
                 //                           gradient:  Gradient {
                 //                                  GradientStop { id: stop1; position: 0.0; color: background }
@@ -78,21 +104,17 @@ Grid {
                 width: parent.width * 0.8
                 height: parent.height * 0.8
                 anchors.centerIn: parent
-                visible: false
+                visible: parent.selected
             }
 
             Text {
-                id: journey;
+                id: dayText;
 
                 text: Month.getDayOfMonth(firstDayOfMonth,   index - weekDayOfFirst )
 
                 font.pointSize: parent.height * 0.5
                 anchors.centerIn: parent
-                color: {
-                    if (circle.visible) return "white";
-                    else
-                        return Month.getColorOfDay(firstDayOfMonth,   index - weekDayOfFirst );
-                }
+                color: parent.selected ? "white" : Month.getColorOfDay(firstDayOfMonth,   index - weekDayOfFirst )
             }
 
             MouseArea {
@@ -101,21 +123,7 @@ Grid {
                 anchors.fill: parent
 
                 onClicked: {
-                    if (prevText)
-                        prevText.color = "black";
-                    prevText = journey;
-
-                    if(prevCircle)
-                        prevCircle.visible = false;
-                    circle.visible = true;
-
-                    prevText = journey;
-                    prevCircle = circle;
-
-                    dayView.opacity = 1;
-                    //dayView.z = 1;
-
-                    //calendarView.opacity = 0;
+                    monthDaysGrid.selectedIndex = index
 
                     console.log("N ITEM " + organizer.itemCount);
                     var items = organizer.items;
@@ -126,10 +134,6 @@ Grid {
                 }
 
                 onDoubleClicked: {
-                    var dum = year + "/" + (month + 1) + "/" + journey.text;
-                    var currentDate= new Date(dum);
-                    console.log("Day " + journey.text + " dum " + dum);
-                    calendarView.currentDate = currentDate;
                     mainStack.pageStack.push(dayView);
                 }
             }
