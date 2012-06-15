@@ -75,7 +75,7 @@ Page
 
                                     whatItem.current = Month.atHourObject(calendarView.currentDate, index);
 
-                                    console.log("description " + whatItem.description);
+//                                    console.log("description " + whatItem.description);
                                     //commonTools.visible = true;
                                     //toolDone.visible = true;
 

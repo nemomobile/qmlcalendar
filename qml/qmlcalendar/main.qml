@@ -9,6 +9,7 @@ import com.nokia.meego 1.0
 
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import "month.js" as Month
 //import com.nokia.extras 1.0
 
 
@@ -48,7 +49,19 @@ PageStackWindow {
         ToolIcon {
             id: toolAdd
             platformIconId: "toolbar-add"
-            onClicked: mainStack.pageStack.push(whatItem)
+            onClicked: {
+                whatItem.startTime = new Date().getHours();
+                whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
+
+                whatItem.description = "Add object";
+                whatItem.location = "Here";
+                whatItem.isNew = true;
+                whatItem.item = null;
+
+                whatItem.current = calendarView.currentDate;
+
+                mainStack.pageStack.push(whatItem)
+            }
         }
 
         ToolIcon {
