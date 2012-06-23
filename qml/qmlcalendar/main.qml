@@ -17,9 +17,12 @@ PageStackWindow {
     id: mainStack
     showStatusBar: false;
 
-    initialPage: Page {
-        id: pageStack;
+    initialPage: calendarPage
+
+    Page {
+        id: calendarPage
         tools: mainTools
+
         CalendarView {
             id: calendarView;
         }
@@ -28,7 +31,6 @@ PageStackWindow {
     DayView {
         id: dayView;
         calendarView: calendarView;
-        anchors.fill: parent;
     }
 
     ItemView {
@@ -39,7 +41,6 @@ PageStackWindow {
     What {
         id: whatItem;
         organizer: calendarView.organizer;
-        anchors.fill: parent;
     }
 
     ToolBarLayout {
