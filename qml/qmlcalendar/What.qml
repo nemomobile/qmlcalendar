@@ -261,6 +261,7 @@ Page {
                     anchors.left: durationText.right
                     anchors.leftMargin: 10
                     anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
 
                     text: durationSelectionDialog.model.get(durationSelectionDialog.selectedIndex).duration
                     font.pixelSize: 28
