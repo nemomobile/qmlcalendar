@@ -1,8 +1,9 @@
 /****************************************************************************
 **
-** Copyright (C) 2012 Nicola De Filippo.
+** Copyright (C) 2012 Nicola De Filippo, Ruediger Gad.
 ** All rights reserved.
 ** Contact: Nicola De Filippo (nicola.defilippo@lizard-solutions.com)
+**          Ruediger Gad (r.c.g@gmx.de)
 **
 **
 ** $QT_BEGIN_LICENSE:BSD$
