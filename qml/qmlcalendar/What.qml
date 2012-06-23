@@ -22,224 +22,29 @@ Page {
     property Event item: null;
 
 
-    SelectionDialog {
-         id: singleSelectionDialog
-         titleText: "Duration"
-         //selectedIndex: 1
-
-         model: ListModel {
-             ListElement { duration: "0 minute" }
-             ListElement { duration: "15 minutes" }
-             ListElement { duration: "30 minutes" }
-             ListElement { duration: "45 minutes" }
-             ListElement { duration: "1 hour" }
-             ListElement { duration: "2 hour" }
-             ListElement { duration: "day" }
-         }
-     }
-
-
-    onStatusChanged: {
-        console.log("STATUS CHANGED " + status + " " + PageStatus.Activating);
-        if (status == 2) {
-            console.log("page widht" + whatItem.width);
-            text_what.forceActiveFocus();
-            if (item == null) {
-                singleSelectionDialog.selectedIndex = 0;
-                console.log("index = " + singleSelectionDialog.selectedIndex);
-            }
-            else {
-                console.log("index = " + singleSelectionDialog.selectedIndex);
-                singleSelectionDialog.selectedIndex = Month.calculateIndex(item.startDateTime, item.endDateTime);
-            }
-        }
-    }
-
-
-
-
-
-    ListView {
-        id: list
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: parent.Right
-        spacing: 2
-
-        model: VisualItemModel {
-
-            Row {
-                spacing: 2
-                Text {
-                    id: object
-
-                    text: qsTr("Description")
-                    font.pixelSize: 28
-
-                }
-                TextArea {
-
-                    id: text_what
-                    width: whatItem.width - object.width - 10;
-                    //text: (item)?item.description:"Add description"
-                    placeholderText: (item)?item.description:"Add description"
-
-                    font.pixelSize: 28
-                    clip: true
-                    onActiveFocusChanged: {
-                        if ( text_what.activeFocus ) {
-
-                            object.color = "orange";
-                            //text_what.openSoftwareInputPanel();
-                        }
-                        else {
-                            object.color= "black";
-                            //text_what.closeSoftwareInputPanel();
-                        }
-                    }
-                    //focus:true
-
-
-                }
-            }
-
-            Row {
-
-                Text {
-                    id: text_day
-
-                    text: day;
-                    font.pixelSize: 28
-
-                }
-
-                Text {
-                    id: label_time
-
-                    text: qsTr(" Start ")
-                    font.pixelSize: 28
-
-                }
-
-                TextField {
-
-                    id: text_time
-                    text: startTime;
-                    font.pixelSize: 28
-                    onActiveFocusChanged: { if ( text_time.activeFocus ) { timePickerDialog.open(); console.log ("timer");} }
-                    /*MouseArea {
-                        id: clear
-                        anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
-                        height: text_time.height; width: text_time.height
-                        onClicked: {
-                            timePickerDialog.open()
-                        }
-                    }*/
-                    //readOnly: true
-
-                }
-
-
-            }
-
-
-            Row {
-                spacing: 2
-                Text {
-                    id: labelDuration
-
-                    text: qsTr("Duration")
-                    font.pixelSize: 28
-
-                }
-                TextField {
-                    id: textDuration
-                    width: whatItem.width - labelDuration.width - 10;
-                    text: singleSelectionDialog.model.get(singleSelectionDialog.selectedIndex).duration
-                    font.pixelSize: 28
-                    onActiveFocusChanged: {
-                        if ( textDuration.activeFocus ) {
-
-                            singleSelectionDialog.open();
-                            //text_where.openSoftwareInputPanel();
-                        }
-
-                    }
-                }
-            }
-
-            Row {
-                spacing: 2
-                Text {
-                    id: text_w
-
-                    text: qsTr("Location")
-                    font.pixelSize: 28
-
-                }
-                TextField {
-                    id: text_where
-                    width: whatItem.width - text_w.width - 10;
-                    text: (item)?item.location:"Here"
-                    font.pixelSize: 28
-                    onActiveFocusChanged: {
-                        if ( text_where.activeFocus ) {
-
-                            text_w.color = "orange";
-                            //text_where.openSoftwareInputPanel();
-                        }
-                        else   {
-                            text_w.color= "black";
-                            //text_where.closeSoftwareInputPanel();
-                        }
-                    }
-                }
-            }
-
-
-
-        }
-    }
-
-
-
     function remove() {
-
         organizer.removeItem(item.itemId);
         //mainStack.pageStack.pop();
     }
     //color: "#ffffff"
 
-
-    Event {
-        id: item1;
-        startDateTime: current;
-        description: text_what.text;
-        location: location;
-        endDateTime: Month.plus1Hour(current);
-    }
-
-
-
-
     function save () {
-
-        //text_what.closeSoftwareInputPanel();
-        text_what.focus = false;
+        //descriptionTextArea.closeSoftwareInputPanel();
+        descriptionTextArea.focus = false;
 
         if (item === null) {
             console.log("NULL");
-            item1.description = text_what.text;
-            item1.location = text_where.text;
+            item1.description = descriptionTextArea.text;
+            item1.location = locationTextField.text;
             item1.startDateTime = current;
             item = item1;
 
         }
 
-        console.log("what = " + text_what.text);
+        console.log("what = " + descriptionTextArea.text);
 
-        item.description = text_what.text;
-        item.location = text_where.text;
+        item.description = descriptionTextArea.text;
+        item.location = locationTextField.text;
         item.endDateTime = Month.plusMinutes(current, Month.getMinutes(singleSelectionDialog.selectedIndex));
 
         console.log("SELE " + singleSelectionDialog.selectedIndex);
@@ -265,9 +70,31 @@ Page {
         }
 
         //mainStack.pageStack.pop();
+    }
 
 
+    Event {
+        id: item1;
+        startDateTime: current;
+        description: descriptionTextArea.text;
+        location: location;
+        endDateTime: Month.plus1Hour(current);
+    }
 
+    SelectionDialog {
+        id: durationSelectionDialog
+        titleText: "Duration"
+        //selectedIndex: 1
+
+        model: ListModel {
+            ListElement { duration: "0 minute" }
+            ListElement { duration: "15 minutes" }
+            ListElement { duration: "30 minutes" }
+            ListElement { duration: "45 minutes" }
+            ListElement { duration: "1 hour" }
+            ListElement { duration: "2 hour" }
+            ListElement { duration: "day" }
+        }
     }
 
     TimePickerDialog {
@@ -307,6 +134,205 @@ Page {
             onClicked: {
                 remove()
                 mainStack.pageStack.pop()
+            }
+        }
+    }
+
+
+    onStatusChanged: {
+        console.log("STATUS CHANGED " + status + " " + PageStatus.Activating);
+        if (status == 2) {
+            console.log("page widht" + whatItem.width);
+            descriptionTextArea.forceActiveFocus();
+            if (item == null) {
+                singleSelectionDialog.selectedIndex = 0;
+                console.log("index = " + singleSelectionDialog.selectedIndex);
+            }
+            else {
+                console.log("index = " + singleSelectionDialog.selectedIndex);
+                singleSelectionDialog.selectedIndex = Month.calculateIndex(item.startDateTime, item.endDateTime);
+            }
+        }
+    }
+
+
+    Flickable {
+        anchors.fill: parent
+        contentHeight: content.height
+
+        Column {
+            id: content
+            spacing: 12
+
+            anchors{top: parent.top; left: parent.left; right: parent.right; margins: 15}
+
+            Row {
+                spacing: 10
+                width: parent.width
+
+                Text {
+                    id: subjectText
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Subject")
+                    font.pixelSize: 28
+                }
+
+                TextField {
+                    id: subjectTextField
+
+                    anchors.left: subjectText.right
+                    anchors.leftMargin: 10
+                    anchors.right: parent.right
+
+                    placeholderText: (item) ? item.subject : "Add Subject"
+                    font.pixelSize: 28
+                }
+            }
+
+            Rectangle {
+                width: parent.width
+                height: timeValue.height * 1.5
+                radius: timeValue.height * 0.5
+
+                color: "black"
+                opacity: timeMouseArea.pressed ? 0.5 : 0.2
+
+                Text {
+                    id: timeText
+
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: qsTr("Start")
+                    font.pixelSize: 28
+                }
+
+                Text {
+                    id: timeDay
+
+                    anchors.left: timeText.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: day
+                    font.pixelSize: 28
+                }
+
+                Text {
+                    id: timeValue
+
+                    anchors.left: timeDay.right
+                    anchors.leftMargin: 10
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: startTime
+                    font.pixelSize: 28
+                }
+
+                MouseArea{
+                    id: timeMouseArea
+                    anchors.fill: parent
+
+                    onClicked: timePickerDialog.open()
+                }
+            }
+
+            Rectangle {
+                width: parent.width
+                height: durationValue.height * 1.5
+                radius: durationValue.height * 0.5
+
+                color: "black"
+                opacity: durationMouseArea.pressed ? 0.5 : 0.2
+
+                Text {
+                    id: durationText
+
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: qsTr("Duration")
+                    font.pixelSize: 28
+                }
+
+                Text {
+                    id: durationValue
+
+                    anchors.left: durationText.right
+                    anchors.leftMargin: 10
+                    anchors.right: parent.right
+
+                    text: singleSelectionDialog.model.get(singleSelectionDialog.selectedIndex).duration
+                    font.pixelSize: 28
+                }
+
+                MouseArea{
+                    id: durationMouseArea
+                    anchors.fill: parent
+
+                    onClicked: durationSelectionDialog.open()
+                }
+            }
+
+            Row {
+                spacing: 10
+                width: parent.width
+
+                Text {
+                    id: locationText
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: qsTr("Location")
+                    font.pixelSize: 28
+                }
+
+                TextField {
+                    id: locationTextField
+
+                    anchors.left: locationText.right
+                    anchors.leftMargin: 10
+                    anchors.right: parent.right
+
+                    //text: (item) ? item.location : "Here"
+                    placeholderText: (item) ? item.location : "Add Location"
+                    font.pixelSize: 28
+                    onActiveFocusChanged: {
+                        if ( locationTextField.activeFocus ) {
+
+                            text_w.color = "orange";
+                            //locationTextField.openSoftwareInputPanel();
+                        }
+                        else   {
+                            text_w.color= "black";
+                            //locationTextField.closeSoftwareInputPanel();
+                        }
+                    }
+                }
+            }
+
+            Row {
+                spacing: 10
+                width: parent.width
+
+                Text {
+                    id: descriptionText
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Description")
+                    font.pixelSize: 28
+                }
+
+                TextArea {
+                    id: descriptionTextArea
+
+                    anchors.left: descriptionText.right
+                    anchors.leftMargin: 10
+                    anchors.right: parent.right
+
+                    //text: (item)?item.description:"Add description"
+                    placeholderText: (item) ? item.description : "Add Description"
+
+                    font.pixelSize: 28
+                }
             }
         }
     }
