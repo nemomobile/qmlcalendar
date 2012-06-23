@@ -45,10 +45,10 @@ Page {
 
         item.description = descriptionTextArea.text;
         item.location = locationTextField.text;
-        item.endDateTime = Month.plusMinutes(current, Month.getMinutes(singleSelectionDialog.selectedIndex));
+        item.endDateTime = Month.plusMinutes(current, Month.getMinutes(durationSelectionDialog.selectedIndex));
 
-        console.log("SELE " + singleSelectionDialog.selectedIndex);
-        console.log("getminutes " + Month.getMinutes(singleSelectionDialog.selectedIndex));
+        console.log("SELE " + durationSelectionDialog.selectedIndex);
+        console.log("getminutes " + Month.getMinutes(durationSelectionDialog.selectedIndex));
 
 
         console.log("current " + item.startDateTime + " desc " +  item.description + " end " + item.endDateTime);
@@ -145,12 +145,12 @@ Page {
             console.log("page widht" + whatItem.width);
             descriptionTextArea.forceActiveFocus();
             if (item == null) {
-                singleSelectionDialog.selectedIndex = 0;
-                console.log("index = " + singleSelectionDialog.selectedIndex);
+                durationSelectionDialog.selectedIndex = 0;
+                console.log("index = " + durationSelectionDialog.selectedIndex);
             }
             else {
-                console.log("index = " + singleSelectionDialog.selectedIndex);
-                singleSelectionDialog.selectedIndex = Month.calculateIndex(item.startDateTime, item.endDateTime);
+                console.log("index = " + durationSelectionDialog.selectedIndex);
+                durationSelectionDialog.selectedIndex = Month.calculateIndex(item.startDateTime, item.endDateTime);
             }
         }
     }
@@ -262,7 +262,7 @@ Page {
                     anchors.leftMargin: 10
                     anchors.right: parent.right
 
-                    text: singleSelectionDialog.model.get(singleSelectionDialog.selectedIndex).duration
+                    text: durationSelectionDialog.model.get(durationSelectionDialog.selectedIndex).duration
                     font.pixelSize: 28
                 }
 
