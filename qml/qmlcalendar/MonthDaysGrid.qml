@@ -70,7 +70,7 @@ Grid {
         var dum = year + "/" + (month + 1) + "/" + selectedDayItem.dayString;
         var currentDate= new Date(dum);
         console.log("Day " + selectedDayItem.dayString + " dum " + dum);
-        calendarView.currentDate = currentDate;
+//        calendarView.currentDate = currentDate;
 
         oldSelectedIndex = selectedIndex
     }

@@ -52,16 +52,11 @@ Item  {
     property color background: "#e7e7e7"
     property color orange: "#ef5500"
 
-    property int month
-    property int year
-
-    property date currentDate: new Date()
-//    property date currentDate:new Date();
-    property int day: currentDate.getDate()
+    property date currentDate
 
 
     function getHeaderText(){
-        return Month.getMonthName(month) + " " + year
+        return Month.getMonthName(currentDate.getMonth()) + " " + currentDate.getFullYear()
     }
 
     function goToNextMonth() {
@@ -75,30 +70,32 @@ Item  {
             m = 0;
         }
 
-        currentDate = new Date(y + "/" + (m + 1) + "/" + currentDate.getDate())
+        currentDate = new Date(y, m, currentDate.getDate())
     }
 
     function goToPreviousMonth() {
-        if (month > 0)
-            month--
+        var y = currentDate.getFullYear()
+        var m = currentDate.getMonth()
+
+        if (m > 0)
+            m--
         else {
-            year--;
-            month = 11;
+            y--;
+            m = 11;
         }
+
+        currentDate = new Date(y, m, currentDate.getDate())
     }
 
     Component.onCompleted: {
-        year = Month.today().getFullYear()
-        month = Month.today().getMonth()
-    }
-
-    onMonthChanged: {
-        currentDate = new Date(year + "/" + (month + 1) + "/" + day)
+        currentDate = new Date()
     }
 
     onCurrentDateChanged: {
         var y = currentDate.getFullYear()
         var m = currentDate.getMonth()
+
+        console.log("Current date changed: Year: " + y + " Month: " + m)
 
         previousMonthDaysGrid.firstDayOfMonth = new Date(((m - 1) < 0) ? y - 1 : y,((m - 1) < 0) ? 11 : m - 1, 1);
         currentMonthDaysGrid.firstDayOfMonth = new Date(y, m, 1);
@@ -141,9 +138,7 @@ Item  {
          titleText: "Select Date"
 
          onAccepted: {
-             calendarView.year = datePickerDialog.year
-             calendarView.day = datePickerDialog.day
-             calendarView.month = datePickerDialog.month - 1
+             currentDate = new Date(year, month - 1, day)
          }
     }
 
@@ -199,9 +194,9 @@ Item  {
                     anchors.fill: parent
 
                     onClicked: {
-                        datePickerDialog.day = day
-                        datePickerDialog.month = month + 1
-                        datePickerDialog.year = year
+                        datePickerDialog.day = currentDate.getDate()
+                        datePickerDialog.month = currentDate.getMonth() + 1
+                        datePickerDialog.year = currentDate.getFullYear()
 
                         datePickerDialog.open()
                     }
