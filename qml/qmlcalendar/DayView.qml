@@ -45,7 +45,11 @@ Page
 {
     id: dayView
     property variant calendarView: calendarView;
-    property variant itemIds: calendarView.organizer.itemIds(calendarView.currentDate, new Date(calendarView.year, calendarView.month, calendarView.day+1))
+    property variant itemIds:
+        calendarView.organizer.itemIds(calendarView.currentDate,
+                                       new Date(calendarView.currentDate.getFullYear(),
+                                                calendarView.currentDate.getMonth(),
+                                                calendarView.currentDate.getDate() + 1))
 
     tools: dayTools
 

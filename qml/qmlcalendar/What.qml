@@ -116,10 +116,10 @@ Sheet {
 
     Event {
         id: item1;
-        startDateTime: current;
+        startDateTime: startTime;
         description: descriptionTextArea.text;
         location: location;
-        endDateTime: Month.plus1Hour(current);
+        endDateTime: Month.plus1Hour(startTime);
     }
 
     SelectionDialog {
