@@ -87,7 +87,7 @@ Page {
         //selectedIndex: 1
 
         model: ListModel {
-            ListElement { duration: "0 minute" }
+            ListElement { duration: "0 minutes" }
             ListElement { duration: "15 minutes" }
             ListElement { duration: "30 minutes" }
             ListElement { duration: "45 minutes" }
