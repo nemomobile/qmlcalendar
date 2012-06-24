@@ -127,21 +127,21 @@ Item  {
 
         Component.onCompleted : {
             console.log("manager " + organizer.manager + " ITEM " + organizer.itemCount)
-            if (managerName == "mkcal") {
+//            if (managerName == "mkcal") {
                 //console.log("LOAD " + organizer.itemCount + " start " + organizer.startPeriod + " end " + organizer.endPeriod);
 
                 //organizer.importItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
                 //console.log("LOAD " + organizer.itemCount + " start " + organizer.startPeriod + " end " + organizer.endPeriod);
 //                console.log("current " + currentDate + " +60 " + Month.plus1Hour(currentDate));
-            }
+//            }
         }
 
         Component.onDestruction:  {
             console.log("Destroy ITEM " + organizer.itemCount)
-            if (managerName == "mkcal") {
-                console.log("Save");
-                organizer.exportItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
-            }
+//            if (managerName == "mkcal") {
+//                console.log("Save");
+//                organizer.exportItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
+//            }
         }
     }
 
