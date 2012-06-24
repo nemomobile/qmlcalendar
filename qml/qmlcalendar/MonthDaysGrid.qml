@@ -54,7 +54,7 @@ Grid {
 
 
     onFirstDayOfMonthChanged: {
-        weekDayOfFirst = Month.dayIdxByLocalizedDayName(firstDayOfMonth);
+        weekDayOfFirst = Month.weekDayIdxByLocalizedDayName(firstDayOfMonth);
     }
 
     onSelectedIndexChanged: {

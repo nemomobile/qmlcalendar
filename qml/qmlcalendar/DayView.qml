@@ -7,18 +7,40 @@ import "month.js" as Month
 
 Page
 {
-    id:dayView
+    id: dayView
     property variant calendarView: calendarView;
     property variant itemIds: calendarView.organizer.itemIds(calendarView.currentDate, new Date(calendarView.year, calendarView.month, calendarView.day+1))
 
     tools: dayTools
 
+    Text{
+        id: dateText
+
+        anchors{
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
+
+        text: Qt.formatDate(calendarView.currentDate, "yyyy-MM-dd")
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: 40
+    }
 
     ListView {
-        anchors.fill: parent
         id: hourList
+
+        anchors{
+            top: dateText.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+
         model : hourModel
         delegate : hourDelegate
+
+        clip: true
     }
 
     Component {
