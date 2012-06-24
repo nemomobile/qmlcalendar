@@ -164,15 +164,22 @@ Page {
             id: content
             spacing: 12
 
-            anchors{top: parent.top; left: parent.left; right: parent.right; margins: 15}
+            anchors{
+                top: parent.top
+                left: parent.left
+                right: parent.right
+                margins: 15
+            }
 
-            Row {
-                spacing: 10
-                width: parent.width
+            Item {
+                anchors{left: parent.left; right: parent.right}
+                height: subjectTextField.height
 
                 Text {
                     id: subjectText
-                    anchors.verticalCenter: parent.verticalCenter
+
+                    anchors{verticalCenter: parent.verticalCenter; left: parent.left}
+
                     text: qsTr("Subject")
                     font.pixelSize: 28
                 }
@@ -180,28 +187,28 @@ Page {
                 TextField {
                     id: subjectTextField
 
-                    anchors.left: subjectText.right
-                    anchors.leftMargin: 10
-                    anchors.right: parent.right
+                    anchors{
+                        left: subjectText.right
+                        leftMargin: 10
+                        right: parent.right
+                    }
 
                     placeholderText: (item) ? item.subject : "Add Subject"
                     font.pixelSize: 28
                 }
             }
 
-            Rectangle {
-                width: parent.width
+            Item {
+                anchors{left: parent.left; right: parent.right}
                 height: timeValue.height * 1.5
-                radius: timeValue.height * 0.5
-
-                color: "black"
-                opacity: timeMouseArea.pressed ? 0.5 : 0.2
 
                 Text {
                     id: timeText
 
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors{
+                        left: parent.left
+                        verticalCenter: parent.verticalCenter
+                    }
 
                     text: qsTr("Start")
                     font.pixelSize: 28
@@ -210,41 +217,53 @@ Page {
                 Text {
                     id: timeDay
 
-                    anchors.left: timeText.right
-                    anchors.leftMargin: 10
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors{
+                        left: timeText.right
+                        leftMargin: 10
+                        verticalCenter: parent.verticalCenter
+                    }
 
                     text: day
                     font.pixelSize: 28
                 }
 
-                Text {
-                    id: timeValue
+                Rectangle{
+                    height: parent.height
 
-                    anchors.left: timeDay.right
-                    anchors.leftMargin: 10
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
+                    radius: timeValue.height * 0.5
+                    color: timeMouseArea.pressed ? "gray" : "lightgray"
 
-                    text: startTime
-                    font.pixelSize: 28
-                }
+                    anchors{
+                        left: timeDay.right
+                        leftMargin: 10
+                        right: parent.right
+                    }
 
-                MouseArea{
-                    id: timeMouseArea
-                    anchors.fill: parent
+                    Text {
+                        id: timeValue
 
-                    onClicked: timePickerDialog.open()
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        text: startTime
+                        font.pixelSize: 28
+                    }
+
+                    MouseArea{
+                        id: timeMouseArea
+                        anchors.fill: parent
+
+                        onClicked: timePickerDialog.open()
+                    }
                 }
             }
 
-            Rectangle {
-                width: parent.width
-                height: durationValue.height * 1.5
-                radius: durationValue.height * 0.5
+            Item {
+                anchors{
+                    left: parent.left
+                    right: parent.right
+                }
 
-                color: "black"
-                opacity: durationMouseArea.pressed ? 0.5 : 0.2
+                height: durationValue.height * 1.5
 
                 Text {
                     id: durationText
@@ -255,33 +274,47 @@ Page {
                     font.pixelSize: 28
                 }
 
-                Text {
-                    id: durationValue
+                Rectangle{
+                    height: parent.height
 
-                    anchors.left: durationText.right
-                    anchors.leftMargin: 10
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors{
+                        left: durationText.right
+                        leftMargin: 10
+                        right: parent.right
+                    }
 
-                    text: durationSelectionDialog.model.get(durationSelectionDialog.selectedIndex).duration
-                    font.pixelSize: 28
-                }
+                    radius: durationValue.height * 0.5
+                    color: durationMouseArea.pressed ? "gray" : "lightgray"
 
-                MouseArea{
-                    id: durationMouseArea
-                    anchors.fill: parent
+                    Text {
+                        id: durationValue
 
-                    onClicked: durationSelectionDialog.open()
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        text: durationSelectionDialog.model.get(durationSelectionDialog.selectedIndex).duration
+                        font.pixelSize: 28
+                    }
+
+                    MouseArea{
+                        id: durationMouseArea
+                        anchors.fill: parent
+
+                        onClicked: durationSelectionDialog.open()
+                    }
                 }
             }
 
-            Row {
-                spacing: 10
-                width: parent.width
+            Item {
+                anchors{left: parent.left; right: parent.right}
+                height: locationTextField.height
 
                 Text {
                     id: locationText
-                    anchors.verticalCenter: parent.verticalCenter
+
+                    anchors{
+                        verticalCenter: parent.verticalCenter
+                        left: parent.left
+                    }
 
                     text: qsTr("Location")
                     font.pixelSize: 28
@@ -290,9 +323,11 @@ Page {
                 TextField {
                     id: locationTextField
 
-                    anchors.left: locationText.right
-                    anchors.leftMargin: 10
-                    anchors.right: parent.right
+                    anchors{
+                        left: locationText.right
+                        leftMargin: 10
+                        right: parent.right
+                    }
 
                     //text: (item) ? item.location : "Here"
                     placeholderText: (item) ? item.location : "Add Location"
@@ -311,13 +346,18 @@ Page {
                 }
             }
 
-            Row {
-                spacing: 10
-                width: parent.width
+            Item {
+                anchors{left: parent.left; right: parent.right}
+                height: descriptionTextArea.height
 
                 Text {
                     id: descriptionText
-                    anchors.verticalCenter: parent.verticalCenter
+
+                    anchors{
+                        verticalCenter: parent.verticalCenter
+                        left: parent.left
+                    }
+
                     text: qsTr("Description")
                     font.pixelSize: 28
                 }
@@ -325,9 +365,11 @@ Page {
                 TextArea {
                     id: descriptionTextArea
 
-                    anchors.left: descriptionText.right
-                    anchors.leftMargin: 10
-                    anchors.right: parent.right
+                    anchors{
+                        left: descriptionText.right
+                        leftMargin: 10
+                        right: parent.right
+                    }
 
                     //text: (item)?item.description:"Add description"
                     placeholderText: (item) ? item.description : "Add Description"
