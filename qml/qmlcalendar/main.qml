@@ -54,15 +54,15 @@ PageStackWindow {
             id: toolAdd
             platformIconId: "toolbar-add"
             onClicked: {
-                whatItem.startTime = new Date().getHours();
-                whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
+                var d = new Date(calendarView.currentDate)
+                var now = new Date()
+                d.setHours(now.getHours())
+                d.setMinutes(0)
+                d.setSeconds(0)
+                console.log(d)
+                whatItem.startTime = d
 
-                whatItem.description = "Add object";
-                whatItem.location = "Here";
-                whatItem.isNew = true;
-                whatItem.item = null;
-
-                whatItem.current = calendarView.currentDate;
+                whatItem.item = null
 
                 whatItem.open()
             }
