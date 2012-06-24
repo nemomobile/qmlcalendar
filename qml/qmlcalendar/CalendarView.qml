@@ -43,7 +43,7 @@ import QtMobility.organizer 1.1
 import com.nokia.meego 1.0
 
 Item  {
-    id:calendarView
+    id: calendarView
 
     height: (parent.height > parent.width) ? parent.width : parent.height
     width: height
@@ -123,8 +123,16 @@ Item  {
 
     DatePickerDialog {
          id: datePickerDialog
+
+         acceptButtonText: "Go"
+         rejectButtonText: "Cancel"
          titleText: "Select Date"
-         onAccepted: callbackFunction()
+
+         onAccepted: {
+             calendarView.year = datePickerDialog.year
+             calendarView.day = datePickerDialog.day
+             calendarView.month = datePickerDialog.month - 1
+         }
     }
 
 
@@ -179,8 +187,10 @@ Item  {
                     anchors.fill: parent
 
                     onClicked: {
-                        datePickerDialog.open();
-                        //console.log("TITLE " + currentMonth);
+                        datePickerDialog.day = day
+                        datePickerDialog.month = month + 1
+                        datePickerDialog.year = year
+                        datePickerDialog.open()
                     }
                 }
             }
