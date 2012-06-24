@@ -171,9 +171,7 @@ Item  {
 
                 MouseArea {
                     id: mouseAreaPrevious
-
                     anchors.fill: parent
-
                     onClicked: goToPreviousMonth()
                 }
             }
@@ -195,7 +193,6 @@ Item  {
 
                 MouseArea {
                     id: mouseAreaTitle
-
                     anchors.fill: parent
 
                     onClicked: {
@@ -221,9 +218,7 @@ Item  {
 
                 MouseArea {
                     id: mouseAreaNext
-
                     anchors.fill: parent
-
                     onClicked: goToNextMonth()
                 }
             }

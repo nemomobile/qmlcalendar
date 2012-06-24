@@ -67,16 +67,11 @@ Grid {
         var selectedDayItem = dayGridRepeater.itemAt(selectedIndex)
         selectedDayItem.selected = true
 
-        var dum = year + "/" + (month + 1) + "/" + selectedDayItem.dayString;
-        var currentDate= new Date(dum);
-        console.log("Day " + selectedDayItem.dayString + " dum " + dum);
-//        calendarView.currentDate = currentDate;
-
         oldSelectedIndex = selectedIndex
     }
 
     Component.onCompleted: {
-        selectedIndex = weekDayOfFirst + new Date().getDate() - 1
+        selectedIndex = weekDayOfFirst + new Date().getDate()
     }
 
 
@@ -127,12 +122,17 @@ Grid {
                 onClicked: {
                     monthDaysGrid.selectedIndex = index
 
-                    console.log("N ITEM " + organizer.itemCount);
-                    var items = organizer.items;
-                    var i;
-                    for (i = 0; i < organizer.itemCount;i++) {
-                        console.log("item " + i + " start date" + items[i].itemStartTime);
-                    }
+//                    console.log("N ITEM " + organizer.itemCount);
+//                    var items = organizer.items;
+//                    var i;
+//                    for (i = 0; i < organizer.itemCount;i++) {
+//                        console.log("item " + i + " start date" + items[i].itemStartTime);
+//                    }
+
+                    var dum = calendarView.currentDate.getFullYear() + "/" + (calendarView.currentDate.getMonth() + 1) + "/" + dayString;
+                    var currentDate= new Date(dum);
+                    console.log("Day " + dayString + " dum " + dum);
+                    calendarView.currentDate = currentDate;
                 }
 
                 onDoubleClicked: {
