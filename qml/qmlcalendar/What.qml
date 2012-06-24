@@ -58,6 +58,12 @@ Sheet {
     property Event item: null;
 
 
+    acceptButtonText: "OK"
+    rejectButtonText: "Cancel"
+
+    onAccepted: save()
+
+
     function remove() {
         organizer.removeItem(item.itemId);
         //mainStack.pageStack.pop();
@@ -77,23 +83,25 @@ Sheet {
 
         }
 
-        console.log("what = " + descriptionTextArea.text);
+        console.log("Description text: " + descriptionTextArea.text);
 
+        item.startDateTime = current
         item.description = descriptionTextArea.text;
         item.location = locationTextField.text;
         item.endDateTime = Month.plusMinutes(current, Month.getMinutes(durationSelectionDialog.selectedIndex));
 
-        console.log("SELE " + durationSelectionDialog.selectedIndex);
-        console.log("getminutes " + Month.getMinutes(durationSelectionDialog.selectedIndex));
+        console.log("Duration index: " + durationSelectionDialog.selectedIndex);
+        console.log("Duration minutes: " + Month.getMinutes(durationSelectionDialog.selectedIndex));
 
 
-        console.log("current " + item.startDateTime + " desc " +  item.description + " end " + item.endDateTime);
+        console.log("Start: " + item.startDateTime + " Description: " +  item.description + " End: " + item.endDateTime);
 
-        if ( isNew )
+        if ( isNew ){
+            console.log("Storing new item.")
             organizer.saveItem(item);
-        else {
+        } else {
+            console.log("Storing exisiting item.")
             item.save();
-
         }
 
         organizer.update();
@@ -144,43 +152,45 @@ Sheet {
     }
 
 
-    onStatusChanged: {
-        console.log("STATUS CHANGED " + status + " " + PageStatus.Activating);
-        if (status == 2) {
-            console.log("page widht" + whatItem.width);
-            descriptionTextArea.forceActiveFocus();
-            if (item == null) {
-                durationSelectionDialog.selectedIndex = 0;
-                console.log("index = " + durationSelectionDialog.selectedIndex);
-            }
-            else {
-                console.log("index = " + durationSelectionDialog.selectedIndex);
-                durationSelectionDialog.selectedIndex = Month.calculateIndex(item.startDateTime, item.endDateTime);
-            }
-        }
-    }
 
-    buttons: Item {
-        anchors.fill: parent
-        SheetButton{
-            id: rejectButton
-            anchors.left: parent.left
-            anchors.leftMargin: 16
-            anchors.verticalCenter: parent.verticalCenter
-            text: "Cancel"
-            onClicked: whatItem.reject();
-        }
 
-        SheetButton{
-            id: acceptButton
-            anchors.right: parent.right
-            anchors.rightMargin: 16
-            anchors.verticalCenter: parent.verticalCenter
-            platformStyle: SheetButtonAccentStyle { }
-            text: "OK"
-            onClicked: whatItem.accept()
-        }
-    }
+//    onStatusChanged: {
+//        console.log("STATUS CHANGED " + status + " " + PageStatus.Activating);
+//        if (status == 2) {
+//            console.log("page widht" + whatItem.width);
+//            descriptionTextArea.forceActiveFocus();
+//            if (item == null) {
+//                durationSelectionDialog.selectedIndex = 0;
+//                console.log("index = " + durationSelectionDialog.selectedIndex);
+//            }
+//            else {
+//                console.log("index = " + durationSelectionDialog.selectedIndex);
+//                durationSelectionDialog.selectedIndex = Month.calculateIndex(item.startDateTime, item.endDateTime);
+//            }
+//        }
+//    }
+
+//    buttons: Item {
+//        anchors.fill: parent
+//        SheetButton{
+//            id: rejectButton
+//            anchors.left: parent.left
+//            anchors.leftMargin: 16
+//            anchors.verticalCenter: parent.verticalCenter
+//            text: "Cancel"
+//            onClicked: whatItem.reject()
+//        }
+
+//        SheetButton{
+//            id: acceptButton
+//            anchors.right: parent.right
+//            anchors.rightMargin: 16
+//            anchors.verticalCenter: parent.verticalCenter
+//            platformStyle: SheetButtonAccentStyle { }
+//            text: "OK"
+//            onClicked: whatItem.accept()
+//        }
+//    }
 
 
     content: Flickable {
@@ -198,32 +208,32 @@ Sheet {
                 margins: 15
             }
 
-            Item {
-                anchors{left: parent.left; right: parent.right}
-                height: subjectTextField.height
+//            Item {
+//                anchors{left: parent.left; right: parent.right}
+//                height: subjectTextField.height
 
-                Text {
-                    id: subjectText
+//                Text {
+//                    id: subjectText
 
-                    anchors{verticalCenter: parent.verticalCenter; left: parent.left}
+//                    anchors{verticalCenter: parent.verticalCenter; left: parent.left}
 
-                    text: qsTr("Subject")
-                    font.pixelSize: 28
-                }
+//                    text: qsTr("Subject")
+//                    font.pixelSize: 28
+//                }
 
-                TextField {
-                    id: subjectTextField
+//                TextField {
+//                    id: subjectTextField
 
-                    anchors{
-                        left: subjectText.right
-                        leftMargin: 10
-                        right: parent.right
-                    }
+//                    anchors{
+//                        left: subjectText.right
+//                        leftMargin: 10
+//                        right: parent.right
+//                    }
 
-                    placeholderText: (item) ? item.subject : "Add Subject"
-                    font.pixelSize: 28
-                }
-            }
+//                    placeholderText: (item) ? item.subject : "Add Subject"
+//                    font.pixelSize: 28
+//                }
+//            }
 
             Item {
                 anchors{left: parent.left; right: parent.right}
@@ -359,17 +369,6 @@ Sheet {
                     //text: (item) ? item.location : "Here"
                     placeholderText: (item) ? item.location : "Add Location"
                     font.pixelSize: 28
-                    onActiveFocusChanged: {
-                        if ( locationTextField.activeFocus ) {
-
-                            text_w.color = "orange";
-                            //locationTextField.openSoftwareInputPanel();
-                        }
-                        else   {
-                            text_w.color= "black";
-                            //locationTextField.closeSoftwareInputPanel();
-                        }
-                    }
                 }
             }
 

@@ -108,9 +108,20 @@ Item  {
         //manager:"qtorganizer:mkcal:"
         //startPeriod: currentDate
         //endPeriod: Month.tomorrow(currentDate);
-        startPeriod:'2011-01-01'
-        endPeriod:'2012-12-31'
-        autoUpdate:true
+
+        startPeriod: '2011-01-01'
+        endPeriod: '2012-12-31'
+        autoUpdate: true
+
+        onEventsChanged: {
+            console.log("Events changed...")
+
+            for(var i = 0; i < events.length; i++){
+                var e = events[i]
+                console.log("Event " + i + " " + e.description + ", " + e.location + ", " + e.startDateTime + ", " + e.endDateTime)
+            }
+        }
+
         Component.onCompleted : {
             console.log("manager " + organizer.manager + " ITEM " + organizer.itemCount)
             if (managerName == "mkcal") {
@@ -121,6 +132,7 @@ Item  {
 //                console.log("current " + currentDate + " +60 " + Month.plus1Hour(currentDate));
             }
         }
+
         Component.onDestruction:  {
             console.log("Destroy ITEM " + organizer.itemCount)
             if (managerName == "mkcal") {
