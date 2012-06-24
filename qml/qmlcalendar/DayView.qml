@@ -44,13 +44,29 @@ import "month.js" as Month
 Page
 {
     id: dayView
-    property variant itemIds:
-        calendarView.organizer.itemIds(calendarView.currentDate,
-                                       new Date(calendarView.currentDate.getFullYear(),
-                                                calendarView.currentDate.getMonth(),
-                                                calendarView.currentDate.getDate() + 1))
-
     tools: dayTools
+
+    property variant itemIds
+
+    onItemIdsChanged: {
+        console.log("Item Ids changed...")
+
+    }
+
+    function updateItemIds(){
+        var startDateRange = new Date(calendarView.currentDate)
+        startDateRange.setHours(0)
+        startDateRange.setMinutes(0)
+        startDateRange.setSeconds(0)
+        var endDateRange = new Date(startDateRange.getFullYear(),
+                                    startDateRange.getMonth(),
+                                    startDateRange.getDate() + 1)
+        console.log("Date range, start: " + startDateRange + " end: " + endDateRange)
+        var itemIds = calendarView.organizer.itemIds(startDateRange, endDateRange)
+
+        console.log("Item Ids length: " + itemIds.length)
+        dayView.itemIds = itemIds
+    }
 
     Text{
         id: dateText
@@ -150,9 +166,7 @@ Page
                         //focus: true
                         id: repeater
                         // Simple fetch ALL events on this day...and we will filter them by hour.
-                        model: calendarView.organizer.items? calendarView.organizer.itemIds(Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex)
-                                                                                            , (Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex )))
-                                                           : 0
+                        model: itemIds.length > 0 ? itemIds : 0
 
                         Column {
                             spacing: 10

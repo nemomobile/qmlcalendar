@@ -120,6 +120,8 @@ Item  {
                 var e = events[i]
                 console.log("Event " + i + " " + e.description + ", " + e.location + ", " + e.startDateTime + ", " + e.endDateTime)
             }
+
+            dayView.updateItemIds()
         }
 
         Component.onCompleted : {

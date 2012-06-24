@@ -24,12 +24,16 @@ PageStackWindow {
         tools: mainTools
 
         CalendarView {
-            id: calendarView;
+            id: calendarView
+
+            onCurrentDateChanged: {
+                dayView.updateItemIds()
+            }
         }
     }
 
     DayView {
-        id: dayView;
+        id: dayView
     }
 
     ItemView {
