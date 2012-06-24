@@ -130,9 +130,6 @@ Page
                                     console.log(d)
                                     whatItem.startTime = d
 
-//                                    whatItem.description = ""
-//                                    whatItem.location = ""
-//                                    whatItem.isNew = true
                                     whatItem.item = null
 
                                     whatItem.open()

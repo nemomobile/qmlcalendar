@@ -48,10 +48,7 @@ Sheet {
     id: whatItem
 
     property date startTime
-//    property string day ;
     property OrganizerModel organizer: calendarView.organizer;
-//    property date current; // new Date();
-//    property OrganizerItem selecteditem: null;
 
     property alias description: descriptionTextArea.text
     property alias location: locationTextField.text
@@ -80,13 +77,11 @@ Sheet {
 
     function remove() {
         organizer.removeItem(item.itemId);
-        //mainStack.pageStack.pop();
     }
-    //color: "#ffffff"
 
     function save () {
         //descriptionTextArea.closeSoftwareInputPanel();
-        descriptionTextArea.focus = false;
+        //descriptionTextArea.focus = false;
 
         if (item === null) {
             console.log("NULL");
@@ -94,7 +89,6 @@ Sheet {
             item1.location = locationTextField.text;
             item1.startDateTime = startTime;
             item = item1;
-
         }
 
         console.log("Description text: " + descriptionTextArea.text);
@@ -117,17 +111,6 @@ Sheet {
             console.log("Storing exisiting item.")
             item.save();
         }
-
-        organizer.update();
-
-        console.log("In save N ITEM " + organizer.itemCount);
-        var items = organizer.items;
-        var i;
-        for (i = 0; i < organizer.itemCount;i++) {
-            console.log("item " + i + " start date" + items[i].itemStartTime);
-        }
-
-        //mainStack.pageStack.pop();
     }
 
 
@@ -169,47 +152,6 @@ Sheet {
             startTime = d
         }
     }
-
-
-
-
-//    onStatusChanged: {
-//        console.log("STATUS CHANGED " + status + " " + PageStatus.Activating);
-//        if (status == 2) {
-//            console.log("page widht" + whatItem.width);
-//            descriptionTextArea.forceActiveFocus();
-//            if (item == null) {
-//                durationSelectionDialog.selectedIndex = 0;
-//                console.log("index = " + durationSelectionDialog.selectedIndex);
-//            }
-//            else {
-//                console.log("index = " + durationSelectionDialog.selectedIndex);
-//                durationSelectionDialog.selectedIndex = Month.calculateIndex(item.startDateTime, item.endDateTime);
-//            }
-//        }
-//    }
-
-//    buttons: Item {
-//        anchors.fill: parent
-//        SheetButton{
-//            id: rejectButton
-//            anchors.left: parent.left
-//            anchors.leftMargin: 16
-//            anchors.verticalCenter: parent.verticalCenter
-//            text: "Cancel"
-//            onClicked: whatItem.reject()
-//        }
-
-//        SheetButton{
-//            id: acceptButton
-//            anchors.right: parent.right
-//            anchors.rightMargin: 16
-//            anchors.verticalCenter: parent.verticalCenter
-//            platformStyle: SheetButtonAccentStyle { }
-//            text: "OK"
-//            onClicked: whatItem.accept()
-//        }
-//    }
 
 
     content: Flickable {
@@ -421,7 +363,6 @@ Sheet {
                         right: parent.right
                     }
 
-                    //text: (item)?item.description:"Add description"
                     placeholderText: (item) ? item.description : "Add Description"
 
                     font.pixelSize: 28
