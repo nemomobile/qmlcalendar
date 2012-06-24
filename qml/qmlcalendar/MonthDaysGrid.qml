@@ -36,7 +36,7 @@
 **
 ****************************************************************************/
 
-import Qt 4.7
+import QtQuick 1.1
 import "month.js" as Month
 import com.nokia.extras 1.0
 import QtMobility.organizer 1.1

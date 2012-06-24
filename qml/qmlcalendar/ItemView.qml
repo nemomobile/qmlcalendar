@@ -1,5 +1,4 @@
-import Qt 4.7
-
+import QtQuick 1.1
 import QtMobility.organizer 1.1
 
 Rectangle
