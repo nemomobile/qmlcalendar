@@ -111,6 +111,7 @@ Sheet {
             console.log("Storing exisiting item.")
             item.save();
         }
+        organizer.update()
     }
 
 

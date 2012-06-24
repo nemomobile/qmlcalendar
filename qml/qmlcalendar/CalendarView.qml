@@ -105,6 +105,7 @@ Item  {
 
 
     property OrganizerModel organizer: OrganizerModel{
+        manager: "qtorganizer:mkcal"
         //manager:"qtorganizer:mkcal:"
         //startPeriod: currentDate
         //endPeriod: Month.tomorrow(currentDate);
