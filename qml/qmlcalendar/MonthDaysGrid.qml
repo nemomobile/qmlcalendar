@@ -54,9 +54,10 @@ Grid {
 
 
     onFirstDayOfMonthChanged: {
+        console.log("First day of month changed.")
         weekDayOfFirst = Month.weekDayIdxByLocalizedDayName(firstDayOfMonth);
 
-        selectedIndex = weekDayOfFirst + calendarView.currentDate.getDate()
+        updateSelection()
     }
 
     onSelectedIndexChanged: {
@@ -72,6 +73,11 @@ Grid {
 
     Component.onCompleted: {
         selectedIndex = weekDayOfFirst + new Date().getDate()
+    }
+
+
+    function updateSelection(){
+        selectedIndex = weekDayOfFirst + calendarView.currentDate.getDate()
     }
 
 

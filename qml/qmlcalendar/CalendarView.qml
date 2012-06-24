@@ -101,6 +101,7 @@ Item  {
         currentMonthDaysGrid.firstDayOfMonth = new Date(y, m, 1);
         nextMonthDaysGrid.firstDayOfMonth = new Date(((m + 1) > 11) ? y + 1 : y,((m + 1) > 11) ? 0 : m + 1, 1);
 //        headerTitleText.text = getHeaderText()
+        currentMonthDaysGrid.updateSelection()
     }
 
 
