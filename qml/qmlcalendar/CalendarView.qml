@@ -52,12 +52,7 @@ Item  {
     property color background: "#e7e7e7"
     property color orange: "#ef5500"
 
-    property int month
-    property int year
-
     property date currentDate
-//    property date currentDate:new Date();
-    property int day
 
 
     function getHeaderText(){
