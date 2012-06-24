@@ -122,8 +122,8 @@ Item  {
     }
 
     DatePickerDialog {
-         id: tDialog
-         titleText: "Date of birth"
+         id: datePickerDialog
+         titleText: "Select Date"
          onAccepted: callbackFunction()
     }
 
@@ -179,7 +179,7 @@ Item  {
                     anchors.fill: parent
 
                     onClicked: {
-                        tDialog.open();
+                        datePickerDialog.open();
                         //console.log("TITLE " + currentMonth);
                     }
                 }
