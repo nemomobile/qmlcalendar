@@ -44,7 +44,7 @@ import "month.js" as Month
 Page
 {
     id: dayView
-    property list itemIds:
+    property variant itemIds:
         calendarView.organizer.itemIds(calendarView.currentDate,
                                        new Date(calendarView.currentDate.getFullYear(),
                                                 calendarView.currentDate.getMonth(),

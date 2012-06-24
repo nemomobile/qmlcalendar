@@ -30,7 +30,6 @@ PageStackWindow {
 
     DayView {
         id: dayView;
-        calendarView: calendarView;
     }
 
     ItemView {
