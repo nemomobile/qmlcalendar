@@ -65,12 +65,17 @@ Item  {
     }
 
     function goToNextMonth() {
-        if (month < 11)
-            month++
+        var y = currentDate.getFullYear()
+        var m = currentDate.getMonth()
+
+        if (m < 11)
+            m++
         else {
-            year++;
-            month = 0;
+            y++;
+            m = 0;
         }
+
+        currentDate = new Date(y + "/" + (m + 1) + "/" + currentDate.getDate())
     }
 
     function goToPreviousMonth() {
