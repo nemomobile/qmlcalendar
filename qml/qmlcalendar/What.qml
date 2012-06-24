@@ -8,9 +8,9 @@ import "month.js" as Month
 
 
 
-Page {
+Sheet {
     id: whatItem
-    tools: whatTools
+
     property string startTime: "00:00";
     property string day ;
     property OrganizerModel organizer: calendarView.organizer;
@@ -107,37 +107,6 @@ Page {
         onAccepted: { startTime = timePickerDialog.hour + ":" + timePickerDialog.minute}
     }
 
-    ToolBarLayout {
-        id: whatTools
-        visible: true
-
-        ToolIcon {
-            id: toolBack
-            platformIconId: "toolbar-back"
-            onClicked: mainStack.pageStack.pop()
-        }
-
-        ToolIcon {
-            id: toolDone
-            platformIconId: "toolbar-done"
-            onClicked: {
-                save()
-                mainStack.pageStack.pop()
-            }
-        }
-
-        ToolIcon {
-            id: toolDelete
-            enabled: !isNew
-            opacity: enabled ? 1 : 0.5
-            platformIconId: "toolbar-delete"
-            onClicked: {
-                remove()
-                mainStack.pageStack.pop()
-            }
-        }
-    }
-
 
     onStatusChanged: {
         console.log("STATUS CHANGED " + status + " " + PageStatus.Activating);
@@ -155,13 +124,35 @@ Page {
         }
     }
 
-
-    Flickable {
+    buttons: Item {
         anchors.fill: parent
-        contentHeight: content.height
+        SheetButton{
+            id: rejectButton
+            anchors.left: parent.left
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            text: "Cancel"
+            onClicked: whatItem.reject();
+        }
+
+        SheetButton{
+            id: acceptButton
+            anchors.right: parent.right
+            anchors.rightMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            platformStyle: SheetButtonAccentStyle { }
+            text: "OK"
+            onClicked: whatItem.accept()
+        }
+    }
+
+
+    content: Flickable {
+        anchors.fill: parent
+        contentHeight: contentColumn.height
 
         Column {
-            id: content
+            id: contentColumn
             spacing: 12
 
             anchors{

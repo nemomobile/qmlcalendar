@@ -61,7 +61,7 @@ PageStackWindow {
 
                 whatItem.current = calendarView.currentDate;
 
-                mainStack.pageStack.push(whatItem)
+                whatItem.open()
             }
         }
 

@@ -80,9 +80,7 @@ Page
                                     //toolDone.visible = true;
 
 
-                                    mainStack.pageStack.push(whatItem);
-
-
+                                    whatItem.open()
                                 }
                             }
                         }
@@ -143,7 +141,7 @@ Page
                                             //toolDone.visible = true;
 
                                             //toolDelete.visible = true;
-                                            mainStack.pageStack.push(whatItem);
+                                            whatItem.open()
                                         }
                                     }
                                 }
