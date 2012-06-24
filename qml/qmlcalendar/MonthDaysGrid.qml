@@ -55,6 +55,8 @@ Grid {
 
     onFirstDayOfMonthChanged: {
         weekDayOfFirst = Month.weekDayIdxByLocalizedDayName(firstDayOfMonth);
+
+        selectedIndex = weekDayOfFirst + calendarView.currentDate.getDate()
     }
 
     onSelectedIndexChanged: {

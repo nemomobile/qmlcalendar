@@ -88,9 +88,16 @@ Item  {
     }
 
     onMonthChanged: {
-        previousMonthDaysGrid.firstDayOfMonth = new Date(((month - 1) < 0) ? year - 1 : year,((month - 1) < 0) ? 11 : month - 1, 1);
-        currentMonthDaysGrid.firstDayOfMonth = new Date(year, month, 1);
-        nextMonthDaysGrid.firstDayOfMonth = new Date(((month + 1) > 11) ? year + 1 : year,((month + 1) > 11) ? 0 : month + 1, 1);
+        currentDate = new Date(year + "/" + (month + 1) + "/" + day)
+    }
+
+    onCurrentDateChanged: {
+        var y = currentDate.getFullYear()
+        var m = currentDate.getMonth()
+
+        previousMonthDaysGrid.firstDayOfMonth = new Date(((m - 1) < 0) ? y - 1 : y,((m - 1) < 0) ? 11 : m - 1, 1);
+        currentMonthDaysGrid.firstDayOfMonth = new Date(y, m, 1);
+        nextMonthDaysGrid.firstDayOfMonth = new Date(((m + 1) > 11) ? y + 1 : y,((m + 1) > 11) ? 0 : m + 1, 1);
 //        headerTitleText.text = getHeaderText()
     }
 
@@ -190,6 +197,7 @@ Item  {
                         datePickerDialog.day = day
                         datePickerDialog.month = month + 1
                         datePickerDialog.year = year
+
                         datePickerDialog.open()
                     }
                 }
