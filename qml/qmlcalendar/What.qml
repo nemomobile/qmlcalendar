@@ -47,13 +47,16 @@ import "month.js" as Month
 Sheet {
     id: whatItem
 
-    property string startTime: "00:00";
-    property string day ;
+    property date startTime
+//    property string day ;
     property OrganizerModel organizer: calendarView.organizer;
-    property date current; // new Date();
-    property OrganizerItem selecteditem: null;
-    property string description : "";
-    property string location: "";
+//    property date current; // new Date();
+//    property OrganizerItem selecteditem: null;
+
+    property alias description: descriptionTextArea.text
+    property alias location: locationTextField.text
+    property alias duration: durationValue.text
+
     property bool isNew: true;
     property Event item: null;
 
@@ -63,6 +66,17 @@ Sheet {
 
     onAccepted: save()
 
+    onItemChanged: {
+        if(item == null){
+            console.log("Item is null.")
+            description = ""
+            location = ""
+            durationSelectionDialog.selectedIndex = 0
+            isNew = true
+        }else{
+
+        }
+    }
 
     function remove() {
         organizer.removeItem(item.itemId);
@@ -78,17 +92,17 @@ Sheet {
             console.log("NULL");
             item1.description = descriptionTextArea.text;
             item1.location = locationTextField.text;
-            item1.startDateTime = current;
+            item1.startDateTime = startTime;
             item = item1;
 
         }
 
         console.log("Description text: " + descriptionTextArea.text);
 
-        item.startDateTime = current
+        item.startDateTime = startTime
         item.description = descriptionTextArea.text;
         item.location = locationTextField.text;
-        item.endDateTime = Month.plusMinutes(current, Month.getMinutes(durationSelectionDialog.selectedIndex));
+        item.endDateTime = Month.plusMinutes(startTime, Month.getMinutes(durationSelectionDialog.selectedIndex));
 
         console.log("Duration index: " + durationSelectionDialog.selectedIndex);
         console.log("Duration minutes: " + Month.getMinutes(durationSelectionDialog.selectedIndex));
@@ -148,7 +162,12 @@ Sheet {
         rejectButtonText: "Reject"
         fields: DateTime.Hours | DateTime.Minutes
         anchors.fill: parent
-        onAccepted: { startTime = timePickerDialog.hour + ":" + timePickerDialog.minute}
+        onAccepted: {
+            var d = new Date(startTime)
+            d.setHours(timePickerDialog.hour)
+            d.setMinutes(timePickerDialog.minute)
+            startTime = d
+        }
     }
 
 
@@ -260,7 +279,7 @@ Sheet {
                         verticalCenter: parent.verticalCenter
                     }
 
-                    text: day
+                    text: Qt.formatDateTime(startTime, "dd-MM-yyyy")
                     font.pixelSize: 28
                 }
 
@@ -281,7 +300,7 @@ Sheet {
 
                         anchors.verticalCenter: parent.verticalCenter
 
-                        text: startTime
+                        text: Qt.formatDateTime(startTime, "hh:mm")
                         font.pixelSize: 28
                     }
 
@@ -289,7 +308,12 @@ Sheet {
                         id: timeMouseArea
                         anchors.fill: parent
 
-                        onClicked: timePickerDialog.open()
+                        onClicked: {
+                            timePickerDialog.hour = Qt.formatDateTime(startTime, "hh")
+                            timePickerDialog.minute = Qt.formatDateTime(startTime, "mm")
+
+                            timePickerDialog.open()
+                        }
                     }
                 }
             }
@@ -328,7 +352,7 @@ Sheet {
 
                         anchors.verticalCenter: parent.verticalCenter
 
-                        text: durationSelectionDialog.model.get(durationSelectionDialog.selectedIndex).duration
+                        text: durationSelectionDialog.selectedIndex >= 0 ? durationSelectionDialog.model.get(durationSelectionDialog.selectedIndex).duration : "0 minutes"
                         font.pixelSize: 28
                     }
 

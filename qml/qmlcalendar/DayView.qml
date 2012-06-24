@@ -103,10 +103,11 @@ Page
                     Rectangle {
                         border.color: "red"
                         width:80
-                        height: dum.height
+                        height: hourText.height
+
                         Text {
                             // text: hour
-                            id: dum
+                            id: hourText
                             text: index + ":00"
                             width: 80//hourList.width
                             font.pointSize: 18
@@ -119,23 +120,20 @@ Page
                                 anchors.fill: parent
 
                                 onClicked: {
-                                    console.log("NUOVO\n");
-                                    console.log("hour " + dum.text);
-                                    hourList.currentIndex = index;
-                                    whatItem.startTime = dum.text;
-                                    whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
+                                    console.log("New entry")
+                                    console.log("Selected hour " + hourText.text)
 
-                                    whatItem.description = "Add object";
-                                    whatItem.location = "Here";
-                                    whatItem.isNew = true;
-                                    whatItem.item = null;
+                                    var d = new Date(calendarView.currentDate)
+                                    d.setHours(hourText.text.split(":")[0])
+                                    d.setMinutes(hourText.text.split(":")[1])
+                                    d.setSeconds(0)
+                                    console.log(d)
+                                    whatItem.startTime = d
 
-                                    whatItem.current = Month.atHourObject(calendarView.currentDate, index);
-
-//                                    console.log("description " + whatItem.description);
-                                    //commonTools.visible = true;
-                                    //toolDone.visible = true;
-
+//                                    whatItem.description = ""
+//                                    whatItem.location = ""
+//                                    whatItem.isNew = true
+                                    whatItem.item = null
 
                                     whatItem.open()
                                 }
