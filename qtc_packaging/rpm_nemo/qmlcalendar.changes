@@ -1,6 +1,12 @@
+* Thu June 25 2012 Ruediger Gad <r.c.g@gmx.de> - 0.15
+- Further improve the UI.
+- Fix menu bars not shown correctly.
+- Enable persistence for storing events.
+
 * Thu May 24 2012 Ruediger Gad <r.c.g@gmx.de> - 0.14
 - Add icon files showing numbers from 1 to 31.
 - Automatically update icon to show current day of month.
+- Fixes NEMO#184: Calendar view doesn't scale properly on larger screens 
 
 * Thu May 24 2012 Ruediger Gad <r.c.g@gmx.de> - 0.13
 - Repackage qmlcalender such that *.js and *.qml files are accessible via filesystem.
