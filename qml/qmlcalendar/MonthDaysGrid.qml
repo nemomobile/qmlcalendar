@@ -1,8 +1,9 @@
 /****************************************************************************
 **
-** Copyright (C) 2012 Nicola De Filippo.
+** Copyright (C) 2012 Nicola De Filippo, Ruediger Gad.
 ** All rights reserved.
 ** Contact: Nicola De Filippo (nicola.defilippo@lizard-solutions.com)
+**          Ruediger Gad (r.c.g@gmx.de)
 **
 **
 ** $QT_BEGIN_LICENSE:BSD$
@@ -35,9 +36,8 @@
 **
 ****************************************************************************/
 
-import Qt 4.7
+import QtQuick 1.1
 import "month.js" as Month
-import com.nokia.extras 1.0
 import QtMobility.organizer 1.1
 import com.nokia.meego 1.0
 
@@ -49,23 +49,52 @@ Grid {
 
     property date firstDayOfMonth
     property int weekDayOfFirst
+    property int selectedIndex
+    property int oldSelectedIndex: -1
 
 
     onFirstDayOfMonthChanged: {
-        weekDayOfFirst = Month.dayIdxByLocalizedDayName(firstDayOfMonth);
+        console.log("First day of month changed.")
+        weekDayOfFirst = Month.weekDayIdxByLocalizedDayName(firstDayOfMonth);
+
+        updateSelection()
+    }
+
+    onSelectedIndexChanged: {
+        if(oldSelectedIndex >= 0){
+            dayGridRepeater.itemAt(oldSelectedIndex).selected = false
+        }
+
+        var selectedDayItem = dayGridRepeater.itemAt(selectedIndex)
+        selectedDayItem.selected = true
+
+        oldSelectedIndex = selectedIndex
+    }
+
+    Component.onCompleted: {
+        selectedIndex = weekDayOfFirst + new Date().getDate()
+    }
+
+
+    function updateSelection(){
+        selectedIndex = weekDayOfFirst + calendarView.currentDate.getDate()
     }
 
 
     Repeater {
+        id: dayGridRepeater
         model: 42
 
         Rectangle {
-            id: dayContainer
+            id: dayDelegate
             width: monthDaysGrid.width / 7
             height: (monthDaysGrid.height - 35) / 7
 
+            property bool selected: false
+            property alias dayString: dayText.text
+
             Rectangle {
-                id: circle
+                id: dayHighlight
 
                 //                           gradient:  Gradient {
                 //                                  GradientStop { id: stop1; position: 0.0; color: background }
@@ -78,21 +107,17 @@ Grid {
                 width: parent.width * 0.8
                 height: parent.height * 0.8
                 anchors.centerIn: parent
-                visible: false
+                visible: parent.selected
             }
 
             Text {
-                id: journey;
+                id: dayText;
 
                 text: Month.getDayOfMonth(firstDayOfMonth,   index - weekDayOfFirst )
 
                 font.pointSize: parent.height * 0.5
                 anchors.centerIn: parent
-                color: {
-                    if (circle.visible) return "white";
-                    else
-                        return Month.getColorOfDay(firstDayOfMonth,   index - weekDayOfFirst );
-                }
+                color: parent.selected ? "white" : Month.getColorOfDay(firstDayOfMonth,   index - weekDayOfFirst )
             }
 
             MouseArea {
@@ -101,37 +126,23 @@ Grid {
                 anchors.fill: parent
 
                 onClicked: {
-                    if (prevText)
-                        prevText.color = "black";
-                    prevText = journey;
+                    monthDaysGrid.selectedIndex = index
 
-                    if(prevCircle)
-                        prevCircle.visible = false;
-                    circle.visible = true;
+//                    console.log("N ITEM " + organizer.itemCount);
+//                    var items = organizer.items;
+//                    var i;
+//                    for (i = 0; i < organizer.itemCount;i++) {
+//                        console.log("item " + i + " start date" + items[i].itemStartTime);
+//                    }
 
-                    prevText = journey;
-                    prevCircle = circle;
-
-                    dayView.opacity = 1;
-                    //dayView.z = 1;
-
-                    //calendarView.opacity = 0;
-
-                    console.log("N ITEM " + organizer.itemCount);
-                    var items = organizer.items;
-                    var i;
-                    for (i = 0; i < organizer.itemCount;i++) {
-                        console.log("item " + i + " start date" + items[i].itemStartTime);
-                    }
+                    var dum = calendarView.currentDate.getFullYear() + "/" + (calendarView.currentDate.getMonth() + 1) + "/" + dayString;
+                    var currentDate= new Date(dum);
+                    console.log("Day " + dayString + " dum " + dum);
+                    calendarView.currentDate = currentDate;
                 }
 
                 onDoubleClicked: {
-                    var dum = year + "/" + (month + 1) + "/" + journey.text;
-                    var currentDate= new Date(dum);
-                    console.log("Day " + journey.text + " dum " + dum);
-                    calendarView.currentDate = currentDate;
                     mainStack.pageStack.push(dayView);
-                    toolBack.visible = true;
                 }
             }
         }

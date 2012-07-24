@@ -1,3 +1,41 @@
+/****************************************************************************
+**
+** Copyright (C) 2012 Nicola De Filippo, Ruediger Gad.
+** All rights reserved.
+** Contact: Nicola De Filippo (nicola.defilippo@lizard-solutions.com)
+**          Ruediger Gad (r.c.g@gmx.de)
+**
+**
+** $QT_BEGIN_LICENSE:BSD$
+** You may use this file under the terms of the BSD license as follows:
+**
+** This qml components is replication of agenda meego how on N950
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+** $QT_END_LICENSE$
+**
+****************************************************************************/
+
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 1.1
 import com.nokia.meego 1.0
@@ -6,268 +44,99 @@ import QtMobility.organizer 1.1
 import "logic.js" as Logic
 import "month.js" as Month
 
-
-
-Page {
+Sheet {
     id: whatItem
-    tools: commonTools
-    property string startTime: "00:00";
-    property string day ;
+
+    property date startTime
     property OrganizerModel organizer: calendarView.organizer;
-    property date current; // new Date();
-    property OrganizerItem selecteditem: null;
-    property string description : "";
-    property string location: "";
+
+    property alias description: descriptionTextArea.text
+    property alias location: locationTextField.text
+    property alias duration: durationValue.text
+
     property bool isNew: true;
     property Event item: null;
 
 
-    SelectionDialog {
-         id: singleSelectionDialog
-         titleText: "Duration"
-         //selectedIndex: 1
+    acceptButtonText: "OK"
+    rejectButtonText: "Cancel"
 
-         model: ListModel {
-             ListElement { duration: "0 minute" }
-             ListElement { duration: "15 minutes" }
-             ListElement { duration: "30 minutes" }
-             ListElement { duration: "45 minutes" }
-             ListElement { duration: "1 hour" }
-             ListElement { duration: "2 hour" }
-             ListElement { duration: "day" }
-         }
-     }
+    onAccepted: save()
 
-
-    onStatusChanged: {
-        console.log("STATUS CHANGED " + status + " " + PageStatus.Activating);
-        if (status == 2) {
-            console.log("page widht" + whatItem.width);
-            text_what.forceActiveFocus();
-            if (item == null) {
-                singleSelectionDialog.selectedIndex = 0;
-                console.log("index = " + singleSelectionDialog.selectedIndex);
-            }
-            else {
-                console.log("index = " + singleSelectionDialog.selectedIndex);
-                singleSelectionDialog.selectedIndex = Month.calculateIndex(item.startDateTime, item.endDateTime);
-            }
-        }
-    }
-
-
-
-
-
-    ListView {
-        id: list
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: parent.Right
-        spacing: 2
-
-        model: VisualItemModel {
-
-            Row {
-                spacing: 2
-                Text {
-                    id: object
-
-                    text: qsTr("Description")
-                    font.pixelSize: 28
-
-                }
-                TextArea {
-
-                    id: text_what
-                    width: whatItem.width - object.width - 10;
-                    //text: (item)?item.description:"Add description"
-                    placeholderText: (item)?item.description:"Add description"
-
-                    font.pixelSize: 28
-                    clip: true
-                    onActiveFocusChanged: {
-                        if ( text_what.activeFocus ) {
-
-                            object.color = "orange";
-                            //text_what.openSoftwareInputPanel();
-                        }
-                        else {
-                            object.color= "black";
-                            //text_what.closeSoftwareInputPanel();
-                        }
-                    }
-                    //focus:true
-
-
-                }
-            }
-
-            Row {
-
-                Text {
-                    id: text_day
-
-                    text: day;
-                    font.pixelSize: 28
-
-                }
-
-                Text {
-                    id: label_time
-
-                    text: qsTr(" Start ")
-                    font.pixelSize: 28
-
-                }
-
-                TextField {
-
-                    id: text_time
-                    text: startTime;
-                    font.pixelSize: 28
-                    onActiveFocusChanged: { if ( text_time.activeFocus ) { timePickerDialog.open(); console.log ("timer");} }
-                    /*MouseArea {
-                        id: clear
-                        anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
-                        height: text_time.height; width: text_time.height
-                        onClicked: {
-                            timePickerDialog.open()
-                        }
-                    }*/
-                    //readOnly: true
-
-                }
-
-
-            }
-
-
-            Row {
-                spacing: 2
-                Text {
-                    id: labelDuration
-
-                    text: qsTr("Duration")
-                    font.pixelSize: 28
-
-                }
-                TextField {
-                    id: textDuration
-                    width: whatItem.width - labelDuration.width - 10;
-                    text: singleSelectionDialog.model.get(singleSelectionDialog.selectedIndex).duration
-                    font.pixelSize: 28
-                    onActiveFocusChanged: {
-                        if ( textDuration.activeFocus ) {
-
-                            singleSelectionDialog.open();
-                            //text_where.openSoftwareInputPanel();
-                        }
-
-                    }
-                }
-            }
-
-            Row {
-                spacing: 2
-                Text {
-                    id: text_w
-
-                    text: qsTr("Location")
-                    font.pixelSize: 28
-
-                }
-                TextField {
-                    id: text_where
-                    width: whatItem.width - text_w.width - 10;
-                    text: (item)?item.location:"Here"
-                    font.pixelSize: 28
-                    onActiveFocusChanged: {
-                        if ( text_where.activeFocus ) {
-
-                            text_w.color = "orange";
-                            //text_where.openSoftwareInputPanel();
-                        }
-                        else   {
-                            text_w.color= "black";
-                            //text_where.closeSoftwareInputPanel();
-                        }
-                    }
-                }
-            }
-
-
+    onItemChanged: {
+        if(item == null){
+            console.log("Item is null.")
+            description = ""
+            location = ""
+            durationSelectionDialog.selectedIndex = 0
+            isNew = true
+        }else{
 
         }
     }
-
-
 
     function remove() {
-
         organizer.removeItem(item.itemId);
-        //mainStack.pageStack.pop();
     }
-    //color: "#ffffff"
+
+    function save () {
+        //descriptionTextArea.closeSoftwareInputPanel();
+        //descriptionTextArea.focus = false;
+
+        if (item === null) {
+            console.log("NULL");
+            item1.description = descriptionTextArea.text;
+            item1.location = locationTextField.text;
+            item1.startDateTime = startTime;
+            item = item1;
+        }
+
+        console.log("Description text: " + descriptionTextArea.text);
+
+        item.startDateTime = startTime
+        item.description = descriptionTextArea.text;
+        item.location = locationTextField.text;
+        item.endDateTime = Month.plusMinutes(startTime, Month.getMinutes(durationSelectionDialog.selectedIndex));
+
+        console.log("Duration index: " + durationSelectionDialog.selectedIndex);
+        console.log("Duration minutes: " + Month.getMinutes(durationSelectionDialog.selectedIndex));
+
+
+        console.log("Start: " + item.startDateTime + " Description: " +  item.description + " End: " + item.endDateTime);
+
+        if ( isNew ){
+            console.log("Storing new item.")
+            organizer.saveItem(item);
+        } else {
+            console.log("Storing exisiting item.")
+            item.save();
+        }
+        organizer.update()
+    }
 
 
     Event {
         id: item1;
-        startDateTime: current;
-        description: text_what.text;
+        startDateTime: startTime;
+        description: descriptionTextArea.text;
         location: location;
-        endDateTime: Month.plus1Hour(current);
+        endDateTime: Month.plus1Hour(startTime);
     }
 
+    SelectionDialog {
+        id: durationSelectionDialog
+        titleText: "Duration"
+        //selectedIndex: 1
 
-
-
-    function save () {
-
-        //text_what.closeSoftwareInputPanel();
-        text_what.focus = false;
-
-        if (item === null) {
-            console.log("NULL");
-            item1.description = text_what.text;
-            item1.location = text_where.text;
-            item1.startDateTime = current;
-            item = item1;
-
+        model: ListModel {
+            ListElement { duration: "0 minutes" }
+            ListElement { duration: "15 minutes" }
+            ListElement { duration: "30 minutes" }
+            ListElement { duration: "45 minutes" }
+            ListElement { duration: "1 hour" }
+            ListElement { duration: "2 hour" }
+            ListElement { duration: "day" }
         }
-
-        console.log("what = " + text_what.text);
-
-        item.description = text_what.text;
-        item.location = text_where.text;
-        item.endDateTime = Month.plusMinutes(current, Month.getMinutes(singleSelectionDialog.selectedIndex));
-
-        console.log("SELE " + singleSelectionDialog.selectedIndex);
-        console.log("getminutes " + Month.getMinutes(singleSelectionDialog.selectedIndex));
-
-
-        console.log("current " + item.startDateTime + " desc " +  item.description + " end " + item.endDateTime);
-
-        if ( isNew )
-            organizer.saveItem(item);
-        else {
-            item.save();
-
-        }
-
-        organizer.update();
-
-        console.log("In save N ITEM " + organizer.itemCount);
-        var items = organizer.items;
-        var i;
-        for (i = 0; i < organizer.itemCount;i++) {
-            console.log("item " + i + " start date" + items[i].itemStartTime);
-        }
-
-        //mainStack.pageStack.pop();
-
-
-
     }
 
     TimePickerDialog {
@@ -277,11 +146,230 @@ Page {
         rejectButtonText: "Reject"
         fields: DateTime.Hours | DateTime.Minutes
         anchors.fill: parent
-        onAccepted: { startTime = timePickerDialog.hour + ":" + timePickerDialog.minute}
+        onAccepted: {
+            var d = new Date(startTime)
+            d.setHours(timePickerDialog.hour)
+            d.setMinutes(timePickerDialog.minute)
+            startTime = d
+        }
     }
 
 
+    content: Flickable {
+        anchors.fill: parent
+        contentHeight: contentColumn.height
 
+        Column {
+            id: contentColumn
+            spacing: 12
 
+            anchors{
+                top: parent.top
+                left: parent.left
+                right: parent.right
+                margins: 15
+            }
+
+//            Item {
+//                anchors{left: parent.left; right: parent.right}
+//                height: subjectTextField.height
+
+//                Text {
+//                    id: subjectText
+
+//                    anchors{verticalCenter: parent.verticalCenter; left: parent.left}
+
+//                    text: qsTr("Subject")
+//                    font.pixelSize: 28
+//                }
+
+//                TextField {
+//                    id: subjectTextField
+
+//                    anchors{
+//                        left: subjectText.right
+//                        leftMargin: 10
+//                        right: parent.right
+//                    }
+
+//                    placeholderText: (item) ? item.subject : "Add Subject"
+//                    font.pixelSize: 28
+//                }
+//            }
+
+            Item {
+                anchors{left: parent.left; right: parent.right}
+                height: timeValue.height * 1.5
+
+                Text {
+                    id: timeText
+
+                    anchors{
+                        left: parent.left
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    text: qsTr("Start")
+                    font.pixelSize: 28
+                }
+
+                Text {
+                    id: timeDay
+
+                    anchors{
+                        left: timeText.right
+                        leftMargin: 10
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    text: Qt.formatDateTime(startTime, "dd-MM-yyyy")
+                    font.pixelSize: 28
+                }
+
+                Rectangle{
+                    height: parent.height
+
+                    radius: timeValue.height * 0.5
+                    color: timeMouseArea.pressed ? "gray" : "lightgray"
+
+                    anchors{
+                        left: timeDay.right
+                        leftMargin: 10
+                        right: parent.right
+                    }
+
+                    Text {
+                        id: timeValue
+
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        text: Qt.formatDateTime(startTime, "hh:mm")
+                        font.pixelSize: 28
+                    }
+
+                    MouseArea{
+                        id: timeMouseArea
+                        anchors.fill: parent
+
+                        onClicked: {
+                            timePickerDialog.hour = Qt.formatDateTime(startTime, "hh")
+                            timePickerDialog.minute = Qt.formatDateTime(startTime, "mm")
+
+                            timePickerDialog.open()
+                        }
+                    }
+                }
+            }
+
+            Item {
+                anchors{
+                    left: parent.left
+                    right: parent.right
+                }
+
+                height: durationValue.height * 1.5
+
+                Text {
+                    id: durationText
+
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    text: qsTr("Duration")
+                    font.pixelSize: 28
+                }
+
+                Rectangle{
+                    height: parent.height
+
+                    anchors{
+                        left: durationText.right
+                        leftMargin: 10
+                        right: parent.right
+                    }
+
+                    radius: durationValue.height * 0.5
+                    color: durationMouseArea.pressed ? "gray" : "lightgray"
+
+                    Text {
+                        id: durationValue
+
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        text: durationSelectionDialog.selectedIndex >= 0 ? durationSelectionDialog.model.get(durationSelectionDialog.selectedIndex).duration : "0 minutes"
+                        font.pixelSize: 28
+                    }
+
+                    MouseArea{
+                        id: durationMouseArea
+                        anchors.fill: parent
+
+                        onClicked: durationSelectionDialog.open()
+                    }
+                }
+            }
+
+            Item {
+                anchors{left: parent.left; right: parent.right}
+                height: locationTextField.height
+
+                Text {
+                    id: locationText
+
+                    anchors{
+                        verticalCenter: parent.verticalCenter
+                        left: parent.left
+                    }
+
+                    text: qsTr("Location")
+                    font.pixelSize: 28
+                }
+
+                TextField {
+                    id: locationTextField
+
+                    anchors{
+                        left: locationText.right
+                        leftMargin: 10
+                        right: parent.right
+                    }
+
+                    //text: (item) ? item.location : "Here"
+                    placeholderText: (item) ? item.location : "Add Location"
+                    font.pixelSize: 28
+                }
+            }
+
+            Item {
+                anchors{left: parent.left; right: parent.right}
+                height: descriptionTextArea.height
+
+                Text {
+                    id: descriptionText
+
+                    anchors{
+                        verticalCenter: parent.verticalCenter
+                        left: parent.left
+                    }
+
+                    text: qsTr("Description")
+                    font.pixelSize: 28
+                }
+
+                TextArea {
+                    id: descriptionTextArea
+
+                    anchors{
+                        left: descriptionText.right
+                        leftMargin: 10
+                        right: parent.right
+                    }
+
+                    placeholderText: (item) ? item.description : "Add Description"
+
+                    font.pixelSize: 28
+                }
+            }
+        }
+    }
 }
 

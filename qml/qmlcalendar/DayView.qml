@@ -1,27 +1,101 @@
+/****************************************************************************
+**
+** Copyright (C) 2012 Nicola De Filippo, Ruediger Gad.
+** All rights reserved.
+** Contact: Nicola De Filippo (nicola.defilippo@lizard-solutions.com)
+**          Ruediger Gad (r.c.g@gmx.de)
+**
+**
+** $QT_BEGIN_LICENSE:BSD$
+** You may use this file under the terms of the BSD license as follows:
+**
+** This qml components is replication of agenda meego how on N950
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+** $QT_END_LICENSE$
+**
+****************************************************************************/
 
-
-import Qt 4.7
+import QtQuick 1.1
 import com.nokia.meego 1.0
 import QtMobility.organizer 1.1
 import "month.js" as Month
-import com.nokia.extras 1.0
 
 Page
 {
-    id:dayView
-    property variant calendarView: calendarView;
-    property variant itemIds:calendarView.organizer.itemIds(calendarView.currentDate, new Date(calendarView.year, calendarView.month, calendarView.day+1))
+    id: dayView
+    tools: dayTools
 
-    tools: commonTools
+    property variant itemIds
 
+    onItemIdsChanged: {
+        console.log("Item Ids changed...")
 
+    }
 
+    function updateItemIds(){
+        var startDateRange = new Date(calendarView.currentDate)
+        startDateRange.setHours(0)
+        startDateRange.setMinutes(0)
+        startDateRange.setSeconds(0)
+        var endDateRange = new Date(startDateRange.getFullYear(),
+                                    startDateRange.getMonth(),
+                                    startDateRange.getDate() + 1)
+        console.log("Date range, start: " + startDateRange + " end: " + endDateRange)
+        var itemIds = calendarView.organizer.itemIds(startDateRange, endDateRange)
+
+        console.log("Item Ids length: " + itemIds.length)
+        dayView.itemIds = itemIds
+    }
+
+    Text{
+        id: dateText
+
+        anchors{
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
+
+        text: Qt.formatDate(calendarView.currentDate, "yyyy-MM-dd")
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: 40
+    }
 
     ListView {
-        anchors.fill: parent
         id: hourList
+
+        anchors{
+            top: dateText.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+
         model : hourModel
         delegate : hourDelegate
+
+        clip: true
     }
 
     Component {
@@ -48,10 +122,11 @@ Page
                     Rectangle {
                         border.color: "red"
                         width:80
-                        height: dum.height
+                        height: hourText.height
+
                         Text {
                             // text: hour
-                            id: dum
+                            id: hourText
                             text: index + ":00"
                             width: 80//hourList.width
                             font.pointSize: 18
@@ -64,30 +139,19 @@ Page
                                 anchors.fill: parent
 
                                 onClicked: {
-                                    console.log("NUOVO\n");
-                                    console.log("hour " + dum.text);
-                                    hourList.currentIndex = index;
-                                    whatItem.startTime = dum.text;
-                                    whatItem.day = Qt.formatDate(calendarView.currentDate, "dd-MM-yy");
+                                    console.log("New entry")
+                                    console.log("Selected hour " + hourText.text)
 
-                                    whatItem.description = "Add object";
-                                    whatItem.location = "Here";
-                                    whatItem.isNew = true;
-                                    whatItem.item = null;
+                                    var d = new Date(calendarView.currentDate)
+                                    d.setHours(hourText.text.split(":")[0])
+                                    d.setMinutes(hourText.text.split(":")[1])
+                                    d.setSeconds(0)
+                                    console.log(d)
+                                    whatItem.startTime = d
 
-                                    whatItem.current = Month.atHourObject(calendarView.currentDate, index);
+                                    whatItem.item = null
 
-
-                                    whatItem.opacity = 1;
-
-                                    console.log("description " + whatItem.description);
-                                    //commonTools.visible = true;
-                                    //toolDone.visible = true;
-
-
-                                    mainStack.pageStack.push(whatItem);
-
-
+                                    whatItem.open()
                                 }
                             }
                         }
@@ -102,9 +166,7 @@ Page
                         //focus: true
                         id: repeater
                         // Simple fetch ALL events on this day...and we will filter them by hour.
-                        model: calendarView.organizer.items? calendarView.organizer.itemIds(Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex)
-                                                                                            , (Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex )))
-                                                           : 0
+                        model: itemIds.length > 0 ? itemIds : 0
 
                         Column {
                             spacing: 10
@@ -124,7 +186,7 @@ Page
                                     font.pointSize: 18
                                     property OrganizerItem oi: calendarView.organizer.item(modelData)
 
-                                    text: ((hourDelegateInstanceItem.rowIndex == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
+                                    text: (oi != null && (hourDelegateInstanceItem.rowIndex == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
 
                                     MouseArea {
                                         id: mouseAreaText
@@ -144,26 +206,20 @@ Page
                                             whatItem.location = o.location;
                                             whatItem.isNew = false;
                                             whatItem.item = o;
-                                            whatItem.opacity = 1;
 
                                             //toolDone.visible = true;
 
                                             //toolDelete.visible = true;
-                                            mainStack.pageStack.push(whatItem);
-
-
-
+                                            whatItem.open()
                                         }
                                     }
                                 }
-
                             }
                         }
                     }
                 }
             }
         }
-
     }
 
 
@@ -196,5 +252,14 @@ Page
     }
 
 
+    ToolBarLayout {
+        id: dayTools
+        visible: true
 
+        ToolIcon {
+            id: toolBack
+            platformIconId: "toolbar-back"
+            onClicked: mainStack.pageStack.pop()
+        }
+    }
 }
