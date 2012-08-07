@@ -1,6 +1,6 @@
 Name: qmlcalendar
 Summary: Calendar application made with QML
-Version: 0.14
+Version: 0.15
 Release: 1
 Group: Applications/System
 License: BSD
@@ -16,6 +16,7 @@ PkgConfigBR:
     - QtOrganizer
 Requires:
     - libdeclarative-organizer
+    - mkcal >= 0.3.11-2
 Configure: none
 Builder: qmake
 Files:

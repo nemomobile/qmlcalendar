@@ -36,97 +36,126 @@
 **
 ****************************************************************************/
 
-import Qt 4.7
+import QtQuick 1.1
 import "month.js" as Month
 import com.nokia.extras 1.0
 import QtMobility.organizer 1.1
 import com.nokia.meego 1.0
 
 Item  {
-    id:calendarView
+    id: calendarView
 
     height: (parent.height > parent.width) ? parent.width : parent.height
     width: height
 
-    property Rectangle prevCircle
-    property Text prevText
+
     property color background: "#e7e7e7"
     property color orange: "#ef5500"
 
-
-    property int month
-    property int year
-
-     property date currentDate:new Date();
-//    property date currentDate:new Date();
-//    property int day: currentDate.getDate()
+    property date currentDate
 
 
     function getHeaderText(){
-        return Month.getMonthName(month) + " " + year
+        return Month.getMonthName(currentDate.getMonth()) + " " + currentDate.getFullYear()
     }
 
     function goToNextMonth() {
-        if (month < 11)
-            month++
+        var y = currentDate.getFullYear()
+        var m = currentDate.getMonth()
+
+        if (m < 11)
+            m++
         else {
-            year++;
-            month = 0;
+            y++;
+            m = 0;
         }
+
+        currentDate = new Date(y, m, currentDate.getDate())
     }
 
     function goToPreviousMonth() {
-        if (month > 0)
-            month--
+        var y = currentDate.getFullYear()
+        var m = currentDate.getMonth()
+
+        if (m > 0)
+            m--
         else {
-            year--;
-            month = 11;
+            y--;
+            m = 11;
         }
+
+        currentDate = new Date(y, m, currentDate.getDate())
     }
 
     Component.onCompleted: {
-        year = Month.today().getFullYear()
-        month = Month.today().getMonth()
+        currentDate = new Date()
     }
 
-    onMonthChanged: {
-        previousMonthDaysGrid.firstDayOfMonth = new Date(((month - 1) < 0) ? year - 1 : year,((month - 1) < 0) ? 11 : month - 1, 1);
-        currentMonthDaysGrid.firstDayOfMonth = new Date(year, month, 1);
-        nextMonthDaysGrid.firstDayOfMonth = new Date(((month + 1) > 11) ? year + 1 : year,((month + 1) > 11) ? 0 : month + 1, 1);
+    onCurrentDateChanged: {
+        var y = currentDate.getFullYear()
+        var m = currentDate.getMonth()
+
+        console.log("Current date changed: Year: " + y + " Month: " + m)
+
+        previousMonthDaysGrid.firstDayOfMonth = new Date(((m - 1) < 0) ? y - 1 : y,((m - 1) < 0) ? 11 : m - 1, 1);
+        currentMonthDaysGrid.firstDayOfMonth = new Date(y, m, 1);
+        nextMonthDaysGrid.firstDayOfMonth = new Date(((m + 1) > 11) ? y + 1 : y,((m + 1) > 11) ? 0 : m + 1, 1);
 //        headerTitleText.text = getHeaderText()
+        currentMonthDaysGrid.updateSelection()
     }
 
 
     property OrganizerModel organizer: OrganizerModel{
+        manager: "qtorganizer:mkcal"
         //manager:"qtorganizer:mkcal:"
         //startPeriod: currentDate
         //endPeriod: Month.tomorrow(currentDate);
-        startPeriod:'2011-01-01'
-        endPeriod:'2012-12-31'
-        autoUpdate:true
+
+        startPeriod: '2011-01-01'
+        endPeriod: '2012-12-31'
+        autoUpdate: true
+
+        onEventsChanged: {
+            console.log("Events changed...")
+
+            for(var i = 0; i < events.length; i++){
+                var e = events[i]
+                console.log("Event " + i + " " + e.description + ", " + e.location + ", " + e.startDateTime + ", " + e.endDateTime)
+            }
+
+            dayView.updateItemIds()
+        }
+
         Component.onCompleted : {
             console.log("manager " + organizer.manager + " ITEM " + organizer.itemCount)
-            if (managerName == "mkcal") {
+//            if (managerName == "mkcal") {
                 //console.log("LOAD " + organizer.itemCount + " start " + organizer.startPeriod + " end " + organizer.endPeriod);
 
                 //organizer.importItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
                 //console.log("LOAD " + organizer.itemCount + " start " + organizer.startPeriod + " end " + organizer.endPeriod);
 //                console.log("current " + currentDate + " +60 " + Month.plus1Hour(currentDate));
-            }
+//            }
         }
+
         Component.onDestruction:  {
             console.log("Destroy ITEM " + organizer.itemCount)
-            if (managerName == "mkcal") {
-                console.log("Save");
-                organizer.exportItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
-            }
+//            if (managerName == "mkcal") {
+//                console.log("Save");
+//                organizer.exportItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
+//            }
         }
     }
 
     DatePickerDialog {
-         id: tDialog
-         titleText: "Date of birth"
-         onAccepted: callbackFunction()
+         id: datePickerDialog
+
+         acceptButtonText: "Go"
+         rejectButtonText: "Cancel"
+         titleText: "Select Date"
+
+         onAccepted: {
+             currentDate = new Date(year, month - 1, day)
+         }
     }
 
 
@@ -153,9 +182,7 @@ Item  {
 
                 MouseArea {
                     id: mouseAreaPrevious
-
                     anchors.fill: parent
-
                     onClicked: goToPreviousMonth()
                 }
             }
@@ -177,12 +204,14 @@ Item  {
 
                 MouseArea {
                     id: mouseAreaTitle
-
                     anchors.fill: parent
 
                     onClicked: {
-                        tDialog.open();
-                        //console.log("TITLE " + currentMonth);
+                        datePickerDialog.day = currentDate.getDate()
+                        datePickerDialog.month = currentDate.getMonth() + 1
+                        datePickerDialog.year = currentDate.getFullYear()
+
+                        datePickerDialog.open()
                     }
                 }
             }
@@ -195,15 +224,12 @@ Item  {
 
                 Image {
                     anchors.centerIn: parent
-                    opacity: 1
                     source: "../../images/right_arrow.png"
                 }
 
                 MouseArea {
                     id: mouseAreaNext
-
                     anchors.fill: parent
-
                     onClicked: goToNextMonth()
                 }
             }

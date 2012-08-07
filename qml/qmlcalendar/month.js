@@ -179,7 +179,7 @@ function getMinutes(index)
  * and slightly modified to accept date objects.
  *
  */
-function dayIdxByLocalizedDayName(dateObject)
+function weekDayIdxByLocalizedDayName(dateObject)
 {
     var dayName = Qt.formatDateTime(dateObject, "dddd")
 
