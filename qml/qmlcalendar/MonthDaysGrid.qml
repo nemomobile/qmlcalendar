@@ -61,7 +61,7 @@ Grid {
     }
 
     onSelectedIndexChanged: {
-        if(oldSelectedIndex >= 0){
+        if(oldSelectedIndex >= 0) {
             dayGridRepeater.itemAt(oldSelectedIndex).selected = false
         }
 
@@ -76,7 +76,7 @@ Grid {
     }
 
 
-    function updateSelection(){
+    function updateSelection() {
         selectedIndex = weekDayOfFirst + calendarView.currentDate.getDate()
     }
 
@@ -95,12 +95,6 @@ Grid {
 
             Rectangle {
                 id: dayHighlight
-
-                //                           gradient:  Gradient {
-                //                                  GradientStop { id: stop1; position: 0.0; color: background }
-                //                                  GradientStop { id: stop2; position: 1.0; color: background }
-
-                //                              }
 
                 radius: 8
                 color: orange
@@ -127,13 +121,6 @@ Grid {
 
                 onClicked: {
                     monthDaysGrid.selectedIndex = index
-
-//                    console.log("N ITEM " + organizer.itemCount);
-//                    var items = organizer.items;
-//                    var i;
-//                    for (i = 0; i < organizer.itemCount;i++) {
-//                        console.log("item " + i + " start date" + items[i].itemStartTime);
-//                    }
 
                     var dum = calendarView.currentDate.getFullYear() + "/" + (calendarView.currentDate.getMonth() + 1) + "/" + dayString;
                     var currentDate= new Date(dum);

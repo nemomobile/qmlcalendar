@@ -41,8 +41,7 @@ import com.nokia.meego 1.0
 import QtMobility.organizer 1.1
 import "month.js" as Month
 
-Page
-{
+Page {
     id: dayView
     tools: dayTools
 
@@ -53,7 +52,7 @@ Page
 
     }
 
-    function updateItemIds(){
+    function updateItemIds() {
         var startDateRange = new Date(calendarView.currentDate)
         startDateRange.setHours(0)
         startDateRange.setMinutes(0)
@@ -68,10 +67,10 @@ Page
         dayView.itemIds = itemIds
     }
 
-    Text{
+    Text {
         id: dateText
 
-        anchors{
+        anchors {
             top: parent.top
             left: parent.left
             right: parent.right
@@ -85,7 +84,7 @@ Page
     ListView {
         id: hourList
 
-        anchors{
+        anchors {
             top: dateText.bottom
             left: parent.left
             right: parent.right

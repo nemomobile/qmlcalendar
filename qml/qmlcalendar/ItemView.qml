@@ -4,12 +4,17 @@ import QtMobility.organizer 1.1
 Rectangle
 {
     id:itemView
+
+    radius: 5
+    color: "steelblue"
+
     property string  itemId
     property OrganizerItem item
     property int startTime
     property int endTime
     property variant calendarView;
-    onItemIdChanged :{
+
+    onItemIdChanged : {
         if (itemId != "") {
             item = calendarView.organizer.item(itemId);
             startTime = item.itemStartTime.getHours() * 60 + item.itemStartTime.getMinutes();
@@ -18,8 +23,6 @@ Rectangle
             itemDesc.text = item.description;
         }
     }
-    radius: 5
-    color: "steelblue"
 
     Column {
         spacing: 2
@@ -31,7 +34,6 @@ Rectangle
         anchors.fill: parent
         onClicked : {
             detailsView.itemId = itemId
-            //calendarView.state = "DetailsView"
         }
     }
 }

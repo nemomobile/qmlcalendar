@@ -70,7 +70,7 @@ Sheet {
             location = ""
             durationSelectionDialog.selectedIndex = 0
             isNew = true
-        }else{
+        } else {
 
         }
     }
@@ -104,7 +104,7 @@ Sheet {
 
         console.log("Start: " + item.startDateTime + " Description: " +  item.description + " End: " + item.endDateTime);
 
-        if ( isNew ){
+        if ( isNew ) {
             console.log("Storing new item.")
             organizer.saveItem(item);
         } else {
@@ -163,7 +163,7 @@ Sheet {
             id: contentColumn
             spacing: 12
 
-            anchors{
+            anchors {
                 top: parent.top
                 left: parent.left
                 right: parent.right
@@ -226,13 +226,13 @@ Sheet {
                     font.pixelSize: 28
                 }
 
-                Rectangle{
+                Rectangle {
                     height: parent.height
 
                     radius: timeValue.height * 0.5
                     color: timeMouseArea.pressed ? "gray" : "lightgray"
 
-                    anchors{
+                    anchors {
                         left: timeDay.right
                         leftMargin: 10
                         right: parent.right
@@ -247,7 +247,7 @@ Sheet {
                         font.pixelSize: 28
                     }
 
-                    MouseArea{
+                    MouseArea {
                         id: timeMouseArea
                         anchors.fill: parent
 
@@ -278,10 +278,10 @@ Sheet {
                     font.pixelSize: 28
                 }
 
-                Rectangle{
+                Rectangle {
                     height: parent.height
 
-                    anchors{
+                    anchors {
                         left: durationText.right
                         leftMargin: 10
                         right: parent.right
@@ -299,7 +299,7 @@ Sheet {
                         font.pixelSize: 28
                     }
 
-                    MouseArea{
+                    MouseArea {
                         id: durationMouseArea
                         anchors.fill: parent
 
@@ -309,13 +309,17 @@ Sheet {
             }
 
             Item {
-                anchors{left: parent.left; right: parent.right}
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+
                 height: locationTextField.height
 
                 Text {
                     id: locationText
 
-                    anchors{
+                    anchors {
                         verticalCenter: parent.verticalCenter
                         left: parent.left
                     }
@@ -327,26 +331,29 @@ Sheet {
                 TextField {
                     id: locationTextField
 
-                    anchors{
+                    anchors {
                         left: locationText.right
                         leftMargin: 10
                         right: parent.right
                     }
 
-                    //text: (item) ? item.location : "Here"
                     placeholderText: (item) ? item.location : "Add Location"
                     font.pixelSize: 28
                 }
             }
 
             Item {
-                anchors{left: parent.left; right: parent.right}
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+
                 height: descriptionTextArea.height
 
                 Text {
                     id: descriptionText
 
-                    anchors{
+                    anchors {
                         verticalCenter: parent.verticalCenter
                         left: parent.left
                     }
@@ -358,7 +365,7 @@ Sheet {
                 TextArea {
                     id: descriptionTextArea
 
-                    anchors{
+                    anchors {
                         left: descriptionText.right
                         leftMargin: 10
                         right: parent.right
@@ -372,4 +379,3 @@ Sheet {
         }
     }
 }
-

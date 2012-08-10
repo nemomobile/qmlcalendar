@@ -55,7 +55,7 @@ Item  {
     property date currentDate
 
 
-    function getHeaderText(){
+    function getHeaderText() {
         return Month.getMonthName(currentDate.getMonth()) + " " + currentDate.getFullYear()
     }
 
@@ -105,7 +105,7 @@ Item  {
     }
 
 
-    property OrganizerModel organizer: OrganizerModel{
+    property OrganizerModel organizer: OrganizerModel {
         manager: "qtorganizer:mkcal"
         //manager:"qtorganizer:mkcal:"
         //startPeriod: currentDate
@@ -118,7 +118,7 @@ Item  {
         onEventsChanged: {
             console.log("Events changed...")
 
-            for(var i = 0; i < events.length; i++){
+            for(var i = 0; i < events.length; i++) {
                 var e = events[i]
                 console.log("Event " + i + " " + e.description + ", " + e.location + ", " + e.startDateTime + ", " + e.endDateTime)
             }
@@ -169,10 +169,15 @@ Item  {
             anchors{left: parent.left; right: parent.right}
             height: parent.height * 0.125
 
-            Item{
+            Item {
                 id: previous
 
-                anchors{left: parent.left; top: parent.top; bottom: parent.bottom}
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+
                 width: height
 
                 Image {
@@ -190,7 +195,12 @@ Item  {
             Item {
                 id: headerTitle
 
-                anchors{left: previous.right; right: next.left; top: parent.top; bottom: parent.bottom}
+                anchors {
+                    left: previous.right
+                    right: next.left
+                    top: parent.top
+                    bottom: parent.bottom
+                }
 
                 Text {
                     id: headerTitleText
@@ -216,10 +226,15 @@ Item  {
                 }
             }
 
-            Item{
+            Item {
                 id: next
 
-                anchors{right: parent.right; top: parent.top; bottom: parent.bottom}
+                anchors {
+                    right: parent.right
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+
                 width: height
 
                 Image {
@@ -235,16 +250,22 @@ Item  {
             }
         }
 
-        Row{
+        Row {
             id: headingsLabelRow
 
-            anchors{top: headerRow.bottom; topMargin: 8; left: parent.left; right: parent.right}
+            anchors {
+                top: headerRow.bottom
+                topMargin: 8
+                left: parent.left
+                right: parent.right
+            }
+
             height: parent.height * 0.08
 
             Repeater {
                 id: headerLabelRepeater
 
-                model:["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+                model: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
                 Text {
                     text: modelData
@@ -259,13 +280,20 @@ Item  {
             }
         }
 
-        Item{
+        Item {
             id: monthDaysGridItem
-            anchors{top: headingsLabelRow.bottom; topMargin: 2; bottom: parent.bottom; left: parent.left; right: parent.right}
+
+            anchors{
+                top: headingsLabelRow.bottom
+                topMargin: 2
+                bottom: parent.bottom
+                left: parent.left
+                right: parent.right
+            }
 
             onWidthChanged: monthDaysGridFlickable.contentX = width + 1
 
-            Flickable{
+            Flickable {
                 id: monthDaysGridFlickable
                 anchors.fill: parent
 
@@ -302,10 +330,10 @@ Item  {
                     if(animationIsRunning)
                         return
 
-                    if(contentX < 0.75 * monthDaysGridItem.width){
+                    if(contentX < 0.75 * monthDaysGridItem.width) {
                         goToPreviousMonth()
                         resetFlickable()
-                    }else if(contentX > 1.25 * monthDaysGridItem.width){
+                    }else if(contentX > 1.25 * monthDaysGridItem.width) {
                         goToNextMonth()
                         resetFlickable()
                     }else{
@@ -316,44 +344,56 @@ Item  {
                 onMovementEnded: {
 
                     animationIsRunning = true
-                    if(contentX < 0.75 * monthDaysGridItem.width){
+                    if(contentX < 0.75 * monthDaysGridItem.width) {
                         contentX = 0
-                    }else if(contentX > 1.25 * monthDaysGridItem.width){
+                    }else if(contentX > 1.25 * monthDaysGridItem.width) {
                         contentX = monthDaysGridItem.width * 2 + 1
                     }else{
                         contentX = monthDaysGridItem.width + 1
                     }
                 }
 
-                function resetFlickable(){
+                function resetFlickable() {
                     contentXAnimation.enabled = false
                     contentX = monthDaysGridItem.width + 1
                     contentXAnimation.enabled = true
                 }
 
-                Row{
+                Row {
                     id: monthDaysGridFlickableContent
                     height: monthDaysGridItem.height
                     width: monthDaysGridItem.width * 3
 
-                    MonthDaysGrid{
+                    MonthDaysGrid {
                         id: previousMonthDaysGrid
 
-                        anchors{top: parent.top; bottom: parent.bottom}
+                        anchors {
+                            top: parent.top
+                            bottom: parent.bottom
+                        }
+
                         width: monthDaysGridFlickable.width
                     }
 
-                    MonthDaysGrid{
+                    MonthDaysGrid {
                         id: currentMonthDaysGrid
 
-                        anchors{top: parent.top; bottom: parent.bottom}
+                        anchors {
+                            top: parent.top
+                            bottom: parent.bottom
+                        }
+
                         width: monthDaysGridFlickable.width
                     }
 
-                    MonthDaysGrid{
+                    MonthDaysGrid {
                         id: nextMonthDaysGrid
 
-                        anchors{top: parent.top; bottom: parent.bottom}
+                        anchors{
+                            top: parent.top
+                            bottom: parent.bottom
+                        }
+
                         width: monthDaysGridFlickable.width
                     }
                 }
