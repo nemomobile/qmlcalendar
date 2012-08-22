@@ -1,3 +1,6 @@
+* Tue Aug 21 2012 Nicola De Filippo <nicola@nicoladefilippo.it> - 0.17
+- Fix for one instance
+
 * Mon Jun 25 2012 Ruediger Gad <r.c.g@gmx.de> - 0.15
 - Further improve the UI.
 - Fix menu bars not shown correctly.
