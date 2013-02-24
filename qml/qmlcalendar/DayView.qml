@@ -129,55 +129,48 @@ Page {
                     }
                 }
 
-
-
                 // List all, if any, of the events within this hour.
                 Repeater {
                     id: repeater
                     model: itemIds
 
-                    Column {
-                        spacing: 10
+                    Rectangle {
+                        color: "orange"
+                        width:itemText.width
+                        height: itemText.height
+                        border.color: "black"
+                        border.width: 1
 
+                        Text {
+                            id: itemText
+                            font.pointSize: 18
+                            property OrganizerItem oi: calendarView.organizer.item(modelData)
 
-                        Rectangle {
-                            color: "orange"
-                            width:itemText.width
-                            height: itemText.height
-                            border.color: "black"
-                            border.width: 1
+                            text: (oi != null && (rowIndex == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
 
-                            Text {
-                                id: itemText
-                                font.pointSize: 18
-                                property OrganizerItem oi: calendarView.organizer.item(modelData)
+                            MouseArea {
+                                id: mouseAreaText
 
-                                text: (oi != null && (rowIndex == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
+                                anchors.fill: parent
 
-                                MouseArea {
-                                    id: mouseAreaText
+                                onClicked: {
 
-                                    anchors.fill: parent
-
-                                    onClicked: {
-
-                                        var o = calendarView.organizer.item(modelData)
-                                        console.log("Esistente start hour " + Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex));
-                                        console.log("TEXT " + parent.text);
-                                        console.log( " Esistente item.desc " + o.description);
+                                    var o = calendarView.organizer.item(modelData)
+                                    console.log("Esistente start hour " + Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex));
+                                    console.log("TEXT " + parent.text);
+                                    console.log( " Esistente item.desc " + o.description);
 
 
 
-                                        whatItem.description =  o.description;
-                                        whatItem.location = o.location;
-                                        whatItem.isNew = false;
-                                        whatItem.item = o;
+                                    whatItem.description =  o.description;
+                                    whatItem.location = o.location;
+                                    whatItem.isNew = false;
+                                    whatItem.item = o;
 
-                                        //toolDone.visible = true;
+                                    //toolDone.visible = true;
 
-                                        //toolDelete.visible = true;
-                                        whatItem.open()
-                                    }
+                                    //toolDelete.visible = true;
+                                    whatItem.open()
                                 }
                             }
                         }
