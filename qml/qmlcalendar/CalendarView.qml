@@ -44,7 +44,6 @@ Item  {
     width: height
 
 
-    property color background: "#e7e7e7"
     property color orange: "#ef5500"
 
     property date currentDate
