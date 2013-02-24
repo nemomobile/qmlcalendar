@@ -139,18 +139,12 @@ Item  {
         Item {
             id: headerRow
 
-            anchors{left: parent.left; right: parent.right}
+            width: parent.width
             height: parent.height * 0.125
 
-            Item {
+            MouseArea {
                 id: previous
-
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-
+                height: parent.height
                 width: height
 
                 Image {
@@ -158,21 +152,16 @@ Item  {
                     source: "../../images/left_arrow.png"
                 }
 
-                MouseArea {
-                    id: mouseAreaPrevious
-                    anchors.fill: parent
-                    onClicked: goToPreviousMonth()
-                }
+                onClicked: goToPreviousMonth()
             }
 
-            Item {
+            MouseArea {
                 id: headerTitle
+                height: parent.height
 
                 anchors {
                     left: previous.right
                     right: next.left
-                    top: parent.top
-                    bottom: parent.bottom
                 }
 
                 Text {
@@ -185,41 +174,27 @@ Item  {
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                MouseArea {
-                    id: mouseAreaTitle
-                    anchors.fill: parent
+                onClicked: {
+                    datePickerDialog.day = currentDate.getDate()
+                    datePickerDialog.month = currentDate.getMonth() + 1
+                    datePickerDialog.year = currentDate.getFullYear()
 
-                    onClicked: {
-                        datePickerDialog.day = currentDate.getDate()
-                        datePickerDialog.month = currentDate.getMonth() + 1
-                        datePickerDialog.year = currentDate.getFullYear()
-
-                        datePickerDialog.open()
-                    }
+                    datePickerDialog.open()
                 }
             }
 
-            Item {
+            MouseArea {
                 id: next
-
-                anchors {
-                    right: parent.right
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-
+                height: parent.height
                 width: height
+                anchors.right: parent.right
 
                 Image {
                     anchors.centerIn: parent
                     source: "../../images/right_arrow.png"
                 }
 
-                MouseArea {
-                    id: mouseAreaNext
-                    anchors.fill: parent
-                    onClicked: goToNextMonth()
-                }
+                onClicked: goToNextMonth()
             }
         }
 
@@ -229,10 +204,9 @@ Item  {
             anchors {
                 top: headerRow.bottom
                 topMargin: 8
-                left: parent.left
-                right: parent.right
             }
 
+            width: parent.width
             height: parent.height * 0.08
 
             Repeater {
@@ -339,34 +313,18 @@ Item  {
 
                     MonthDaysGrid {
                         id: previousMonthDaysGrid
-
-                        anchors {
-                            top: parent.top
-                            bottom: parent.bottom
-                        }
-
                         width: monthDaysGridFlickable.width
+                        height: parent.height
                     }
 
                     MonthDaysGrid {
                         id: currentMonthDaysGrid
-
-                        anchors {
-                            top: parent.top
-                            bottom: parent.bottom
-                        }
-
                         width: monthDaysGridFlickable.width
+                        height: parent.height
                     }
 
                     MonthDaysGrid {
                         id: nextMonthDaysGrid
-
-                        anchors{
-                            top: parent.top
-                            bottom: parent.bottom
-                        }
-
                         width: monthDaysGridFlickable.width
                     }
                 }
