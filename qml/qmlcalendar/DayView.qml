@@ -31,7 +31,7 @@
  */
 
 import QtQuick 1.1
-import com.nokia.meego 1.0
+import com.nokia.meego 1.2
 import QtMobility.organizer 1.1
 import "month.js" as Month
 
@@ -61,25 +61,19 @@ Page {
         dayView.itemIds = itemIds
     }
 
-    Text {
-        id: dateText
-
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-        }
-
+    PageHeader {
+        id: pageHeader
+        color: "#ef5500"
+        width: parent.width
         text: Qt.formatDate(calendarView.currentDate, "yyyy-MM-dd")
-        horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: 40
     }
 
     ListView {
         id: hourList
+        clip: true
 
         anchors {
-            top: dateText.bottom
+            top: pageHeader.bottom
             left: parent.left
             right: parent.right
             bottom: parent.bottom
@@ -192,8 +186,6 @@ Page {
                 }
             }
         }
-
-        clip: true
     }
 
     ListModel {
