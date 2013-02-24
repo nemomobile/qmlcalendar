@@ -85,125 +85,105 @@ Page {
             bottom: parent.bottom
         }
 
-        model : hourModel
-        delegate : hourDelegate
+        model: hourModel
+        delegate: Column {
+            width: ListView.view.width
+            height: childrenRect.height
+            property int rowIndex: index
 
-        clip: true
-    }
+            // Draw a line under the previous Hour list tiem
+            Rectangle {
+                height : 1
+                width : hourList.width
+                color : "orange"
+            }
 
-    Component {
-        id: hourDelegate
-
-
-        Item {
-            width : hourList.width
-            height : childrenRect.height
-            id:hourDelegateInstanceItem
-
-            Column {
-                // Draw a line under the previous Hour list tiem
-                id: line
+            Row {
+                spacing: 4
                 Rectangle {
-                    height : 1
-                    width : hourList.width
-                    color : "orange"
-                }
+                    border.color: "red"
+                    width:80
+                    height: hourText.height
 
-                Row {
-                    spacing: 4
-                    Rectangle {
-                        border.color: "red"
-                        width:80
-                        height: hourText.height
+                    Text {
+                        // text: hour
+                        id: hourText
+                        text: index + ":00"
+                        width: 80//hourList.width
+                        font.pointSize: 18
 
-                        Text {
-                            // text: hour
-                            id: hourText
-                            text: index + ":00"
-                            width: 80//hourList.width
-                            font.pointSize: 18
+                        MouseArea {
+                            id: mouseAreaHour
 
+                            anchors.fill: parent
 
-                            // property OrganizerItem oi: calendarView.organizer.item(repeater.modelData)
-                            MouseArea {
-                                id: mouseAreaHour
+                            onClicked: {
+                                console.log("New entry")
+                                console.log("Selected hour " + hourText.text)
 
-                                anchors.fill: parent
+                                var d = new Date(calendarView.currentDate)
+                                d.setHours(hourText.text.split(":")[0])
+                                d.setMinutes(hourText.text.split(":")[1])
+                                d.setSeconds(0)
+                                console.log(d)
+                                whatItem.startTime = d
 
-                                onClicked: {
-                                    console.log("New entry")
-                                    console.log("Selected hour " + hourText.text)
+                                whatItem.item = null
 
-                                    var d = new Date(calendarView.currentDate)
-                                    d.setHours(hourText.text.split(":")[0])
-                                    d.setMinutes(hourText.text.split(":")[1])
-                                    d.setSeconds(0)
-                                    console.log(d)
-                                    whatItem.startTime = d
-
-                                    whatItem.item = null
-
-                                    whatItem.open()
-                                }
+                                whatItem.open()
                             }
                         }
                     }
+                }
 
 
 
-                    // List all, if any, of the events within this hour.
+                // List all, if any, of the events within this hour.
+                Repeater {
+                    id: repeater
+                    model: itemIds
 
-                    Repeater {
-
-                        //focus: true
-                        id: repeater
-                        // Simple fetch ALL events on this day...and we will filter them by hour.
-                        model: itemIds.length > 0 ? itemIds : 0
-
-                        Column {
-                            spacing: 10
+                    Column {
+                        spacing: 10
 
 
-                            Rectangle {
-                                color: "orange"
-                                width:itemText.width
-                                height: itemText.height
-                                border.color: "black"
-                                border.width: 1
+                        Rectangle {
+                            color: "orange"
+                            width:itemText.width
+                            height: itemText.height
+                            border.color: "black"
+                            border.width: 1
 
-                                Text {
-                                    id: itemText
-                                    //clip: true
-                                    //focus: true
-                                    font.pointSize: 18
-                                    property OrganizerItem oi: calendarView.organizer.item(modelData)
+                            Text {
+                                id: itemText
+                                font.pointSize: 18
+                                property OrganizerItem oi: calendarView.organizer.item(modelData)
 
-                                    text: (oi != null && (hourDelegateInstanceItem.index == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
+                                text: (oi != null && (rowIndex == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
 
-                                    MouseArea {
-                                        id: mouseAreaText
+                                MouseArea {
+                                    id: mouseAreaText
 
-                                        anchors.fill: parent
+                                    anchors.fill: parent
 
-                                        onClicked: {
+                                    onClicked: {
 
-                                            var o = calendarView.organizer.item(modelData)
-                                            console.log("Esistente start hour " + Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), index));
-                                            console.log("TEXT " + parent.text);
-                                            console.log( " Esistente item.desc " + o.description);
+                                        var o = calendarView.organizer.item(modelData)
+                                        console.log("Esistente start hour " + Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex));
+                                        console.log("TEXT " + parent.text);
+                                        console.log( " Esistente item.desc " + o.description);
 
 
 
-                                            whatItem.description =  o.description;
-                                            whatItem.location = o.location;
-                                            whatItem.isNew = false;
-                                            whatItem.item = o;
+                                        whatItem.description =  o.description;
+                                        whatItem.location = o.location;
+                                        whatItem.isNew = false;
+                                        whatItem.item = o;
 
-                                            //toolDone.visible = true;
+                                        //toolDone.visible = true;
 
-                                            //toolDelete.visible = true;
-                                            whatItem.open()
-                                        }
+                                        //toolDelete.visible = true;
+                                        whatItem.open()
                                     }
                                 }
                             }
@@ -212,8 +192,9 @@ Page {
                 }
             }
         }
-    }
 
+        clip: true
+    }
 
     ListModel {
         id : hourModel
