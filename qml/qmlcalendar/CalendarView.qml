@@ -101,12 +101,10 @@ Item  {
 
     property OrganizerModel organizer: OrganizerModel {
         manager: "qtorganizer:mkcal"
-        //manager:"qtorganizer:mkcal:"
-        //startPeriod: currentDate
-        //endPeriod: Month.tomorrow(currentDate);
 
-        startPeriod: '2011-01-01'
-        endPeriod: '2012-12-31'
+        // TODO: fetching a full month (possibly even a year) around currentDate would probably be a good idea
+        startPeriod: currentDate
+        endPeriod: Month.tomorrow(currentDate);
         autoUpdate: true
 
         onEventsChanged: {
