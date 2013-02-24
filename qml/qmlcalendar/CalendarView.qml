@@ -119,18 +119,6 @@ Item  {
         }
     }
 
-    DatePickerDialog {
-         id: datePickerDialog
-
-         acceptButtonText: "Go"
-         rejectButtonText: "Cancel"
-         titleText: "Select Date"
-
-         onAccepted: {
-             currentDate = new Date(year, month - 1, day)
-         }
-    }
-
     Item {
         id: headerRow
 
@@ -169,12 +157,26 @@ Item  {
                 verticalAlignment: Text.AlignVCenter
             }
 
-            onClicked: {
-                datePickerDialog.day = currentDate.getDate()
-                datePickerDialog.month = currentDate.getMonth() + 1
-                datePickerDialog.year = currentDate.getFullYear()
+            Component {
+                id: dpd
+                DatePickerDialog {
+                }
+            }
 
-                datePickerDialog.open()
+            property Item datePickerInstance
+
+            onClicked: {
+                datePickerInstance = pageStack.openDialog(dpd, {
+                    day: currentDate.getDate(),
+                    month: currentDate.getMonth() + 1,
+                    year: currentDate.getFullYear(),
+                    acceptButtonText: "Go",
+                    rejectButtonText: "Cancel",
+                    titleText: "Select Date" }
+                )
+                datePickerInstance.accepted.connect(function() {
+                    currentDate = new Date(datePickerInstance.year, datePickerInstance.month - 1, datePickerInstance.day)
+                })
             }
         }
 
