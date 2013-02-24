@@ -37,7 +37,6 @@ import "month.js" as Month
 
 Page {
     id: dayView
-    tools: dayTools
 
     property variant itemIds
 
@@ -217,8 +216,7 @@ Page {
     }
 
 
-    ToolBarLayout {
-        id: dayTools
+    tools: ToolBarLayout {
         visible: true
 
         ToolIcon {
