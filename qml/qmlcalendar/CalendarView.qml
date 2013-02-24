@@ -119,20 +119,6 @@ Item  {
 
             dayView.updateItemIds()
         }
-
-        Component.onCompleted : {
-            console.log("manager " + organizer.manager + " ITEM " + organizer.itemCount)
-//            if (managerName == "mkcal") {
-                //organizer.importItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
-//            }
-        }
-
-        Component.onDestruction:  {
-            console.log("Destroy ITEM " + organizer.itemCount)
-//            if (managerName == "mkcal") {
-//                organizer.exportItems(Qt.resolvedUrl("/home/user/MyDocs/qmlcalendar.ics"));
-//            }
-        }
     }
 
     DatePickerDialog {
