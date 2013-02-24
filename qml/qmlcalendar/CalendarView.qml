@@ -1,6 +1,7 @@
 /*
- * Copyright (C) 2012 Nicola De Filippo (nicola.defilippo@lizard-solutions.com)
- *                    Ruediger Gad (r.c.g@gmx.de)
+ * Copyright (C) 2013 Jolla Ltd. <robin.burchell@jollamobile.com>
+ * Copyright (C) 2012 Nicola De Filippo <nicola.defilippo@lizard-solutions.com>
+ * Copyright (C) 2012 Ruediger Gad <r.c.g@gmx.de>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
