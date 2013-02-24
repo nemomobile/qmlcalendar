@@ -41,11 +41,6 @@ Page {
 
     property variant itemIds
 
-    onItemIdsChanged: {
-        console.log("Item Ids changed...")
-
-    }
-
     function updateItemIds() {
         var startDateRange = new Date(calendarView.currentDate)
         startDateRange.setHours(0)
@@ -112,18 +107,15 @@ Page {
                             anchors.fill: parent
 
                             onClicked: {
-                                console.log("New entry")
-                                console.log("Selected hour " + hourText.text)
+                                console.log("New entry, selected hour " + hourText.text)
 
                                 var d = new Date(calendarView.currentDate)
                                 d.setHours(hourText.text.split(":")[0])
                                 d.setMinutes(hourText.text.split(":")[1])
                                 d.setSeconds(0)
-                                console.log(d)
+
                                 whatItem.startTime = d
-
                                 whatItem.item = null
-
                                 whatItem.open()
                             }
                         }
@@ -157,20 +149,10 @@ Page {
                                 onClicked: {
 
                                     var o = calendarView.organizer.item(modelData)
-                                    console.log("Esistente start hour " + Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex));
-                                    console.log("TEXT " + parent.text);
-                                    console.log( " Esistente item.desc " + o.description);
-
-
-
                                     whatItem.description =  o.description;
                                     whatItem.location = o.location;
                                     whatItem.isNew = false;
                                     whatItem.item = o;
-
-                                    //toolDone.visible = true;
-
-                                    //toolDelete.visible = true;
                                     whatItem.open()
                                 }
                             }
