@@ -19,12 +19,7 @@ OTHER_FILES += \
 #RESOURCES += \
 #    qmlcalendar.qrc
 
-SOURCES += main.cpp \
-    calendarmanager.cpp
-
-
-HEADERS += \
-    calendarmanager.h
+SOURCES += main.cpp
 
 jsFiles.path = /opt/$${TARGET}/qml/qmlcalendar
 jsFiles.files = qml/qmlcalendar/*.js

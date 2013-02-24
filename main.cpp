@@ -1,8 +1,13 @@
 #include <QtGui/QApplication>
+#include <QtDebug>
+
 #include <QDeclarativeView>
-#include "calendarmanager.h"
 #include <QDeclarativeContext>
 
+#include <QOrganizerManager>
+#include <QOrganizerAbstractRequest>
+
+QTM_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
@@ -15,8 +20,6 @@ int main(int argc, char *argv[])
     //view.show();
 
     //QObject::connect(view.engine(), SIGNAL(quit()), &a, SLOT(quit()));
-    CalendarManager calendarManager;
-
     qDebug() << QOrganizerManager::availableManagers() << "\n";
     qRegisterMetaType<QOrganizerAbstractRequest::State>("QOrganizerAbstractRequest::State");
 
@@ -35,7 +38,6 @@ int main(int argc, char *argv[])
                 qRegisterMetaType<QOrganizerItemId>("QOrganizerItemId");
 
                 qRegisterMetaType<QOrganizerCollectionId>("QOrganizerCollectionId");
-         view.rootContext()->setContextProperty("calendarManager", &calendarManager);
 //        view.setSource(QUrl("qrc:/qml/qmlcalendar/main.qml"));
         view.setSource(QUrl("/opt/qmlcalendar/qml/qmlcalendar/main.qml"));
         view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
