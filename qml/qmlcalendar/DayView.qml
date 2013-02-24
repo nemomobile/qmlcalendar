@@ -98,7 +98,6 @@ Page {
         Item {
             width : hourList.width
             height : childrenRect.height
-            property int rowIndex : index
             id:hourDelegateInstanceItem
 
             Column {
@@ -179,7 +178,7 @@ Page {
                                     font.pointSize: 18
                                     property OrganizerItem oi: calendarView.organizer.item(modelData)
 
-                                    text: (oi != null && (hourDelegateInstanceItem.rowIndex == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
+                                    text: (oi != null && (hourDelegateInstanceItem.index == Qt.formatTime(oi.startDateTime, "hh")) ?  oi.description:"")
 
                                     MouseArea {
                                         id: mouseAreaText
@@ -189,7 +188,7 @@ Page {
                                         onClicked: {
 
                                             var o = calendarView.organizer.item(modelData)
-                                            console.log("Esistente start hour " + Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), rowIndex));
+                                            console.log("Esistente start hour " + Month.atHour(new Date(calendarView.year, calendarView.month, calendarView.day), index));
                                             console.log("TEXT " + parent.text);
                                             console.log( " Esistente item.desc " + o.description);
 
