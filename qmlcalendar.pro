@@ -6,15 +6,8 @@ CONFIG += mobility
 MOBILITY = organizer
 
 OTHER_FILES += \
-    qml/qmlcalendar/month.js \
-    qml/qmlcalendar/CalendarView.qml \
-    qml/qmlcalendar/DayView.qml \
-    qml/qmlcalendar/ItemView.qml \
-    qml/qmlcalendar/main.qml \
-    qml/qmlcalendar/MainPage.qml \
-    qml/qmlcalendar/What.qml \
-    qml/qmlcalendar/logic.js \
-    qml/qmlcalendar/MonthDaysGrid.qml
+    qml/qmlcalendar/*.qml \
+    qml/qmlcalendar/*.js
 
 #RESOURCES += \
 #    qmlcalendar.qrc

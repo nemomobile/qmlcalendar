@@ -57,11 +57,6 @@ PageStackWindow {
         id: dayView
     }
 
-    ItemView {
-        id: itemView;
-        //calendarView: calendarView;
-    }
-
     What {
         id: whatItem;
         organizer: calendarView.organizer;
