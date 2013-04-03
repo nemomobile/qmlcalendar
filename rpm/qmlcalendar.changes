@@ -1,0 +1,29 @@
+* Thu Feb 28 2013 Robin Burchell <robin+mer@viroteck.net> - 0.2.0
+- Improve packaging (move qt-components from PkgBR to Requires)
+- Remove a lot of commented out bits and pieces (from Robin)
+- Make debug less verbose (from Robin)
+- Make day view a little more performant and add a proper header to it (from Robin)
+- Simplify anchoring and some other general improvements (from Robin)
+- Remove unused C++ model, should improve startup performance (from Robin)
+
+* Tue Jul 24 2012 Ruediger Gad <r.c.g@gmx.de> - 0.16
+- Fix dependency.
+- Bump version to make BOSS happy.
+
+* Mon Jun 25 2012 Ruediger Gad <r.c.g@gmx.de> - 0.15
+- Further improve the UI.
+- Fix menu bars not shown correctly.
+- Enable persistence for storing events.
+
+* Thu May 24 2012 Ruediger Gad <r.c.g@gmx.de> - 0.14
+- Add icon files showing numbers from 1 to 31.
+- Automatically update icon to show current day of month.
+- Fixes NEMO#184: Calendar view doesn't scale properly on larger screens 
+
+* Thu May 24 2012 Ruediger Gad <r.c.g@gmx.de> - 0.13
+- Repackage qmlcalender such that *.js and *.qml files are accessible via filesystem.
+- Try to fix desktop icon.
+
+* Mon May 15 2012 Marko Saukko <marko.saukko@gmail.com> - 0.12
+- Fixes NEMO#162: Missing a calendar application
+
