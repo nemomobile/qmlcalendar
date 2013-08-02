@@ -1,0 +1,28 @@
+Name: qmlcalendar
+Summary: Calendar application made with QML
+Version: 0.3
+Release: 1
+Group: Applications/System
+License: BSD
+URL: https://github.com/nemomobile/qmlcalendar/
+Sources:
+    - "%{name}-%{version}.tar.bz2"
+Description: Calendar application written using QML.
+
+PkgConfigBR:
+    - Qt5Core
+    - Qt5Quick
+    - Qt5Qml
+    - Qt5Organizer
+Requires:
+    - libdeclarative-organizer
+    - qt5-qtdeclarative-pim-organizer
+    - mkcal >= 0.3.11
+    - qt-components-qt5
+Configure: none
+Builder: qmake5
+Files:
+    - "/lib/systemd/system/calenderr.service"
+    - "/opt/%{name}"
+    - "%{_datadir}/icons/hicolor/80x80/apps/*.png"
+    - "%{_datadir}/applications/*.desktop"
