@@ -31,11 +31,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 import "month.js" as Month
-import com.nokia.extras 1.0
-import QtMobility.organizer 1.1
-import com.nokia.meego 1.0
+import QtOrganizer 5.0
+import com.nokia.meego 2.0
 
 Item  {
     id: calendarView
@@ -107,6 +106,7 @@ Item  {
         endPeriod: Month.tomorrow(currentDate);
         autoUpdate: true
 
+        /* FIXME: works in qt4, but ref to onEventsChanged could not be found anywhere else on qt4 nemo rootfs
         onEventsChanged: {
             console.log("Events changed...")
 
@@ -117,6 +117,7 @@ Item  {
 
             dayView.updateItemIds()
         }
+        */
     }
 
     Item {

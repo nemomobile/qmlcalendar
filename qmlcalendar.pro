@@ -1,18 +1,17 @@
 
-QT += declarative
+QT += qml quick
 
-CONFIG += mobility
+CONFIG += link_pkgconfig
 
-MOBILITY = organizer
+PKGCONFIG = Qt5Organizer
 
 OTHER_FILES += \
     qml/qmlcalendar/*.qml \
     qml/qmlcalendar/*.js
 
-#RESOURCES += \
-#    qmlcalendar.qrc
-
 SOURCES += main.cpp
+
+TARGET = qmlcalendar
 
 jsFiles.path = /opt/$${TARGET}/qml/qmlcalendar
 jsFiles.files = qml/qmlcalendar/*.js
