@@ -20,6 +20,7 @@ Requires:   libdeclarative-organizer
 Requires:   qt5-qtdeclarative-pim-organizer
 Requires:   mkcal >= 0.3.11
 Requires:   qt-components-qt5
+Requires:   mapplauncherd-booster-qtcomponents-qt5
 Requires:   systemd
 Requires(preun): systemd
 Requires(post): systemd
@@ -28,6 +29,7 @@ BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Organizer)
+BuildRequires:  pkgconfig(qdeclarative5-boostable)
 BuildRequires:  desktop-file-utils
 
 %description

@@ -7,12 +7,24 @@
 #include <QOrganizerManager>
 #include <QOrganizerAbstractRequest>
 
+#ifdef HAS_BOOSTER
+#include <MDeclarativeCache>
+#endif
+
 using namespace QtOrganizer;
 
+#ifdef HAS_BOOSTER
+Q_DECL_EXPORT
+#endif
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
-    QQuickView view;
+#ifdef HAS_BOOSTER
+    QScopedPointer<QGuiApplication> app(MDeclarativeCache::qApplication(argc, argv));
+    QScopedPointer<QQuickView> view(MDeclarativeCache::qQuickView());
+#else
+    QScopedPointer<QGuiApplication> app(new QGuiApplication(argc, argv));
+    QScopedPointer<QQuickView> view(new QQuickView);
+#endif
 
     qRegisterMetaType<QOrganizerAbstractRequest::State>("QOrganizerAbstractRequest::State");
     qRegisterMetaType<QList<QOrganizerItemId> >("QList<QOrganizerItemId>");
@@ -21,9 +33,9 @@ int main(int argc, char *argv[])
     qRegisterMetaType<QOrganizerItemId>("QOrganizerItemId");
     qRegisterMetaType<QOrganizerCollectionId>("QOrganizerCollectionId");
 
-    view.setSource(QUrl("/opt/qmlcalendar/qml/qmlcalendar/main.qml"));
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.showFullScreen();
+    view->setSource(QUrl("/opt/qmlcalendar/qml/qmlcalendar/main.qml"));
+    view->setResizeMode(QQuickView::SizeRootObjectToView);
+    view->showFullScreen();
 
-    return app.exec();
+    return app->exec();
 }

@@ -14,11 +14,13 @@ PkgConfigBR:
     - Qt5Quick
     - Qt5Qml
     - Qt5Organizer
+    - qdeclarative5-boostable
 Requires:
     - libdeclarative-organizer
     - qt5-qtdeclarative-pim-organizer
     - mkcal >= 0.3.11
     - qt-components-qt5
+    - mapplauncherd-booster-qtcomponents-qt5
 Configure: none
 Builder: qmake5
 Files:

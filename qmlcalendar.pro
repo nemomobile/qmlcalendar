@@ -41,3 +41,13 @@ icon.files = qmlcalendar.png
 icon.path = /usr/share/icons/hicolor/80x80/apps
 INSTALLS += icon
 
+CONFIG += link_pkgconfig
+
+packagesExist(qdeclarative5-boostable) {
+    message("Building with qdeclarative5-boostable support")
+    DEFINES += HAS_BOOSTER
+    PKGCONFIG += qdeclarative5-boostable
+} else {
+    warning("qdeclarative5-boostable not available; startup times will be slower")
+}
+
