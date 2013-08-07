@@ -1,18 +1,30 @@
-#include <QtGui/QApplication>
+#include <QGuiApplication>
 #include <QtDebug>
 
-#include <QDeclarativeView>
-#include <QDeclarativeContext>
+#include <QQuickView>
+#include <QQmlEngine>
 
 #include <QOrganizerManager>
 #include <QOrganizerAbstractRequest>
 
-QTM_USE_NAMESPACE
+#ifdef HAS_BOOSTER
+#include <MDeclarativeCache>
+#endif
 
+using namespace QtOrganizer;
+
+#ifdef HAS_BOOSTER
+Q_DECL_EXPORT
+#endif
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-    QDeclarativeView view;
+#ifdef HAS_BOOSTER
+    QScopedPointer<QGuiApplication> app(MDeclarativeCache::qApplication(argc, argv));
+    QScopedPointer<QQuickView> view(MDeclarativeCache::qQuickView());
+#else
+    QScopedPointer<QGuiApplication> app(new QGuiApplication(argc, argv));
+    QScopedPointer<QQuickView> view(new QQuickView);
+#endif
 
     qRegisterMetaType<QOrganizerAbstractRequest::State>("QOrganizerAbstractRequest::State");
     qRegisterMetaType<QList<QOrganizerItemId> >("QList<QOrganizerItemId>");
@@ -21,13 +33,9 @@ int main(int argc, char *argv[])
     qRegisterMetaType<QOrganizerItemId>("QOrganizerItemId");
     qRegisterMetaType<QOrganizerCollectionId>("QOrganizerCollectionId");
 
-    view.setSource(QUrl("/opt/qmlcalendar/qml/qmlcalendar/main.qml"));
-    view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
-    view.showFullScreen();
-    view.setAttribute(Qt::WA_OpaquePaintEvent);
-    view.setAttribute(Qt::WA_NoSystemBackground);
-    view.viewport()->setAttribute(Qt::WA_OpaquePaintEvent);
-    view.viewport()->setAttribute(Qt::WA_NoSystemBackground);
+    view->setSource(QUrl("/opt/qmlcalendar/qml/qmlcalendar/main.qml"));
+    view->setResizeMode(QQuickView::SizeRootObjectToView);
+    view->showFullScreen();
 
-    return app.exec();
+    return app->exec();
 }
