@@ -16,9 +16,8 @@ License:    BSD
 URL:        https://github.com/nemomobile/qmlcalendar/
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  qmlcalendar.yaml
-Requires:   libdeclarative-organizer
 Requires:   qt5-qtdeclarative-pim-organizer
-Requires:   mkcal >= 0.3.11
+Requires:   mkcal-qt5
 Requires:   qt-components-qt5
 Requires:   mapplauncherd-booster-qtcomponents-qt5
 Requires:   systemd

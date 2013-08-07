@@ -16,9 +16,8 @@ PkgConfigBR:
     - Qt5Organizer
     - qdeclarative5-boostable
 Requires:
-    - libdeclarative-organizer
     - qt5-qtdeclarative-pim-organizer
-    - mkcal >= 0.3.11
+    - mkcal-qt5
     - qt-components-qt5
     - mapplauncherd-booster-qtcomponents-qt5
 Configure: none
