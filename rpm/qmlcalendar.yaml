@@ -1,6 +1,6 @@
 Name: qmlcalendar
 Summary: Calendar application made with QML
-Version: 0.2.0
+Version: 0.3
 Release: 1
 Group: Applications/System
 License: BSD
@@ -10,14 +10,18 @@ Sources:
 Description: Calendar application written using QML.
 
 PkgConfigBR:
-    - QtDeclarative
-    - QtOrganizer
+    - Qt5Core
+    - Qt5Quick
+    - Qt5Qml
+    - Qt5Organizer
+    - qdeclarative5-boostable
 Requires:
-    - libdeclarative-organizer
-    - mkcal >= 0.3.11
-    - qt-components
+    - qt5-qtdeclarative-pim-organizer
+    - mkcal-qt5
+    - qt-components-qt5
+    - mapplauncherd-booster-qtcomponents-qt5
 Configure: none
-Builder: qmake
+Builder: qmake5
 Files:
     - "/lib/systemd/system/calenderr.service"
     - "/opt/%{name}"

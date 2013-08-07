@@ -1,18 +1,17 @@
 
-QT += declarative
+QT += qml quick
 
-CONFIG += mobility
+CONFIG += link_pkgconfig
 
-MOBILITY = organizer
+PKGCONFIG = Qt5Organizer
 
 OTHER_FILES += \
     qml/qmlcalendar/*.qml \
     qml/qmlcalendar/*.js
 
-#RESOURCES += \
-#    qmlcalendar.qrc
-
 SOURCES += main.cpp
+
+TARGET = qmlcalendar
 
 jsFiles.path = /opt/$${TARGET}/qml/qmlcalendar
 jsFiles.files = qml/qmlcalendar/*.js
@@ -41,4 +40,14 @@ INSTALLS += desktop
 icon.files = qmlcalendar.png
 icon.path = /usr/share/icons/hicolor/80x80/apps
 INSTALLS += icon
+
+CONFIG += link_pkgconfig
+
+packagesExist(qdeclarative5-boostable) {
+    message("Building with qdeclarative5-boostable support")
+    DEFINES += HAS_BOOSTER
+    PKGCONFIG += qdeclarative5-boostable
+} else {
+    warning("qdeclarative5-boostable not available; startup times will be slower")
+}
 

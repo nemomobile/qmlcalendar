@@ -1,11 +1,9 @@
 [Desktop Entry]
-Encoding=UTF-8
-Version=1.0
 Type=Application
-Terminal=false
 Name=Calendar
-Exec=/usr/bin/single-instance /opt/qmlcalendar/bin/qmlcalendar
+Categories=Applications;
+Exec=invoker --type=qtcomponents-qt5 -s /opt/qmlcalendar/bin/qmlcalendar
 Icon=/usr/share/icons/hicolor/80x80/apps/qmlcalendar.png
-X-Window-Icon=
-X-HildonDesk-ShowInToolbar=true
-X-Osso-Type=application/x-executable
+
+X-Desktop-File-Install-Version=0.20
+
