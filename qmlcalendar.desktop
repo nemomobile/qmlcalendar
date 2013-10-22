@@ -3,7 +3,7 @@ Type=Application
 Name=Calendar
 Categories=Applications;
 Exec=invoker --type=qtcomponents-qt5 -s /opt/qmlcalendar/bin/qmlcalendar
-Icon=/usr/share/icons/hicolor/80x80/apps/qmlcalendar.png
+Icon=icon-app-calendar
 
 X-Desktop-File-Install-Version=0.20
 
