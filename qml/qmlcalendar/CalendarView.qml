@@ -324,6 +324,7 @@ Item  {
                 MonthDaysGrid {
                     id: nextMonthDaysGrid
                     width: monthDaysGridFlickable.width
+                    height: parent.height
                 }
             }
         }
